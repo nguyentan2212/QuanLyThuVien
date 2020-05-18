@@ -66,6 +66,12 @@
                 </md:PopupBox>
             </Grid>
         </md:ColorZone>
+        <Frame Margin="10" Grid.Row="1"
+               NavigationUIVisibility="Hidden"
+               cal:Message.Attach="RegisterFrame($source)"
+               HorizontalContentAlignment="Stretch"
+               VerticalContentAlignment="Stretch"
+               DataContext="{x:Null}" />
         <md:DrawerHost Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" 
                        IsLeftDrawerOpen="{Binding DrawerOpen}"
                        HorizontalAlignment="Stretch">
@@ -83,11 +89,5 @@
                 </StackPanel>
             </md:DrawerHost.LeftDrawerContent>
         </md:DrawerHost>
-        <Frame Margin="10" Grid.Row="1"
-               NavigationUIVisibility="Hidden"
-               cal:Message.Attach="RegisterFrame($source)"
-               HorizontalContentAlignment="Stretch"
-               VerticalContentAlignment="Stretch"
-               DataContext="{x:Null}" />
     </Grid>
 </Window>
