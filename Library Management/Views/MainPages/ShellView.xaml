@@ -1,0 +1,93 @@
+﻿<Window x:Class="Library_Management.Views.MainPages.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cal="http://www.caliburnproject.org"
+        BorderBrush="{DynamicResource PrimaryHueDarkBrush}"                 
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="14"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:Library_Management.Views.MainPages"
+        mc:Ignorable="d" 
+        WindowState="Maximized"
+        Height="500" Width="800"
+        Title="ShellView">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <md:ColorZone Grid.Row="0" Mode="PrimaryLight" Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ToggleButton x:Name="DrawerOpen" Grid.Column="0"
+                              Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                              HorizontalAlignment="Left">
+                </ToggleButton>
+                <TextBlock Text="Quản Lý Thư Viện" Grid.Column="1"
+                           Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <md:PopupBox Grid.Column="2"
+                             Style="{StaticResource MaterialDesignPopupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Margin="5" Text="Xin chào"/>
+                        <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                   Grid.Row="1" Margin="5" Text="Tân Nguyễn 123456"/>
+                        <Separator Grid.Row="2"/>
+                        <Button Grid.Row="3"
+                                Margin="5"
+                                Content="Tài khoản"
+                                cal:Message.Attach="NavigateToView('Account')"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                        <Button Grid.Row="4"
+                                Margin="5"
+                                Content="Đăng xuất"
+                                x:Name="Logout"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                    </Grid>
+                </md:PopupBox>
+            </Grid>
+        </md:ColorZone>
+        <md:DrawerHost Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" 
+                       IsLeftDrawerOpen="{Binding DrawerOpen}"
+                       HorizontalAlignment="Stretch">
+
+            <md:DrawerHost.LeftDrawerContent>
+                <StackPanel Margin="16">
+                    <ToggleButton IsChecked="{Binding DrawerOpen}" 
+                                  Margin="4 10 4 4"
+                                  Grid.Column="0"
+                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
+                                  HorizontalAlignment="Right">
+                    </ToggleButton>
+                    <TextBlock Margin="4" HorizontalAlignment="Center">LEFT FIELD</TextBlock>
+
+                </StackPanel>
+            </md:DrawerHost.LeftDrawerContent>
+        </md:DrawerHost>
+        <Frame Margin="10" Grid.Row="1"
+               NavigationUIVisibility="Hidden"
+               cal:Message.Attach="RegisterFrame($source)"
+               HorizontalContentAlignment="Stretch"
+               VerticalContentAlignment="Stretch"
+               DataContext="{x:Null}" />
+    </Grid>
+</Window>
