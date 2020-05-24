@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8c38bfa9e1f649d2823ba3cc5ac52aeb" Name="Diagram1">
+        <EntityTypeShape EntityType="QLTVModel.CTSACH" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="QLTVModel.DOCGIA" Width="1.5" PointX="3" PointY="16.625" />
+        <EntityTypeShape EntityType="QLTVModel.LOAIDOCGIA" Width="1.5" PointX="0.75" PointY="17.5" />
+        <EntityTypeShape EntityType="QLTVModel.NHAXUATBAN" Width="1.5" PointX="1.5" PointY="10.5" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUMUONSACH" Width="1.5" PointX="8.25" PointY="5.125" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUTHUTIENPHAT" Width="1.5" PointX="6" PointY="5.125" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUTRASACH" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="QLTVModel.SACH" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QLTVModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="1.5" />
+        <EntityTypeShape EntityType="QLTVModel.TACGIA" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="QLTVModel.TAIKHOAN" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="QLTVModel.TINHTRANG" Width="1.5" PointX="0.75" PointY="13.25" />
+        <EntityTypeShape EntityType="QLTVModel.THELOAI" Width="1.5" PointX="3" PointY="12.875" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_SACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_TINHTRANG" />
+        <AssociationConnector Association="QLTVModel.FK_DOCGIA_LOAIDOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.CTPMS" />
+        <AssociationConnector Association="QLTVModel.CTPTS" />
+        <AssociationConnector Association="QLTVModel.NXBSACH" />
+        <AssociationConnector Association="QLTVModel.TGSACH" />
+        <AssociationConnector Association="QLTVModel.TLSACH" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

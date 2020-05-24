@@ -1,4 +1,5 @@
-﻿<Window x:Class="Library_Management.Views.MainPages.ShellView"
+﻿<MahApp:MetroWindow x:Class="Library_Management.Views.MainPages.ShellView"
+        xmlns:MahApp="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,77 +18,91 @@
         WindowState="Maximized"
         Height="500" Width="800"
         Title="ShellView">
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <md:ColorZone Grid.Row="0" Mode="PrimaryLight" Padding="16">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ToggleButton x:Name="DrawerOpen" Grid.Column="0"
+    <md:DialogHost IsOpen="{Binding IsDialogOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   Background="Transparent"
+                   DialogContent="{Binding DialogContent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <md:ColorZone Grid.Row="0" Mode="PrimaryLight" Padding="16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton x:Name="DrawerOpen" Grid.Column="0"
                               Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
                               HorizontalAlignment="Left">
-                </ToggleButton>
-                <TextBlock Text="Quản Lý Thư Viện" Grid.Column="1"
+                    </ToggleButton>
+                    <TextBlock Text="Quản Lý Thư Viện" Grid.Column="1"
                            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
-                <md:PopupBox Grid.Column="2"
+                    <md:PopupBox Grid.Column="2"
                              Style="{StaticResource MaterialDesignPopupBox}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Margin="5" Text="Xin chào"/>
-                        <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Grid.Row="1" Margin="5" Text="Tân Nguyễn 123456"/>
-                        <Separator Grid.Row="2"/>
-                        <Button Grid.Row="3"
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Margin="5" Text="Xin chào"/>
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                   Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"   
+                                   Grid.Row="1" Margin="5" />
+                            <Separator Grid.Row="2"/>
+                            <Button Grid.Row="3"
+                                   
                                 Margin="5"
                                 Content="Tài khoản"
                                 cal:Message.Attach="NavigateToView('Account')"
                                 Style="{StaticResource MaterialDesignOutlinedButton}"/>
-                        <Button Grid.Row="4"
+                            <Button Grid.Row="4"
+                                cal:Message.Attach="Logout()"
                                 Margin="5"
-                                Content="Đăng xuất"
-                                x:Name="Logout"
+                                Content="Đăng xuất"                               
                                 Style="{StaticResource MaterialDesignOutlinedButton}"/>
-                    </Grid>
-                </md:PopupBox>
-            </Grid>
-        </md:ColorZone>
-        <Frame Margin="10" Grid.Row="1"
+                            
+                        </Grid>
+                    </md:PopupBox>
+                </Grid>
+            </md:ColorZone>
+            <Frame Margin="10" Grid.Row="1"
                NavigationUIVisibility="Hidden"
                cal:Message.Attach="RegisterFrame($source)"
                HorizontalContentAlignment="Stretch"
                VerticalContentAlignment="Stretch"
                DataContext="{x:Null}" />
-        <md:DrawerHost Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" 
+            <md:DrawerHost Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" 
                        IsLeftDrawerOpen="{Binding DrawerOpen}"
                        HorizontalAlignment="Stretch">
 
-            <md:DrawerHost.LeftDrawerContent>
-                <StackPanel Margin="16">
-                    <ToggleButton IsChecked="{Binding DrawerOpen}" 
+                <md:DrawerHost.LeftDrawerContent>
+                    <StackPanel Margin="16" >
+                        
+                        <ToggleButton IsChecked="{Binding DrawerOpen}" 
                                   Margin="4 10 4 4"
                                   Grid.Column="0"
                                   Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
                                   HorizontalAlignment="Right">
-                    </ToggleButton>
-                    <TextBlock Margin="4" HorizontalAlignment="Center">LEFT FIELD</TextBlock>
+                        </ToggleButton>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Đề nghị</TextBlock>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Tìm sách</TextBlock>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Nhập sách</TextBlock>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Độc giả</TextBlock>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Báo cáo</TextBlock>
+                        <TextBlock Margin="4" HorizontalAlignment="Left">Cài đặt</TextBlock>
 
-                </StackPanel>
-            </md:DrawerHost.LeftDrawerContent>
-        </md:DrawerHost>
-    </Grid>
-</Window>
+                    </StackPanel>
+                </md:DrawerHost.LeftDrawerContent>
+            </md:DrawerHost>
+            
+        </Grid>
+    </md:DialogHost>
+</MahApp:MetroWindow>

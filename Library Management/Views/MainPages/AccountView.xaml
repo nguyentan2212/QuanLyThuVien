@@ -11,6 +11,8 @@
       Title="AccountView">
 
     <Grid>
-        <TextBlock Text="Acount View" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  x:Name="Books"/>
+
     </Grid>
 </Page>

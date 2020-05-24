@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Library_Management.Models;
 using Library_Management.ViewModels.MainPages;
 
 namespace Library_Management.StartUp
@@ -22,6 +23,7 @@ namespace Library_Management.StartUp
             container.Instance(container);
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
+            container.Singleton<DataProvider>();
             container.PerRequest<ShellViewModel>();
             container.PerRequest<AccountViewModel>();
         }
