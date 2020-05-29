@@ -126,6 +126,9 @@
     <Compile Include="Models\PHIEUMUONSACH.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PHIEUNHAPSACH.cs">
+      <DependentUpon>QLTVModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PHIEUTHUTIENPHAT.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>

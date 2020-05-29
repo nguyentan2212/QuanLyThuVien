@@ -18,6 +18,7 @@ namespace Library_Management.Models
         public DOCGIA()
         {
             this.PHIEUMUONSACH = new HashSet<PHIEUMUONSACH>();
+            this.PHIEUNHAPSACH = new HashSet<PHIEUNHAPSACH>();
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
@@ -31,10 +32,13 @@ namespace Library_Management.Models
         public Nullable<System.DateTime> NGLAPTHE { get; set; }
         public Nullable<decimal> TIENNO { get; set; }
         public Nullable<int> NGUOILAP { get; set; }
+        public string HINHANH { get; set; }
     
         public virtual LOAIDOCGIA LOAIDOCGIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHIEUNHAPSACH> PHIEUNHAPSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTHUTIENPHAT> PHIEUTHUTIENPHAT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

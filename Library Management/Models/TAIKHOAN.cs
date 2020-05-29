@@ -19,6 +19,7 @@ namespace Library_Management.Models
         {
             this.CTSACH = new HashSet<CTSACH>();
             this.PHIEUMUONSACH = new HashSet<PHIEUMUONSACH>();
+            this.PHIEUNHAPSACH = new HashSet<PHIEUNHAPSACH>();
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
@@ -30,11 +31,14 @@ namespace Library_Management.Models
         public string HOTEN { get; set; }
         public string DCHI { get; set; }
         public string EMAIL { get; set; }
+        public string HINHANH { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTSACH> CTSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PHIEUNHAPSACH> PHIEUNHAPSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUTHUTIENPHAT> PHIEUTHUTIENPHAT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

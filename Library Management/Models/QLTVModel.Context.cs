@@ -30,6 +30,7 @@ namespace Library_Management.Models
         public virtual DbSet<LOAIDOCGIA> LOAIDOCGIA { get; set; }
         public virtual DbSet<NHAXUATBAN> NHAXUATBAN { get; set; }
         public virtual DbSet<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
+        public virtual DbSet<PHIEUNHAPSACH> PHIEUNHAPSACH { get; set; }
         public virtual DbSet<PHIEUTHUTIENPHAT> PHIEUTHUTIENPHAT { get; set; }
         public virtual DbSet<PHIEUTRASACH> PHIEUTRASACH { get; set; }
         public virtual DbSet<SACH> SACH { get; set; }
