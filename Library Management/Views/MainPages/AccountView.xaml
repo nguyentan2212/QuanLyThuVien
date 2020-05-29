@@ -5,14 +5,133 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Library_Management.Views.MainPages"
       xmlns:cal="http://www.caliburnproject.org"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:MahApp="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
       Background="{DynamicResource MaterialDesignBackground}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AccountView">
 
     <Grid>
-        <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  x:Name="Books"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <md:Card Grid.Column="0" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image Source="{Binding Avartar}" Grid.Row="0" Margin="20"/>
+                <Button x:Name="Change" Grid.Row="1" Margin="20" HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatLightBgButton}">
+                    Thay ảnh
+                </Button>
+            </Grid>
+        </md:Card>
+        <md:Card Grid.Column="1" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <md:PackIcon Kind="Identifier" Grid.Row="0" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="AccountOutline" Grid.Row="1" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="ClipboardAccountOutline" Grid.Row="2" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="Location" Grid.Row="3" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="AlternateEmail" Grid.Row="4" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="DateRange" Grid.Row="5" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="FormTextboxPassword" Grid.Row="6" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                <md:PackIcon Kind="Onepassword" Grid.Row="7" Grid.Column="0"
+                             Width="30" Height="30" Margin="5 0"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                
+                <TextBox Grid.Row="0" Grid.Column="1" FontSize="20"
+                         VerticalAlignment="Center"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding User.MATK}"
+                         IsEnabled="False"
+                         md:HintAssist.Hint="Id"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:HintAssist.Hint="Họ và tên"
+                         Text="{Binding User.HOTEN}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:HintAssist.Hint="Tài khoản"
+                         Text="{Binding User.TAIKHOAN1}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:HintAssist.Hint="Địa chỉ"
+                         Text="{Binding User.DCHI}"/>
+                <TextBox Grid.Row="4" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:HintAssist.Hint="Email"
+                         Text="{Binding User.EMAIL}"/>
+                <DatePicker Grid.Row="5" Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            md:HintAssist.Hint="Ngày tạo tài khoản" FontSize="20"
+                            IsEnabled="False"
+                            SelectedDate="{Binding User.NGDK}"/>
+                <PasswordBox Grid.Row="6" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                         md:HintAssist.Hint="Mật khẩu"
+                         sc:PasswordHelper.Attach="True"
+                         sc:PasswordHelper.Password="{Binding Password}"/>
+                <PasswordBox Grid.Row="7" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="20"
+                         Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                         md:HintAssist.Hint="Nhập lại mật khẩu"
+                         sc:PasswordHelper.Attach="True"
+                         sc:PasswordHelper.Password="{Binding ConfirmPassword}"/>
+                <Button x:Name="SaveChange" Grid.Row="8" Grid.Column="1"
+                        HorizontalAlignment="Right" Margin="10"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                    Cập nhật
+                </Button>
+            </Grid>
+        </md:Card>
     </Grid>
 </Page>

@@ -24,19 +24,7 @@ namespace Library_Management.ViewModels.MainPages
         #endregion
 
         #region UI Properties
-        private bool _DrawerOpen = false;
-        public bool DrawerOpen
-        {
-            get
-            {
-                return _DrawerOpen;
-            }
-            set
-            {
-                _DrawerOpen = value;
-                NotifyOfPropertyChange("DrawerOpen");
-            }
-        }
+        
         private bool _IsDialogOpen;
         public bool IsDialogOpen
         {
@@ -99,6 +87,19 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("DisplayName");
             }
         }
+        private string _FrameTitle;
+        public string FrameTitle
+        {
+            get
+            {
+                return _FrameTitle;
+            }
+            set
+            {
+                _FrameTitle = value;
+                NotifyOfPropertyChange("FrameTitle");
+            }
+        }
         public Visibility IsWorking { private set; get; }
         #endregion
         #region Login Properties
@@ -133,6 +134,7 @@ namespace Library_Management.ViewModels.MainPages
         {
             this._container = container;
             eventAggregator.Subscribe(this);
+            FrameTitle = "Quản Lý Thư Viện";
             ShowLogin();
             
         }
@@ -146,6 +148,8 @@ namespace Library_Management.ViewModels.MainPages
         }
         public async void Login()
         {
+            UserName = "tannguyen";
+            Password = "tannguyen";
             try
             {
                 if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password))
@@ -204,8 +208,31 @@ namespace Library_Management.ViewModels.MainPages
             {
                 case "Account": 
                     navigationService.NavigateToViewModel<AccountViewModel>();
+                    FrameTitle = "Thông Tin Nhân Viên";
+                    break;
+                case "Home":
+                    break;
+                case "FindBook":
+                    break;
+                case "ClientAccount":
+                    break;
+                case "ImportBook":
+                    break;
+                case "Report":
+                    break;
+                case "Setting":
+                    break;
+                default:
                     break;
             }
+        }
+        public void HamburgerMenu_ItemClick(ItemClickEventArgs e)
+        {
+            HamburgerMenuIconItem item = e.ClickedItem as HamburgerMenuIconItem;
+            if (item.Tag.ToString() == "Logout")
+                Logout();
+            else
+                NavigateToView(item.Tag.ToString());
         }
         #region Message
         private async Task ShowMessage1(string Title, string Note)

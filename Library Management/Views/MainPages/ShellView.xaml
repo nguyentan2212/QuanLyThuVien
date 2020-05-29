@@ -16,7 +16,7 @@
         xmlns:local="clr-namespace:Library_Management.Views.MainPages"
         mc:Ignorable="d" 
         WindowState="Maximized"
-        Height="500" Width="800"
+        Height="550" Width="800"
         Title="ShellView">
     <md:DialogHost IsOpen="{Binding IsDialogOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    Background="Transparent"
@@ -26,83 +26,86 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <md:ColorZone Grid.Row="0" Mode="PrimaryLight" Padding="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <md:ColorZone Grid.Row="0" Grid.Column="1" Mode="PrimaryMid">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ToggleButton x:Name="DrawerOpen" Grid.Column="0"
-                              Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                              HorizontalAlignment="Left">
-                    </ToggleButton>
-                    <TextBlock Text="Quản Lý Thư Viện" Grid.Column="1"
-                           Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                    <TextBlock Text="{Binding FrameTitle}" Grid.Column="0" Padding="5"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"/>
-                    <md:PopupBox Grid.Column="2"
-                             Style="{StaticResource MaterialDesignPopupBox}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Margin="5" Text="Xin chào"/>
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"   
-                                   Grid.Row="1" Margin="5" />
-                            <Separator Grid.Row="2"/>
-                            <Button Grid.Row="3"
-                                   
-                                Margin="5"
-                                Content="Tài khoản"
-                                cal:Message.Attach="NavigateToView('Account')"
-                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
-                            <Button Grid.Row="4"
-                                cal:Message.Attach="Logout()"
-                                Margin="5"
-                                Content="Đăng xuất"                               
-                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
-                            
-                        </Grid>
-                    </md:PopupBox>
+                    <TextBlock Grid.Column="1" 
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right" Margin="10 5">
+                        <Run Text="Xin chào: "/>
+                        <Run Text="{Binding DisplayName}"/>
+                    </TextBlock>
                 </Grid>
             </md:ColorZone>
-            <Frame Margin="10" Grid.Row="1"
+            <Frame Margin="10" Grid.Row="1" Grid.Column="1"
                NavigationUIVisibility="Hidden"
                cal:Message.Attach="RegisterFrame($source)"
                HorizontalContentAlignment="Stretch"
                VerticalContentAlignment="Stretch"
                DataContext="{x:Null}" />
-            <md:DrawerHost Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" 
-                       IsLeftDrawerOpen="{Binding DrawerOpen}"
-                       HorizontalAlignment="Stretch">
-
-                <md:DrawerHost.LeftDrawerContent>
-                    <StackPanel Margin="16" >
-                        
-                        <ToggleButton IsChecked="{Binding DrawerOpen}" 
-                                  Margin="4 10 4 4"
-                                  Grid.Column="0"
-                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}"
-                                  HorizontalAlignment="Right">
-                        </ToggleButton>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Đề nghị</TextBlock>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Tìm sách</TextBlock>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Nhập sách</TextBlock>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Độc giả</TextBlock>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Báo cáo</TextBlock>
-                        <TextBlock Margin="4" HorizontalAlignment="Left">Cài đặt</TextBlock>
-
-                    </StackPanel>
-                </md:DrawerHost.LeftDrawerContent>
-            </md:DrawerHost>
-            
+            <MahApp:HamburgerMenu Grid.Row="0" 
+                                  Grid.RowSpan="2"
+                                  Grid.ColumnSpan="2"
+                                  cal:Message.Attach="[Event ItemClick] = [Action HamburgerMenu_ItemClick($eventArgs)];[Event OptionsItemClick] = [Action HamburgerMenu_ItemClick($eventArgs)]"
+                                  PaneBackground="{DynamicResource PrimaryHueMidBrush}"
+                                  OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                                  ItemTemplate="{StaticResource MenuItemTemplate}">
+                <MahApp:HamburgerMenu.ItemsSource>
+                    <MahApp:HamburgerMenuItemCollection>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=ViewDashboard}"
+                                                        Tag="Home"
+                                                        Label="Home">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Search}"
+                                                        Tag="FindBook"
+                                                        Label="Tìm sách">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Account}"
+                                                        Tag="Account"
+                                                        Label="Tài khoản">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=AccountSupervisor}"
+                                                        Tag="ClientAccount"
+                                                        Label="Độc giả">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Import}"
+                                                        Tag="ImportBook"
+                                                        Label="Nhập sách">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=FileReport}"
+                                                        Tag="Report"
+                                                        Label="Báo cáo">
+                        </MahApp:HamburgerMenuIconItem>
+                    </MahApp:HamburgerMenuItemCollection>
+                </MahApp:HamburgerMenu.ItemsSource>
+                <MahApp:HamburgerMenu.OptionsItemsSource>
+                    <MahApp:HamburgerMenuItemCollection>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Settings}"
+                                                        Tag="Setting"
+                                                        Label="Cài đặt">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=About}"
+                                                        Tag="About"
+                                                        Label="About Us">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Logout}"
+                                                        Tag="Logout"
+                                                        Label="Đăng xuất">
+                        </MahApp:HamburgerMenuIconItem>
+                    </MahApp:HamburgerMenuItemCollection>
+                </MahApp:HamburgerMenu.OptionsItemsSource>
+            </MahApp:HamburgerMenu>
         </Grid>
     </md:DialogHost>
 </MahApp:MetroWindow>
