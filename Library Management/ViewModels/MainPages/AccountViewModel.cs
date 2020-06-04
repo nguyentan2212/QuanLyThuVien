@@ -130,11 +130,10 @@ namespace Library_Management.ViewModels.MainPages
             Name = User.HOTEN;
             Address = User.DCHI;
             Email = User.EMAIL;
-            if (string.IsNullOrEmpty(User.HINHANH))
-                Avartar = "pack://application:,,,/Library_Management;component/Resources/Images/LibrarianAccount/DefaultAccount.png";
-                
+            if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false)               
+                Avartar = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";
             else
-                Avartar = User.HINHANH;
+                Avartar = User.HINHANH;   
         }
         public async Task SaveChange()
         {
@@ -172,7 +171,7 @@ namespace Library_Management.ViewModels.MainPages
             Address = User.DCHI;
             Email = User.EMAIL;
         }
-        public void ChangeAvartar()
+        public async Task ChangeAvartar()
         {
             System.Windows.Forms.OpenFileDialog openFile = new System.Windows.Forms.OpenFileDialog();
             openFile.InitialDirectory = @"C:\";
@@ -183,8 +182,17 @@ namespace Library_Management.ViewModels.MainPages
             openFile.CheckPathExists = true;
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
-            {
-                System.Windows.MessageBox.Show(openFile.FileName);
+            {              
+                bool change = await dataProvider.ChangeAvartar(openFile.FileName);
+                if (change)
+                {
+                    this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi ảnh đại diện thành công"));
+                    Avartar = dataProvider.User.HINHANH;
+                }
+                else
+                {
+                    this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi ảnh đại diện thất bại"));
+                }    
             }
         }
     }

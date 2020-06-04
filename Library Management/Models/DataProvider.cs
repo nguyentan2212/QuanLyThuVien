@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using Library_Management.Resources.Sercurity;
 using System.Windows;
 using System.Data.Entity.Migrations;
+using System.IO;
 
 namespace Library_Management.Models
 {
@@ -37,24 +38,18 @@ namespace Library_Management.Models
             newpass = MD5Sercurity.MD5Hash(newpass);
             using (QLTVEntities db = new QLTVEntities())
             {
-                var check = await db.TAIKHOAN.FirstOrDefaultAsync(x => x.TAIKHOAN1 == this.User.TAIKHOAN1 && x.MATKHAU == oldpass);
-                if (check is null)
+
+                User.MATKHAU = newpass;
+                try
                 {
-                    return false;
-                }
-                else
-                {
-                    check.MATKHAU = newpass;
-                    try
-                    {
-                        db.Set<TAIKHOAN>().AddOrUpdate(check);
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message.ToString());
-                    }
+                    db.Set<TAIKHOAN>().AddOrUpdate(User);
                     await db.SaveChangesAsync();
                     return true;
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show(e.Message.ToString());
+                    return false;
                 }
             }
         }
@@ -62,29 +57,42 @@ namespace Library_Management.Models
         public async Task<bool> UpdateUserAccount(TAIKHOAN UserAccount)
         {
             if (UserAccount == null)
-                return false;           
+                return false;
             using (QLTVEntities db = new QLTVEntities())
             {
-                var check = await db.TAIKHOAN.FirstOrDefaultAsync(x => x.MATK == this.User.MATK);
-                if (check is null)
+
+                User = UserAccount;
+                try
                 {
-                    return false;
-                }
-                else
-                {
-                    User = UserAccount;                   
-                                      
-                    try
-                    {
-                        db.Set<TAIKHOAN>().AddOrUpdate(UserAccount);
-                    }
-                    catch(Exception e)
-                    {
-                        MessageBox.Show(e.Message.ToString());
-                    }
+                    db.Set<TAIKHOAN>().AddOrUpdate(UserAccount);
                     await db.SaveChangesAsync();
                     return true;
-                }                
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show(e.Message.ToString());
+                    return false;
+                }               
+            }                         
+        }
+        public async Task<bool> ChangeAvartar(string path)
+        {
+            string imgPath = AppDomain.CurrentDomain.BaseDirectory + @"Resources\Images\LibrarianAccount\" + User.MATK.ToString() + ".png";
+            File.Copy(path, imgPath);
+            using (QLTVEntities db = new QLTVEntities())
+            {
+                User.HINHANH = imgPath;
+                try
+                {
+                    db.Set<TAIKHOAN>().AddOrUpdate(User);
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    //MessageBox.Show(e.Message.ToString());
+                    return false;
+                }
             }
         }
     }
