@@ -33,6 +33,7 @@ namespace Library_Management.Models
         public Nullable<decimal> TIENNO { get; set; }
         public Nullable<int> NGUOILAP { get; set; }
         public string HINHANH { get; set; }
+        public string QRCODE { get; set; }
     
         public virtual LOAIDOCGIA LOAIDOCGIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

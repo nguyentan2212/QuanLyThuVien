@@ -39,6 +39,7 @@ warning 6013: The table/view 'QLTV.dbo.CTPNS' does not have a primary key define
           <Property Name="GIANHAP" Type="money" />
           <Property Name="NGAYNHAP" Type="date" />
           <Property Name="NGUOINHAP" Type="int" />
+          <Property Name="QRCODE" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="DOCGIA">
           <Key>
@@ -54,6 +55,7 @@ warning 6013: The table/view 'QLTV.dbo.CTPNS' does not have a primary key define
           <Property Name="TIENNO" Type="money" />
           <Property Name="NGUOILAP" Type="int" />
           <Property Name="HINHANH" Type="varchar(max)" />
+          <Property Name="QRCODE" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="LOAIDOCGIA">
           <Key>
@@ -61,14 +63,6 @@ warning 6013: The table/view 'QLTV.dbo.CTPNS' does not have a primary key define
           </Key>
           <Property Name="MALDG" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LOAIDOCGIA" Type="nvarchar" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="NXBSACH">
-          <Key>
-            <PropertyRef Name="MANXB" />
-            <PropertyRef Name="MASACH" />
-          </Key>
-          <Property Name="MANXB" Type="int" Nullable="false" />
-          <Property Name="MASACH" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="NHAXUATBAN">
           <Key>
@@ -114,9 +108,10 @@ warning 6013: The table/view 'QLTV.dbo.CTPNS' does not have a primary key define
           <Property Name="NGTRASACH" Type="date" />
           <Property Name="NGUOILAP" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'QLTV.dbo.QUYDINH' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="QUYDINH">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
           <Property Name="SACHMUONTOIDA" Type="int" />
           <Property Name="NGAYMUON" Type="int" />
           <Property Name="TIENPHAT" Type="money" />
@@ -124,7 +119,11 @@ warning 6013: The table/view 'QLTV.dbo.QUYDINH' does not have a primary key defi
           <Property Name="TUOITOIDA" Type="int" />
           <Property Name="TUOITOITHIEU" Type="int" />
           <Property Name="TIENPHATTOIDA" Type="money" />
-        </EntityType>-->
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NGAYSUA" Type="date" />
+          <Property Name="NGUOISUA" Type="int" />
+          <Property Name="THOIHANTHE" Type="int" />
+        </EntityType>
         <EntityType Name="SACH">
           <Key>
             <PropertyRef Name="MASACH" />
@@ -134,6 +133,9 @@ warning 6013: The table/view 'QLTV.dbo.QUYDINH' does not have a primary key defi
           <Property Name="NAMXB" Type="int" />
           <Property Name="ANHBIA" Type="char" MaxLength="100" />
           <Property Name="NOIDUNG" Type="nvarchar(max)" />
+          <Property Name="MANXB" Type="int" />
+          <Property Name="MATG" Type="int" />
+          <Property Name="MATL" Type="int" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -165,28 +167,12 @@ warning 6013: The table/view 'QLTV.dbo.QUYDINH' does not have a primary key defi
           <Property Name="EMAIL" Type="char" MaxLength="30" />
           <Property Name="HINHANH" Type="varchar(max)" />
         </EntityType>
-        <EntityType Name="TGSACH">
-          <Key>
-            <PropertyRef Name="MATG" />
-            <PropertyRef Name="MASACH" />
-          </Key>
-          <Property Name="MATG" Type="int" Nullable="false" />
-          <Property Name="MASACH" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="TINHTRANG">
           <Key>
             <PropertyRef Name="MATT" />
           </Key>
           <Property Name="MATT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TINHTRANG" Type="nvarchar" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="TLSACH">
-          <Key>
-            <PropertyRef Name="MATL" />
-            <PropertyRef Name="MASACH" />
-          </Key>
-          <Property Name="MATL" Type="int" Nullable="false" />
-          <Property Name="MASACH" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="THELOAI">
           <Key>
@@ -297,30 +283,6 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NXBSACH_NHAXUATBAN">
-          <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="1" />
-          <End Role="NXBSACH" Type="Self.NXBSACH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NHAXUATBAN">
-              <PropertyRef Name="MANXB" />
-            </Principal>
-            <Dependent Role="NXBSACH">
-              <PropertyRef Name="MANXB" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_NXBSACH_SACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="1" />
-          <End Role="NXBSACH" Type="Self.NXBSACH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SACH">
-              <PropertyRef Name="MASACH" />
-            </Principal>
-            <Dependent Role="NXBSACH">
-              <PropertyRef Name="MASACH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PHIEUMUONSACH_DOCGIA">
           <End Role="DOCGIA" Type="Self.DOCGIA" Multiplicity="0..1" />
           <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
@@ -417,50 +379,38 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TGSACH_SACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="1" />
-          <End Role="TGSACH" Type="Self.TGSACH" Multiplicity="*" />
+        <Association Name="FK_SACH_NHAXUATBAN">
+          <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SACH">
-              <PropertyRef Name="MASACH" />
+            <Principal Role="NHAXUATBAN">
+              <PropertyRef Name="MANXB" />
             </Principal>
-            <Dependent Role="TGSACH">
-              <PropertyRef Name="MASACH" />
+            <Dependent Role="SACH">
+              <PropertyRef Name="MANXB" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TGSACH_TACGIA">
-          <End Role="TACGIA" Type="Self.TACGIA" Multiplicity="1" />
-          <End Role="TGSACH" Type="Self.TGSACH" Multiplicity="*" />
+        <Association Name="FK_SACH_TACGIA">
+          <End Role="TACGIA" Type="Self.TACGIA" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TACGIA">
               <PropertyRef Name="MATG" />
             </Principal>
-            <Dependent Role="TGSACH">
+            <Dependent Role="SACH">
               <PropertyRef Name="MATG" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TLSACH_SACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="1" />
-          <End Role="TLSACH" Type="Self.TLSACH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SACH">
-              <PropertyRef Name="MASACH" />
-            </Principal>
-            <Dependent Role="TLSACH">
-              <PropertyRef Name="MASACH" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TLSACH_THELOAI">
-          <End Role="THELOAI" Type="Self.THELOAI" Multiplicity="1" />
-          <End Role="TLSACH" Type="Self.TLSACH" Multiplicity="*" />
+        <Association Name="FK_SACH_THELOAI">
+          <End Role="THELOAI" Type="Self.THELOAI" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="THELOAI">
               <PropertyRef Name="MATL" />
             </Principal>
-            <Dependent Role="TLSACH">
+            <Dependent Role="SACH">
               <PropertyRef Name="MATL" />
             </Dependent>
           </ReferentialConstraint>
@@ -471,19 +421,17 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <EntitySet Name="CTSACH" EntityType="Self.CTSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOCGIA" EntityType="Self.DOCGIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOAIDOCGIA" EntityType="Self.LOAIDOCGIA" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NXBSACH" EntityType="Self.NXBSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHAXUATBAN" EntityType="Self.NHAXUATBAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PHIEUMUONSACH" EntityType="Self.PHIEUMUONSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PHIEUNHAPSACH" EntityType="Self.PHIEUNHAPSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PHIEUTHUTIENPHAT" EntityType="Self.PHIEUTHUTIENPHAT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PHIEUTRASACH" EntityType="Self.PHIEUTRASACH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QUYDINH" EntityType="Self.QUYDINH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SACH" EntityType="Self.SACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TACGIA" EntityType="Self.TACGIA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TGSACH" EntityType="Self.TGSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TINHTRANG" EntityType="Self.TINHTRANG" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TLSACH" EntityType="Self.TLSACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="THELOAI" EntityType="Self.THELOAI" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CTPMS_CTSACH" Association="Self.FK_CTPMS_CTSACH">
             <End Role="CTSACH" EntitySet="CTSACH" />
@@ -517,14 +465,6 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             <End Role="LOAIDOCGIA" EntitySet="LOAIDOCGIA" />
             <End Role="DOCGIA" EntitySet="DOCGIA" />
           </AssociationSet>
-          <AssociationSet Name="FK_NXBSACH_NHAXUATBAN" Association="Self.FK_NXBSACH_NHAXUATBAN">
-            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
-            <End Role="NXBSACH" EntitySet="NXBSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NXBSACH_SACH" Association="Self.FK_NXBSACH_SACH">
-            <End Role="SACH" EntitySet="SACH" />
-            <End Role="NXBSACH" EntitySet="NXBSACH" />
-          </AssociationSet>
           <AssociationSet Name="FK_PHIEUMUONSACH_DOCGIA" Association="Self.FK_PHIEUMUONSACH_DOCGIA">
             <End Role="DOCGIA" EntitySet="DOCGIA" />
             <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
@@ -557,21 +497,17 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
             <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
           </AssociationSet>
-          <AssociationSet Name="FK_TGSACH_SACH" Association="Self.FK_TGSACH_SACH">
+          <AssociationSet Name="FK_SACH_NHAXUATBAN" Association="Self.FK_SACH_NHAXUATBAN">
+            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
             <End Role="SACH" EntitySet="SACH" />
-            <End Role="TGSACH" EntitySet="TGSACH" />
           </AssociationSet>
-          <AssociationSet Name="FK_TGSACH_TACGIA" Association="Self.FK_TGSACH_TACGIA">
+          <AssociationSet Name="FK_SACH_TACGIA" Association="Self.FK_SACH_TACGIA">
             <End Role="TACGIA" EntitySet="TACGIA" />
-            <End Role="TGSACH" EntitySet="TGSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TLSACH_SACH" Association="Self.FK_TLSACH_SACH">
             <End Role="SACH" EntitySet="SACH" />
-            <End Role="TLSACH" EntitySet="TLSACH" />
           </AssociationSet>
-          <AssociationSet Name="FK_TLSACH_THELOAI" Association="Self.FK_TLSACH_THELOAI">
+          <AssociationSet Name="FK_SACH_THELOAI" Association="Self.FK_SACH_THELOAI">
             <End Role="THELOAI" EntitySet="THELOAI" />
-            <End Role="TLSACH" EntitySet="TLSACH" />
+            <End Role="SACH" EntitySet="SACH" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -591,6 +527,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <Property Name="GIANHAP" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="NGAYNHAP" Type="DateTime" Precision="0" />
           <Property Name="NGUOINHAP" Type="Int32" />
+          <Property Name="QRCODE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SACH" Relationship="Self.FK_CTSACH_SACH" FromRole="CTSACH" ToRole="SACH" />
           <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_CTSACH_TAIKHOAN" FromRole="CTSACH" ToRole="TAIKHOAN" />
           <NavigationProperty Name="TINHTRANG" Relationship="Self.FK_CTSACH_TINHTRANG" FromRole="CTSACH" ToRole="TINHTRANG" />
@@ -611,6 +548,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <Property Name="TIENNO" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="NGUOILAP" Type="Int32" />
           <Property Name="HINHANH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="QRCODE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LOAIDOCGIA" Relationship="Self.FK_DOCGIA_LOAIDOCGIA" FromRole="DOCGIA" ToRole="LOAIDOCGIA" />
           <NavigationProperty Name="PHIEUMUONSACH" Relationship="Self.FK_PHIEUMUONSACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUMUONSACH" />
           <NavigationProperty Name="PHIEUNHAPSACH" Relationship="Self.FK_PHIEUNHAPSACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUNHAPSACH" />
@@ -631,7 +569,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           </Key>
           <Property Name="MANXB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NHAXUATBAN1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.NXBSACH" FromRole="NHAXUATBAN" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_NHAXUATBAN" FromRole="NHAXUATBAN" ToRole="SACH" />
         </EntityType>
         <EntityType Name="PHIEUMUONSACH">
           <Key>
@@ -680,6 +618,22 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_PHIEUTRASACH_TAIKHOAN" FromRole="PHIEUTRASACH" ToRole="TAIKHOAN" />
           <NavigationProperty Name="CTSACH" Relationship="Self.CTPTS" FromRole="PHIEUTRASACH" ToRole="CTSACH" />
         </EntityType>
+        <EntityType Name="QUYDINH">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="SACHMUONTOIDA" Type="Int32" />
+          <Property Name="NGAYMUON" Type="Int32" />
+          <Property Name="TIENPHAT" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="KHOANGCACHXB" Type="Int32" />
+          <Property Name="TUOITOIDA" Type="Int32" />
+          <Property Name="TUOITOITHIEU" Type="Int32" />
+          <Property Name="TIENPHATTOIDA" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NGAYSUA" Type="DateTime" Precision="0" />
+          <Property Name="NGUOISUA" Type="Int32" />
+          <Property Name="THOIHANTHE" Type="Int32" />
+        </EntityType>
         <EntityType Name="SACH">
           <Key>
             <PropertyRef Name="MASACH" />
@@ -689,10 +643,13 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <Property Name="NAMXB" Type="Int32" />
           <Property Name="ANHBIA" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
           <Property Name="NOIDUNG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MANXB" Type="Int32" />
+          <Property Name="MATG" Type="Int32" />
+          <Property Name="MATL" Type="Int32" />
           <NavigationProperty Name="CTSACH" Relationship="Self.FK_CTSACH_SACH" FromRole="SACH" ToRole="CTSACH" />
-          <NavigationProperty Name="NHAXUATBAN" Relationship="Self.NXBSACH" FromRole="SACH" ToRole="NHAXUATBAN" />
-          <NavigationProperty Name="TACGIA" Relationship="Self.TGSACH" FromRole="SACH" ToRole="TACGIA" />
-          <NavigationProperty Name="THELOAI" Relationship="Self.TLSACH" FromRole="SACH" ToRole="THELOAI" />
+          <NavigationProperty Name="NHAXUATBAN" Relationship="Self.FK_SACH_NHAXUATBAN" FromRole="SACH" ToRole="NHAXUATBAN" />
+          <NavigationProperty Name="TACGIA" Relationship="Self.FK_SACH_TACGIA" FromRole="SACH" ToRole="TACGIA" />
+          <NavigationProperty Name="THELOAI" Relationship="Self.FK_SACH_THELOAI" FromRole="SACH" ToRole="THELOAI" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -710,7 +667,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           </Key>
           <Property Name="MATG" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TACGIA1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.TGSACH" FromRole="TACGIA" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_TACGIA" FromRole="TACGIA" ToRole="SACH" />
         </EntityType>
         <EntityType Name="TAIKHOAN">
           <Key>
@@ -744,7 +701,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           </Key>
           <Property Name="MATL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="THELOAI1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.TLSACH" FromRole="THELOAI" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_THELOAI" FromRole="THELOAI" ToRole="SACH" />
         </EntityType>
         <Association Name="FK_CTSACH_SACH">
           <End Role="SACH" Type="Self.SACH" Multiplicity="0..1" />
@@ -842,6 +799,18 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SACH_NHAXUATBAN">
+          <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NHAXUATBAN">
+              <PropertyRef Name="MANXB" />
+            </Principal>
+            <Dependent Role="SACH">
+              <PropertyRef Name="MANXB" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PHIEUMUONSACH_TAIKHOAN">
           <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="0..1" />
           <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
@@ -890,6 +859,30 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SACH_TACGIA">
+          <End Role="TACGIA" Type="Self.TACGIA" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TACGIA">
+              <PropertyRef Name="MATG" />
+            </Principal>
+            <Dependent Role="SACH">
+              <PropertyRef Name="MATG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SACH_THELOAI">
+          <End Role="THELOAI" Type="Self.THELOAI" Multiplicity="0..1" />
+          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THELOAI">
+              <PropertyRef Name="MATL" />
+            </Principal>
+            <Dependent Role="SACH">
+              <PropertyRef Name="MATL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CTPMS">
           <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
           <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
@@ -897,18 +890,6 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
         <Association Name="CTPTS">
           <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
           <End Role="PHIEUTRASACH" Type="Self.PHIEUTRASACH" Multiplicity="*" />
-        </Association>
-        <Association Name="NXBSACH">
-          <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="*" />
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
-        </Association>
-        <Association Name="TGSACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
-          <End Role="TACGIA" Type="Self.TACGIA" Multiplicity="*" />
-        </Association>
-        <Association Name="TLSACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
-          <End Role="THELOAI" Type="Self.THELOAI" Multiplicity="*" />
         </Association>
         <EntityContainer Name="QLTVEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CTSACH" EntityType="Self.CTSACH" />
@@ -919,6 +900,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <EntitySet Name="PHIEUNHAPSACH" EntityType="Self.PHIEUNHAPSACH" />
           <EntitySet Name="PHIEUTHUTIENPHAT" EntityType="Self.PHIEUTHUTIENPHAT" />
           <EntitySet Name="PHIEUTRASACH" EntityType="Self.PHIEUTRASACH" />
+          <EntitySet Name="QUYDINH" EntityType="Self.QUYDINH" />
           <EntitySet Name="SACH" EntityType="Self.SACH" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TACGIA" EntityType="Self.TACGIA" />
@@ -957,6 +939,10 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             <End Role="DOCGIA" EntitySet="DOCGIA" />
             <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
           </AssociationSet>
+          <AssociationSet Name="FK_SACH_NHAXUATBAN" Association="Self.FK_SACH_NHAXUATBAN">
+            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
           <AssociationSet Name="FK_PHIEUMUONSACH_TAIKHOAN" Association="Self.FK_PHIEUMUONSACH_TAIKHOAN">
             <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
             <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
@@ -973,6 +959,14 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
             <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
           </AssociationSet>
+          <AssociationSet Name="FK_SACH_TACGIA" Association="Self.FK_SACH_TACGIA">
+            <End Role="TACGIA" EntitySet="TACGIA" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SACH_THELOAI" Association="Self.FK_SACH_THELOAI">
+            <End Role="THELOAI" EntitySet="THELOAI" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
           <AssociationSet Name="CTPMS" Association="Self.CTPMS">
             <End Role="CTSACH" EntitySet="CTSACH" />
             <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
@@ -980,18 +974,6 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
           <AssociationSet Name="CTPTS" Association="Self.CTPTS">
             <End Role="CTSACH" EntitySet="CTSACH" />
             <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
-          </AssociationSet>
-          <AssociationSet Name="NXBSACH" Association="Self.NXBSACH">
-            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
-            <End Role="SACH" EntitySet="SACH" />
-          </AssociationSet>
-          <AssociationSet Name="TGSACH" Association="Self.TGSACH">
-            <End Role="SACH" EntitySet="SACH" />
-            <End Role="TACGIA" EntitySet="TACGIA" />
-          </AssociationSet>
-          <AssociationSet Name="TLSACH" Association="Self.TLSACH">
-            <End Role="SACH" EntitySet="SACH" />
-            <End Role="THELOAI" EntitySet="THELOAI" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -1011,6 +993,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
                 <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
                 <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
                 <ScalarProperty Name="NGUOINHAP" ColumnName="NGUOINHAP" />
+                <ScalarProperty Name="QRCODE" ColumnName="QRCODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1027,6 +1010,7 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
                 <ScalarProperty Name="TIENNO" ColumnName="TIENNO" />
                 <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
                 <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
+                <ScalarProperty Name="QRCODE" ColumnName="QRCODE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1087,6 +1071,23 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="QUYDINH">
+            <EntityTypeMapping TypeName="QLTVModel.QUYDINH">
+              <MappingFragment StoreEntitySet="QUYDINH">
+                <ScalarProperty Name="SACHMUONTOIDA" ColumnName="SACHMUONTOIDA" />
+                <ScalarProperty Name="NGAYMUON" ColumnName="NGAYMUON" />
+                <ScalarProperty Name="TIENPHAT" ColumnName="TIENPHAT" />
+                <ScalarProperty Name="KHOANGCACHXB" ColumnName="KHOANGCACHXB" />
+                <ScalarProperty Name="TUOITOIDA" ColumnName="TUOITOIDA" />
+                <ScalarProperty Name="TUOITOITHIEU" ColumnName="TUOITOITHIEU" />
+                <ScalarProperty Name="TIENPHATTOIDA" ColumnName="TIENPHATTOIDA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NGAYSUA" ColumnName="NGAYSUA" />
+                <ScalarProperty Name="NGUOISUA" ColumnName="NGUOISUA" />
+                <ScalarProperty Name="THOIHANTHE" ColumnName="THOIHANTHE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SACH">
             <EntityTypeMapping TypeName="QLTVModel.SACH">
               <MappingFragment StoreEntitySet="SACH">
@@ -1095,6 +1096,9 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
                 <ScalarProperty Name="NAMXB" ColumnName="NAMXB" />
                 <ScalarProperty Name="ANHBIA" ColumnName="ANHBIA" />
                 <ScalarProperty Name="NOIDUNG" ColumnName="NOIDUNG" />
+                <ScalarProperty Name="MANXB" ColumnName="MANXB" />
+                <ScalarProperty Name="MATG" ColumnName="MATG" />
+                <ScalarProperty Name="MATL" ColumnName="MATL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1161,30 +1165,6 @@ error 6004: The table 'QLTV.dbo.CTPNS' is referenced by a relationship, but cann
             </EndProperty>
             <EndProperty Name="PHIEUTRASACH">
               <ScalarProperty Name="MAPTS" ColumnName="MAPTS" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="NXBSACH" TypeName="QLTVModel.NXBSACH" StoreEntitySet="NXBSACH">
-            <EndProperty Name="NHAXUATBAN">
-              <ScalarProperty Name="MANXB" ColumnName="MANXB" />
-            </EndProperty>
-            <EndProperty Name="SACH">
-              <ScalarProperty Name="MASACH" ColumnName="MASACH" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="TGSACH" TypeName="QLTVModel.TGSACH" StoreEntitySet="TGSACH">
-            <EndProperty Name="SACH">
-              <ScalarProperty Name="MASACH" ColumnName="MASACH" />
-            </EndProperty>
-            <EndProperty Name="TACGIA">
-              <ScalarProperty Name="MATG" ColumnName="MATG" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="TLSACH" TypeName="QLTVModel.TLSACH" StoreEntitySet="TLSACH">
-            <EndProperty Name="SACH">
-              <ScalarProperty Name="MASACH" ColumnName="MASACH" />
-            </EndProperty>
-            <EndProperty Name="THELOAI">
-              <ScalarProperty Name="MATL" ColumnName="MATL" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

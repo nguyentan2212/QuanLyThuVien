@@ -26,6 +26,7 @@ namespace Library_Management.StartUp
             container.Singleton<DataProvider>();
             container.PerRequest<ShellViewModel>();
             container.PerRequest<AccountViewModel>();
+            container.PerRequest<ClientAccountViewModel>();
         }
         protected override object GetInstance(Type service, string key)
         {

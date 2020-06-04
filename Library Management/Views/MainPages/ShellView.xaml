@@ -64,44 +64,66 @@
                 <MahApp:HamburgerMenu.ItemsSource>
                     <MahApp:HamburgerMenuItemCollection>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=ViewDashboard}"
-                                                        Tag="Home"
-                                                        Label="Home">
+                                                      Tag="Home"
+                                                      ToolTip="Home"
+                                                      Label="Home">
                         </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Search}"
-                                                        Tag="FindBook"
-                                                        Label="Tìm sách">
-                        </MahApp:HamburgerMenuIconItem>
-                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Account}"
-                                                        Tag="Account"
-                                                        Label="Tài khoản">
+                                                      Tag="FindBook"
+                                                      ToolTip="Tìm kiếm sách"
+                                                      Label="Tìm kiếm sách">
                         </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=AccountSupervisor}"
-                                                        Tag="ClientAccount"
-                                                        Label="Độc giả">
+                                                      Tag="ClientAccount"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Tìm độc giả"
+                                                      Label="Tìm độc giả">
                         </MahApp:HamburgerMenuIconItem>
-                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Import}"
-                                                        Tag="ImportBook"
-                                                        Label="Nhập sách">
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Book}"
+                                                      Tag="ImportBook"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Nhập sách"
+                                                      Label="Nhập sách">
                         </MahApp:HamburgerMenuIconItem>
-                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=FileReport}"
-                                                        Tag="Report"
-                                                        Label="Báo cáo">
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Report}"
+                                                      Tag="Report"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Xuất báo cáo"
+                                                      Label="Xuất báo cáo">
                         </MahApp:HamburgerMenuIconItem>
                     </MahApp:HamburgerMenuItemCollection>
                 </MahApp:HamburgerMenu.ItemsSource>
                 <MahApp:HamburgerMenu.OptionsItemsSource>
                     <MahApp:HamburgerMenuItemCollection>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Account}"
+                                                      Tag="Account"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Thông tin tài khoản"
+                                                      Label="Thông tin tài khoản">
+                        </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Settings}"
-                                                        Tag="Setting"
-                                                        Label="Cài đặt">
+                                                      Tag="Setting"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Cài đặt"
+                                                      Label="Cài đặt">
                         </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=About}"
-                                                        Tag="About"
-                                                        Label="About Us">
+                                                      Tag="About"   
+                                                      ToolTip="Về chúng tôi"
+                                                      Label="Về chúng tôi">
                         </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Logout}"
-                                                        Tag="Logout"
-                                                        Label="Đăng xuất">
+                                                      Tag="Logout"
+                                                      IsVisible="{Binding IsLogin}"
+                                                      ToolTip="Đăng xuất"
+                                                      Label="Đăng xuất">
+                        </MahApp:HamburgerMenuIconItem>
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Login}"
+                                                      Tag="Login"
+                                                      IsVisible="{Binding IsNotLogin}"
+                                                      ToolTip="Đăng nhập"
+                                                      Label="Đăng nhập">
+
                         </MahApp:HamburgerMenuIconItem>
                     </MahApp:HamburgerMenuItemCollection>
                 </MahApp:HamburgerMenu.OptionsItemsSource>

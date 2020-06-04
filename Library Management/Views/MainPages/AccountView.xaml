@@ -10,9 +10,11 @@
       xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
       Background="{DynamicResource MaterialDesignBackground}"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="680" d:DesignWidth="800"
       Title="AccountView">
-
+    <Page.Resources>
+        <sc:HasErrorConverter x:Key="HasErrorConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -25,113 +27,204 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Image Source="{Binding Avartar}" Grid.Row="0" Margin="20"/>
-                <Button x:Name="Change" Grid.Row="1" Margin="20" HorizontalAlignment="Center"
-                        Style="{StaticResource MaterialDesignFlatLightBgButton}">
+                <Button x:Name="ChangeAvartar" Grid.Row="1" Margin="20" HorizontalAlignment="Center"                        
+                        Style="{StaticResource MaterialDesignRaisedButton}">
                     Thay ảnh
                 </Button>
             </Grid>
         </md:Card>
-        <md:Card Grid.Column="1" Margin="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <md:PackIcon Kind="Identifier" Grid.Row="0" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <md:Card Grid.Row="0" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <md:PackIcon Kind="Identifier" Grid.Row="0" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="AccountOutline" Grid.Row="1" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+                    <md:PackIcon Kind="AccountOutline" Grid.Row="1" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="ClipboardAccountOutline" Grid.Row="2" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+                    <md:PackIcon Kind="ClipboardAccountOutline" Grid.Row="2" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="Location" Grid.Row="3" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+                    <md:PackIcon Kind="Location" Grid.Row="3" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="AlternateEmail" Grid.Row="4" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+                    <md:PackIcon Kind="AlternateEmail" Grid.Row="4" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="DateRange" Grid.Row="5" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
+                    <md:PackIcon Kind="DateRange" Grid.Row="5" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
                              HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="FormTextboxPassword" Grid.Row="6" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
-                             VerticalAlignment="Bottom"
-                             HorizontalAlignment="Center"/>
-                <md:PackIcon Kind="Onepassword" Grid.Row="7" Grid.Column="0"
-                             Width="30" Height="30" Margin="5 0"
-                             VerticalAlignment="Bottom"
-                             HorizontalAlignment="Center"/>
-                
-                <TextBox Grid.Row="0" Grid.Column="1" FontSize="20"
+                    <TextBox Grid.Row="0" Grid.Column="1" FontSize="15" Margin="10"
                          VerticalAlignment="Center"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding User.MATK}"
                          IsEnabled="False"
                          md:HintAssist.Hint="Id"/>
-                <TextBox Grid.Row="1" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Name="txbName"
+                         VerticalAlignment="Center" FontSize="15"
+                             
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         md:HintAssist.Hint="Họ và tên"
-                         Text="{Binding User.HOTEN}"/>
-                <TextBox Grid.Row="2" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                         md:ValidationAssist.HasError="{Binding (Validation.HasError), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                         md:HintAssist.Hint="Họ và tên">
+                        <TextBox.Text>
+                            <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox Grid.Row="2" Grid.Column="1" Margin="10" x:Name="txbUserName"
+                         VerticalAlignment="Center" FontSize="15"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         md:HintAssist.Hint="Tài khoản"
-                         Text="{Binding User.TAIKHOAN1}"/>
-                <TextBox Grid.Row="3" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                         md:HintAssist.Hint="Tài khoản">
+                        <TextBox.Text>
+                            <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox Grid.Row="3" Grid.Column="1" Margin="10" x:Name="txbAddress"
+                         VerticalAlignment="Center" FontSize="15"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         md:HintAssist.Hint="Địa chỉ"
-                         Text="{Binding User.DCHI}"/>
-                <TextBox Grid.Row="4" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                         md:HintAssist.Hint="Địa chỉ">
+                        <TextBox.Text>
+                            <Binding Path="Address" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox Grid.Row="4" Grid.Column="1" 
+                         VerticalAlignment="Center" FontSize="15" Margin="10" x:Name="txbEmail"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         md:HintAssist.Hint="Email"
-                         Text="{Binding User.EMAIL}"/>
-                <DatePicker Grid.Row="5" Grid.Column="1"
-                            VerticalAlignment="Center"
+                         md:HintAssist.Hint="Email">
+                        <TextBox.Text>
+                            <Binding Path="Email" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <DatePicker Grid.Row="5" Grid.Column="1"
+                            VerticalAlignment="Center" Margin="10"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            md:HintAssist.Hint="Ngày tạo tài khoản" FontSize="20"
+                            md:HintAssist.Hint="Ngày tạo tài khoản" FontSize="15"
                             IsEnabled="False"
                             SelectedDate="{Binding User.NGDK}"/>
-                <PasswordBox Grid.Row="6" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                    <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                        <Button Margin="10" x:Name="Cancel"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MaterialDesignRaisedButton}">
+                            Hủy
+                        </Button>
+                        <Button x:Name="SaveChange" Margin="10"
+                                VerticalAlignment="Center"
+                                Content="Cập nhật"
+                                Style="{StaticResource MaterialDesignRaisedButton}">
+                            <Button.IsEnabled>
+                                <MultiBinding UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                                    <Binding Path="(Validation.HasError)" ElementName="txbName"/>
+                                    <Binding Path="(Validation.HasError)" ElementName="txbUserName"/>
+                                    <Binding Path="(Validation.HasError)" ElementName="txbAddress"/>
+                                    <Binding Path="(Validation.HasError)" ElementName="txbEmail"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                        
+                    </StackPanel>
+                </Grid>
+            </md:Card>
+            <md:Card Grid.Row="1" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <md:PackIcon Kind="FormTextboxPassword" Grid.Row="0" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                    <md:PackIcon Kind="Onepassword" Grid.Row="1" Grid.Column="0"
+                             Width="30" Height="30" Margin="5"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Center"/>
+                    <PasswordBox Grid.Row="0" Grid.Column="1" Margin="10" x:Name="txbPass"
+                         VerticalAlignment="Center" FontSize="15"
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                          md:HintAssist.Hint="Mật khẩu"
-                         sc:PasswordHelper.Attach="True"
-                         sc:PasswordHelper.Password="{Binding Password}"/>
-                <PasswordBox Grid.Row="7" Grid.Column="1" 
-                         VerticalAlignment="Center" FontSize="20"
+                         sc:PasswordHelper.Attach="True">
+                        <sc:PasswordHelper.Password>
+                            <Binding Path="Password" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </sc:PasswordHelper.Password>
+                    </PasswordBox>
+                    <PasswordBox Grid.Row="1" Grid.Column="1" Margin="10" x:Name="txbNewPass"
+                         VerticalAlignment="Center" FontSize="15"
                          Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
-                         md:HintAssist.Hint="Nhập lại mật khẩu"
-                         sc:PasswordHelper.Attach="True"
-                         sc:PasswordHelper.Password="{Binding ConfirmPassword}"/>
-                <Button x:Name="SaveChange" Grid.Row="8" Grid.Column="1"
-                        HorizontalAlignment="Right" Margin="10"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
-                    Cập nhật
-                </Button>
-            </Grid>
-        </md:Card>
+                         md:HintAssist.Hint="Nhập mật khẩu mới"                       
+                         sc:PasswordHelper.Attach="True">
+                        <sc:PasswordHelper.Password>
+                            <Binding Path="NewPassword" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </sc:PasswordHelper.Password>
+                    </PasswordBox>
+                    <Button x:Name="ChangePassword" Grid.Row="3" Grid.Column="1"
+                        Margin="10 30 10 10"
+                        VerticalAlignment="Center"    
+                        HorizontalAlignment="Right"
+                        Content="Đổi mật khẩu"
+                        Style="{StaticResource MaterialDesignRaisedButton}">
+                        <Button.IsEnabled>
+                            <MultiBinding UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                                <Binding Path="(Validation.HasError)" ElementName="txbPass"/>
+                                <Binding Path="(Validation.HasError)" ElementName="txbNewPass"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                </Grid>
+            </md:Card>
+        </Grid>
+        
     </Grid>
 </Page>

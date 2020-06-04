@@ -86,7 +86,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -94,6 +96,7 @@
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -126,6 +129,7 @@
     <Compile Include="Models\LOAIDOCGIA.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\NHAXUATBAN.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
@@ -156,6 +160,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLTVModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\QUYDINH.cs">
+      <DependentUpon>QLTVModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SACH.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
@@ -174,11 +181,14 @@
     <Compile Include="Models\TINHTRANG.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Sercurity\HasErrorConverter.cs" />
     <Compile Include="Resources\Sercurity\MD5.cs" />
+    <Compile Include="Resources\Sercurity\NotEmptyValidationRule.cs" />
     <Compile Include="Resources\Sercurity\PasswordHelper.cs" />
     <Compile Include="StartUp\AppBootstrapper.cs" />
     <Compile Include="StartUp\INavigationServiceEx.cs" />
     <Compile Include="ViewModels\MainPages\AccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\ClientAccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewBaseModel.cs" />
     <Compile Include="Views\UserControls\Login.xaml.cs">
@@ -231,6 +241,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainPages\ClientAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPages\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -255,11 +269,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="QLTV_log.ldf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>QLTV.mdf</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Images\LibrarianAccount\DefaultAccount.png" />
-    <Resource Include="Resources\Images\ClientAccount\DefaultAccount.png" />
+    <Resource Include="Resources\Images\LibrarianAccount\DefaultAccount.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\ClientAccount\DefaultAccount.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\Book\1.jpg" />
     <Resource Include="Resources\Images\Book\2.jpg" />
     <Resource Include="Resources\Images\Book\3.jpg" />

@@ -33,6 +33,7 @@ namespace Library_Management.Models
         public virtual DbSet<PHIEUNHAPSACH> PHIEUNHAPSACH { get; set; }
         public virtual DbSet<PHIEUTHUTIENPHAT> PHIEUTHUTIENPHAT { get; set; }
         public virtual DbSet<PHIEUTRASACH> PHIEUTRASACH { get; set; }
+        public virtual DbSet<QUYDINH> QUYDINH { get; set; }
         public virtual DbSet<SACH> SACH { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TACGIA> TACGIA { get; set; }

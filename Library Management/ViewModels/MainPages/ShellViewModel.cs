@@ -14,7 +14,7 @@ using System.Windows.Controls;
 
 namespace Library_Management.ViewModels.MainPages
 {
-    public class ShellViewModel : ViewBaseModel
+    public class ShellViewModel : ViewBaseModel, IHandle<Models.Message>, IHandle<string>
     {
         #region 
         private SimpleContainer _container;
@@ -100,7 +100,46 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("FrameTitle");
             }
         }
-        public Visibility IsWorking { private set; get; }
+        private Visibility _IsWorking;
+        public Visibility IsWorking
+        {
+            get
+            {
+                return _IsWorking;
+            }
+            set
+            {
+                _IsWorking = value;
+                NotifyOfPropertyChange("IsWorking");
+            }
+        }
+        private bool _IsLogin;
+        public bool IsLogin
+        {
+            get
+            {
+                return _IsLogin;
+            }
+            set
+            {
+                _IsLogin = value;
+                IsNotLogin = !IsLogin;
+                NotifyOfPropertyChange("IsLogin");
+            }
+        }
+        private bool _IsNotLogin;
+        public bool IsNotLogin
+        {
+            get
+            {
+                return _IsNotLogin;
+            }
+            set
+            {
+                _IsNotLogin = value;
+                NotifyOfPropertyChange("IsNotLogin");
+            }
+        }
         #endregion
         #region Login Properties
         private string _UserName;
@@ -135,7 +174,8 @@ namespace Library_Management.ViewModels.MainPages
             this._container = container;
             eventAggregator.Subscribe(this);
             FrameTitle = "Quản Lý Thư Viện";
-            ShowLogin();
+            DisplayName = "Khách";
+            IsLogin = false;
             
         }
         public void ShowLogin()
@@ -163,6 +203,7 @@ namespace Library_Management.ViewModels.MainPages
                 {
                     DisplayName = dataProvider.User.HOTEN;
                     IsDialogOpen = false;
+                    IsLogin = true;
                 }
                 else
                 {
@@ -179,17 +220,17 @@ namespace Library_Management.ViewModels.MainPages
                 IsNotWorking = true;
             }
         }
-        public async Task Logout()
+        public async void Logout()
         {           
             await ShowMessage("Thông báo", string.Concat("Tạm biệt, ", DisplayName));
             DisplayName = UserName = Password = string.Empty;
             this.dataProvider.User = null;
-            IsNotWorking = true;
-            IsDialogOpen = true;
+            IsLogin = false;
+            DisplayName = "Khách";
         }
         public void Exit()
         {
-            Application.Current.Shutdown();
+            IsDialogOpen = false;
         }
         public void RegisterFrame(Frame frame)
         {
@@ -200,6 +241,7 @@ namespace Library_Management.ViewModels.MainPages
             {
                 throw new Exception("Can't get view");
             }
+            
         }
 
         public void NavigateToView(string name)
@@ -207,7 +249,7 @@ namespace Library_Management.ViewModels.MainPages
             switch (name)
             {
                 case "Account": 
-                    navigationService.NavigateToViewModel<AccountViewModel>();
+                    navigationService.NavigateToViewModel<AccountViewModel>();                   
                     FrameTitle = "Thông Tin Nhân Viên";
                     break;
                 case "Home":
@@ -231,6 +273,8 @@ namespace Library_Management.ViewModels.MainPages
             HamburgerMenuIconItem item = e.ClickedItem as HamburgerMenuIconItem;
             if (item.Tag.ToString() == "Logout")
                 Logout();
+            else if (item.Tag.ToString() == "Login")
+                ShowLogin();
             else
                 NavigateToView(item.Tag.ToString());
         }
@@ -248,6 +292,18 @@ namespace Library_Management.ViewModels.MainPages
         private async Task ShowMessage(string Title, string Note)
         {
             await window.ShowMessageAsync(Title, Note);
+        }
+        public async void Handle(Models.Message message)
+        {
+            await window.ShowMessageAsync(message.Title, message.Note);
+        }
+
+        public void Handle(string message)
+        {
+            if (message == "UpdatedUserAccountSuccessful")
+            {
+                DisplayName = dataProvider.User.HOTEN;
+            }
         }
         #endregion
     }

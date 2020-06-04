@@ -18,9 +18,6 @@ namespace Library_Management.Models
         public SACH()
         {
             this.CTSACH = new HashSet<CTSACH>();
-            this.NHAXUATBAN = new HashSet<NHAXUATBAN>();
-            this.TACGIA = new HashSet<TACGIA>();
-            this.THELOAI = new HashSet<THELOAI>();
         }
     
         public int MASACH { get; set; }
@@ -28,14 +25,14 @@ namespace Library_Management.Models
         public Nullable<int> NAMXB { get; set; }
         public string ANHBIA { get; set; }
         public string NOIDUNG { get; set; }
+        public Nullable<int> MANXB { get; set; }
+        public Nullable<int> MATG { get; set; }
+        public Nullable<int> MATL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTSACH> CTSACH { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NHAXUATBAN> NHAXUATBAN { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TACGIA> TACGIA { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<THELOAI> THELOAI { get; set; }
+        public virtual NHAXUATBAN NHAXUATBAN { get; set; }
+        public virtual TACGIA TACGIA { get; set; }
+        public virtual THELOAI THELOAI { get; set; }
     }
 }

@@ -29,6 +29,7 @@ namespace Library_Management.Models
         public Nullable<decimal> GIANHAP { get; set; }
         public Nullable<System.DateTime> NGAYNHAP { get; set; }
         public Nullable<int> NGUOINHAP { get; set; }
+        public string QRCODE { get; set; }
     
         public virtual SACH SACH { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
