@@ -65,21 +65,21 @@
                     <MahApp:HamburgerMenuItemCollection>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=ViewDashboard}"
                                                       Tag="Home"
-                                                      ToolTip="Home"
-                                                      Label="Home">
+                                                      ToolTip="Sách đề nghị"
+                                                      Label="Sách đề nghị">
                         </MahApp:HamburgerMenuIconItem>
                         <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Search}"
                                                       Tag="FindBook"
                                                       ToolTip="Tìm kiếm sách"
                                                       Label="Tìm kiếm sách">
                         </MahApp:HamburgerMenuIconItem>
-                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=AccountSupervisor}"
-                                                      Tag="ClientAccount"
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=UserAdd}"
+                                                      Tag="NewClientAccount"
                                                       IsVisible="{Binding IsLogin}"
                                                       ToolTip="Tìm độc giả"
-                                                      Label="Tìm độc giả">
+                                                      Label="Thêm độc giả">
                         </MahApp:HamburgerMenuIconItem>
-                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=Book}"
+                        <MahApp:HamburgerMenuIconItem Icon="{md:PackIcon Kind=BookAdd}"
                                                       Tag="ImportBook"
                                                       IsVisible="{Binding IsLogin}"
                                                       ToolTip="Nhập sách"

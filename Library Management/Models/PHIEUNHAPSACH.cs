@@ -14,12 +14,18 @@ namespace Library_Management.Models
     
     public partial class PHIEUNHAPSACH
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PHIEUNHAPSACH()
+        {
+            this.CTSACH = new HashSet<CTSACH>();
+        }
+    
         public int MAPNS { get; set; }
         public Nullable<System.DateTime> NGAYLAP { get; set; }
         public Nullable<int> MATK { get; set; }
-        public Nullable<int> MADG { get; set; }
     
-        public virtual DOCGIA DOCGIA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CTSACH> CTSACH { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
     }
 }

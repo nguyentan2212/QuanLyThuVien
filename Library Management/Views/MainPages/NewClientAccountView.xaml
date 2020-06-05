@@ -1,0 +1,167 @@
+﻿<Page x:Class="Library_Management.Views.MainPages.NewClientAccountView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Library_Management.Views.MainPages"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
+      Background="{DynamicResource MaterialDesignBackground}"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="NewClientAccountView">
+    <Page.Resources>
+        <sc:HasErrorConverter x:Key="HasErrorConverter"/>
+        <sc:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </Page.Resources>
+    <md:DialogHost IsOpen="{Binding IsDialogOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   Background="Transparent"
+                   DialogContent="{Binding DialogContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <md:Card Grid.Column="0" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Source="{Binding ClientAvartar}" Margin="10"/>
+                    <Button Grid.Row="1" x:Name="ChangeAvartar" 
+                        Margin="10" HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        Content="Thay ảnh"/>
+                </Grid>
+            </md:Card>
+            <md:Card Grid.Column="1" Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <md:PackIcon Grid.Row="0" Grid.Column="0" 
+                                 Width="30" Height="30" Margin="5" 
+                                 VerticalAlignment="Center"
+                                 Kind="User"/>
+                    <md:PackIcon Grid.Row="1" Grid.Column="0" 
+                                 Width="30" Height="30" Margin="5" 
+                                 VerticalAlignment="Center"
+                                 Kind="Tag"/>
+                    <md:PackIcon Grid.Row="2" Grid.Column="0" 
+                                 Width="30" Height="30" Margin="5" 
+                                 VerticalAlignment="Center"
+                                 Kind="BirthdayCake"/>
+                    <md:PackIcon Grid.Row="3" Grid.Column="0" 
+                                 Width="30" Height="30" Margin="5" 
+                                 VerticalAlignment="Center"
+                                 Kind="Email"/>
+                    <md:PackIcon Grid.Row="4" Grid.Column="0" 
+                                 Width="30" Height="30" Margin="5" 
+                                 VerticalAlignment="Center"
+                                 Kind="AddressMarker"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="txbName"
+                             VerticalAlignment="Center" FontSize="15"
+                             md:HintAssist.Hint="Họ và tên"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="ClientName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cbbClientType"
+                              VerticalAlignment="Center" FontSize="15"
+                              md:HintAssist.Hint="Loại tài khoản"
+                              IsEditable="True"
+                              ItemsSource="{Binding ClientTypeList}"
+                              DisplayMemberPath="LOAIDOCGIA1"      
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <ComboBox.SelectedItem>
+                            <Binding Path="ClientType" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True" Tag="ClientAccountList">
+                                        <sc:SelectedItemValidationRule.Wrapper>
+                                            <sc:Wrapper ClientAccountList="{Binding Data.ClientTypeList, Source={StaticResource proxy}}"/>
+                                        </sc:SelectedItemValidationRule.Wrapper>
+                                    </sc:SelectedItemValidationRule>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </ComboBox.SelectedItem>
+                    </ComboBox>
+                    <DatePicker Grid.Row="2" Grid.Column="1"
+                             VerticalAlignment="Center" FontSize="15"
+                             md:HintAssist.Hint="Ngày sinh"
+                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="ClientBirdthday" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:DateValidationRule ValidatesOnTargetUpdated="True">
+                                        <sc:DateValidationRule.Wrapper>
+                                            <sc:Wrapper MinAge="{Binding Data.ClientMinAge, Source={StaticResource proxy}}"
+                                                        MaxAge="{Binding Data.ClientMaxAge, Source={StaticResource proxy}}"/>
+                                        </sc:DateValidationRule.Wrapper>
+                                    </sc:DateValidationRule>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <TextBox Grid.Row="3" Grid.Column="1" x:Name="txbClientEmail"
+                             VerticalAlignment="Center" FontSize="15"
+                             md:HintAssist.Hint="Email"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="ClientEmail" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox Grid.Row="4" Grid.Column="1" x:Name="txbClientAddress"
+                             VerticalAlignment="Center" FontSize="15"
+                             md:HintAssist.Hint="Địa chỉ"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                        <TextBox.Text>
+                            <Binding Path="ClientAddress" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Button Grid.Row="1" Grid.Column="2" x:Name="EditClientType" Margin="5"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignRaisedButton}">
+                        <Button.Content>
+                            <md:PackIcon Width="20" Height="20" Kind="Add"/>
+                        </Button.Content>
+                    </Button>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="5"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right">
+                        <Button x:Name="Cancel" Content="Hủy" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Margin="10"/>
+                        <Button x:Name="Save" Content="Lưu" 
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Margin="10"/>
+                    </StackPanel>
+                </Grid>
+            </md:Card>
+        </Grid>
+    </md:DialogHost>
+</Page>

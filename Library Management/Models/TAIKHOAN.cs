@@ -17,7 +17,6 @@ namespace Library_Management.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
         {
-            this.CTSACH = new HashSet<CTSACH>();
             this.PHIEUMUONSACH = new HashSet<PHIEUMUONSACH>();
             this.PHIEUNHAPSACH = new HashSet<PHIEUNHAPSACH>();
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
@@ -33,8 +32,6 @@ namespace Library_Management.Models
         public string EMAIL { get; set; }
         public string HINHANH { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CTSACH> CTSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

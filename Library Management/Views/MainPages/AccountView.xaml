@@ -5,8 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Library_Management.Views.MainPages"
       xmlns:cal="http://www.caliburnproject.org"
-      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:MahApp="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"      
       xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
       Background="{DynamicResource MaterialDesignBackground}"
       mc:Ignorable="d" 
@@ -53,7 +52,6 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
                     <md:PackIcon Kind="Identifier" Grid.Row="0" Grid.Column="0"
                              Width="30" Height="30" Margin="5"
                              VerticalAlignment="Bottom"
@@ -85,8 +83,7 @@
                          IsEnabled="False"
                          md:HintAssist.Hint="Id"/>
                     <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Name="txbName"
-                         VerticalAlignment="Center" FontSize="15"
-                             
+                         VerticalAlignment="Center" FontSize="15"                           
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          md:ValidationAssist.HasError="{Binding (Validation.HasError), Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                          md:HintAssist.Hint="Họ và tên">
@@ -160,7 +157,6 @@
                                 </MultiBinding>
                             </Button.IsEnabled>
                         </Button>
-                        
                     </StackPanel>
                 </Grid>
             </md:Card>
@@ -225,6 +221,5 @@
                 </Grid>
             </md:Card>
         </Grid>
-        
     </Grid>
 </Page>

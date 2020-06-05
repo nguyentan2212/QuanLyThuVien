@@ -46,6 +46,7 @@ namespace Library_Management.StartUp
             container.PerRequest<ShellViewModel>();
             container.PerRequest<AccountViewModel>();
             container.PerRequest<ClientAccountViewModel>();
+            container.PerRequest<NewClientAccountViewModel>();
         }
         protected override object GetInstance(Type service, string key)
         {

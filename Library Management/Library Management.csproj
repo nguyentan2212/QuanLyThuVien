@@ -182,14 +182,20 @@
     <Compile Include="Models\TINHTRANG.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Sercurity\BindingProxy .cs" />
+    <Compile Include="Resources\Sercurity\ComboBoxWrapper.cs" />
+    <Compile Include="Resources\Sercurity\DateValidationRule.cs" />
     <Compile Include="Resources\Sercurity\HasErrorConverter.cs" />
     <Compile Include="Resources\Sercurity\MD5.cs" />
     <Compile Include="Resources\Sercurity\NotEmptyValidationRule.cs" />
     <Compile Include="Resources\Sercurity\PasswordHelper.cs" />
+    <Compile Include="Resources\Sercurity\SelectedItemValidationRule.cs" />
+    <Compile Include="Resources\Sercurity\Wrapper.cs" />
     <Compile Include="StartUp\AppBootstrapper.cs" />
     <Compile Include="StartUp\INavigationServiceEx.cs" />
     <Compile Include="ViewModels\MainPages\AccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ClientAccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\NewClientAccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewBaseModel.cs" />
     <Compile Include="Views\UserControls\Login.xaml.cs">
@@ -243,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPages\ClientAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\NewClientAccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

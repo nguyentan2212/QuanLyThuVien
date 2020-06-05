@@ -256,7 +256,9 @@ namespace Library_Management.ViewModels.MainPages
                     break;
                 case "FindBook":
                     break;
-                case "ClientAccount":
+                case "NewClientAccount":
+                    navigationService.NavigateToViewModel<NewClientAccountViewModel>();
+                    FrameTitle = "Thêm Độc Giả Mới";
                     break;
                 case "ImportBook":
                     break;
