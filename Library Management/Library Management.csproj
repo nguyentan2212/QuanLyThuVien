@@ -198,6 +198,9 @@
     <Compile Include="ViewModels\MainPages\NewClientAccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewBaseModel.cs" />
+    <Compile Include="Views\UserControls\ClientTypeDialog.xaml.cs">
+      <DependentUpon>ClientTypeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPages\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ClientTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

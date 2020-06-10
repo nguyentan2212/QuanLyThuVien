@@ -1,18 +1,20 @@
 ﻿using Caliburn.Micro;
 using Library_Management.Models;
+using Library_Management.Views.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 
 namespace Library_Management.ViewModels.MainPages
 {
     public class NewClientAccountViewModel:ViewBaseModel
     {
         #region Properties         
+        private ClientTypeDialog ClientTypeForm = new ClientTypeDialog();
         private BindableCollection<LOAIDOCGIA> _ClientTypeList;
         public BindableCollection<LOAIDOCGIA> ClientTypeList
         {
@@ -26,6 +28,47 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("ClientTypeList");
             }
         }
+        private LOAIDOCGIA _SelectedClienType;
+        public LOAIDOCGIA SelectedClienType
+        {
+            get { return _SelectedClienType; }
+            set 
+            { 
+                _SelectedClienType = value; 
+                if (_SelectedClienType != null)
+                {
+                    SelectedClienTypeString = _SelectedClienType.LOAIDOCGIA1;
+                }
+                NotifyOfPropertyChange("SelectedClienType"); 
+            }
+        }
+        private string _SelectedClienTypeString;
+        public string SelectedClienTypeString
+        {
+            get { return _SelectedClienTypeString; }
+            set { _SelectedClienTypeString = value; NotifyOfPropertyChange("SelectedClienTypeString"); }
+        }
+        private UserControl _DialogContent;
+        public UserControl DialogContent
+        {
+            get
+            {
+                return _DialogContent;
+            }
+            set
+            {
+                _DialogContent = value;
+                NotifyOfPropertyChange("DialogContent");
+            }
+        }
+        private bool _IsDialogOpen;
+
+        public bool IsDialogOpen
+        {
+            get { return _IsDialogOpen; }
+            set { _IsDialogOpen = value; NotifyOfPropertyChange("IsDialogOpen"); }
+        }
+
         private int _ClientMinAge;
         public int ClientMinAge
         {
@@ -182,10 +225,57 @@ namespace Library_Management.ViewModels.MainPages
             openFile.CheckFileExists = true;
             openFile.CheckPathExists = true;
             openFile.Multiselect = false;
-            if (openFile.ShowDialog() == DialogResult.OK)
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ClientAvartar = openFile.FileName;
             }
         }
+        #region ClientTypeDialog void
+        public void EditClientType()
+        {
+            this.DialogContent = ClientTypeForm;
+            ClientTypeForm.DataContext = this;
+            IsDialogOpen = true;
+           
+        }
+        public void Exit()
+        {
+            IsDialogOpen = false;
+        }
+        public async Task UpdateClientType()
+        {
+            string store = SelectedClienType.LOAIDOCGIA1;
+            SelectedClienType.LOAIDOCGIA1 = SelectedClienTypeString;
+            bool IsSuccess = await dataProvider.AddOrUpdate(SelectedClienType);
+            if (IsSuccess)
+            {
+                ClientTypeList = dataProvider.ClientTypeList;
+                ShowMessage(new Models.Message("Thông báo", "Cập nhật thành công"));               
+            }           
+        }
+        public async Task NewClientType()
+        {
+            LOAIDOCGIA obj = new LOAIDOCGIA{ LOAIDOCGIA1 = SelectedClienTypeString };
+            bool IsSuccess = await dataProvider.AddOrUpdate(obj);
+            if (IsSuccess)
+            {
+                ClientTypeList = dataProvider.ClientTypeList;
+                ShowMessage(new Models.Message("Thông báo", "Tạo mới thành công"));                
+            }            
+        }
+        public async Task DeleteClientType()
+        {            
+            bool IsSuccess = await dataProvider.Delete(SelectedClienType);
+            if (IsSuccess)
+            {
+                ClientTypeList = dataProvider.ClientTypeList;
+                ShowMessage(new Models.Message("Thông báo", "Xóa thành công"));               
+            }            
+        }
+        private void ShowMessage(Models.Message mess)
+        {
+            MessageBox.Show(mess.Note, mess.Title);         
+        }
+        #endregion
     }
 }

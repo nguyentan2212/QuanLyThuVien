@@ -18,13 +18,13 @@ namespace Library_Management.Models
         public TAIKHOAN User { get; set; }
         public BindableCollection<LOAIDOCGIA> ClientTypeList { get; set; }
         public QUYDINH LibraryRules { get; set; }
-        
+        public BindableCollection<SACH> BookList { get; set; }
         public DataProvider()
         {
             using(QLTVEntities db = new QLTVEntities())
             {
                 ClientTypeList = new BindableCollection<LOAIDOCGIA>(db.LOAIDOCGIA.ToList());
-                LibraryRules = db.QUYDINH.OrderByDescending(x => x.NGAYSUA).FirstOrDefault();
+                LibraryRules = db.QUYDINH.OrderByDescending(x => x.NGAYSUA).FirstOrDefault();               
             }
            
         }
@@ -78,11 +78,11 @@ namespace Library_Management.Models
                 }
                 catch (Exception e)
                 {
-                    //MessageBox.Show(e.Message.ToString());
+                    MessageBox.Show(e.Message.ToString());
                     return false;
                 }               
             }                         
-        }
+        }       
         public async Task<bool> ChangeAvartar(string path)
         {
             string imgPath = AppDomain.CurrentDomain.BaseDirectory + @"Resources\Images\LibrarianAccount\" + User.MATK.ToString() + ".png";            
@@ -98,25 +98,62 @@ namespace Library_Management.Models
                 }
                 catch (Exception e)
                 {
-                    //MessageBox.Show(e.Message.ToString());
+                    MessageBox.Show(e.Message.ToString());
                     return false;
                 }
             }
         }
         public async Task<bool> NewClient(DOCGIA client)
         {
-            using(QLTVEntities db = new QLTVEntities())
+            using (QLTVEntities db = new QLTVEntities())
             {
                 try
                 {
                     db.Set<DOCGIA>().Add(client);
                     await db.SaveChangesAsync();
-                    string imgPath = AppDomain.CurrentDomain.BaseDirectory + @"Resources\Images\ClientAccount\" + client.MADG.ToString() + ".png";                    
+                    string imgPath = AppDomain.CurrentDomain.BaseDirectory + @"Resources\Images\ClientAccount\" + client.MADG.ToString() + ".png";
                     File.Copy(client.HINHANH, imgPath, true);
                     client.HINHANH = imgPath;
                     db.Set<DOCGIA>().AddOrUpdate(client);
                     await db.SaveChangesAsync();
                     MessageBox.Show(client.HINHANH);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message.ToString());
+                    return false;
+                }
+            }
+        }        
+        public async Task<bool> AddOrUpdate(LOAIDOCGIA obj)
+        {
+            using (QLTVEntities db = new QLTVEntities())
+            {
+                try
+                {
+                    db.LOAIDOCGIA.AddOrUpdate(obj);
+                    await db.SaveChangesAsync();
+                    ClientTypeList = new BindableCollection<LOAIDOCGIA>(db.LOAIDOCGIA.ToList());
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message.ToString());
+                    return false;
+                }
+            }
+        }
+        public async Task<bool> Delete(LOAIDOCGIA obj)
+        {
+            using (QLTVEntities db = new QLTVEntities())
+            {
+                try
+                {
+                    var check = db.LOAIDOCGIA.FirstOrDefault(x => x.MALDG == obj.MALDG);
+                    db.LOAIDOCGIA.Remove(check);
+                    await db.SaveChangesAsync();
+                    ClientTypeList = new BindableCollection<LOAIDOCGIA>(db.LOAIDOCGIA.ToList());
                     return true;
                 }
                 catch (Exception e)
