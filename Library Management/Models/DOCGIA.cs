@@ -11,8 +11,8 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class DOCGIA
+    using Caliburn.Micro;
+    public partial class DOCGIA:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DOCGIA()
@@ -21,17 +21,59 @@ namespace Library_Management.Models
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-    
+        public DOCGIA(DOCGIA dg)
+        {
+            this.MADG = dg.MADG;
+            this.HOTEN = dg.HOTEN;
+            this.MALDG = dg.MALDG;
+            this.NGSINH = dg.NGSINH;
+            this.DCHI = dg.DCHI;
+            this.EMAIL = dg.EMAIL;
+            this.NGLAPTHE = dg.NGLAPTHE;
+            this.TIENNO = dg.TIENNO;
+            this.NGUOILAP = dg.NGUOILAP;
+            this.HINHANH = dg.HINHANH;
+            this.QRCODE = dg.QRCODE;            
+        }
         public int MADG { get; set; }
-        public string HOTEN { get; set; }
+        private string _HOTEN;
+        public string HOTEN
+        {
+            get { return _HOTEN; }
+            set { _HOTEN = value; NotifyOfPropertyChange("HOTEN"); }
+        }       
         public Nullable<int> MALDG { get; set; }
-        public Nullable<System.DateTime> NGSINH { get; set; }
-        public string DCHI { get; set; }
-        public string EMAIL { get; set; }
+
+        private Nullable<System.DateTime> _NGSINH;
+        public Nullable<System.DateTime> NGSINH
+        {
+            get { return _NGSINH; }
+            set { _NGSINH = value; NotifyOfPropertyChange("NGSINH"); }
+        }
+
+        private string _DCHI;
+        public string DCHI
+        {
+            get { return _DCHI; }
+            set { _DCHI = value; NotifyOfPropertyChange("DCHI"); }
+        }
+
+        private string _EMAIL;
+        public string EMAIL
+        {
+            get { return _EMAIL; }
+            set { _EMAIL = value; NotifyOfPropertyChange("EMAIL"); }
+        }
         public Nullable<System.DateTime> NGLAPTHE { get; set; }
         public Nullable<decimal> TIENNO { get; set; }
         public Nullable<int> NGUOILAP { get; set; }
-        public string HINHANH { get; set; }
+
+        private string _HINHANH;
+        public string HINHANH
+        {
+            get { return _HINHANH; }
+            set { _HINHANH = value; NotifyOfPropertyChange("HINHANH"); }
+        }     
         public string QRCODE { get; set; }
     
         public virtual LOAIDOCGIA LOAIDOCGIA { get; set; }

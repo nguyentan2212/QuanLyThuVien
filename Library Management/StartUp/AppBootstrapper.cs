@@ -47,6 +47,9 @@ namespace Library_Management.StartUp
             container.PerRequest<AccountViewModel>();
             container.PerRequest<ClientAccountViewModel>();
             container.PerRequest<NewClientAccountViewModel>();
+            container.PerRequest<ImportBookViewModel>();
+            container.PerRequest<BookSearchViewModel>();
+            container.PerRequest<BookDetailViewModel>();
         }
         protected override object GetInstance(Type service, string key)
         {

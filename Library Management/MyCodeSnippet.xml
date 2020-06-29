@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>propnpc</Title>
+      <Author>Lê Văn Luật</Author>
+      <Description>Tạo property có tạo sự kiện thay đổi thuộc tính.</Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>propnpc</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>type</ID>
+          <ToolTip>Kiểu dữ liệu</ToolTip>
+          <Default>string</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>property</ID>
+          <ToolTip>Tên thuộc tính</ToolTip>
+          <Default>property</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[
+    private $type$ _$property$;
+    public $type$ $property$
+    {
+        get { return _$property$; }
+        set
+        {
+            if (_$property$ != value)
+            {
+                _$property$ = value;
+ 
+                NotifyOfPropertyChange("$property$");
+            }
+        }
+    }$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

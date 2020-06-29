@@ -44,7 +44,7 @@
                                VerticalAlignment="Center"
                                HorizontalAlignment="Right" Margin="10 5">
                         <Run Text="Xin chào: "/>
-                        <Run Text="{Binding DisplayName}"/>
+                        <Run Text="{Binding DisplayUserName}"/>
                     </TextBlock>
                 </Grid>
             </md:ColorZone>
@@ -55,6 +55,7 @@
                VerticalContentAlignment="Stretch"
                DataContext="{x:Null}" />
             <MahApp:HamburgerMenu Grid.Row="0" 
+                                  DisplayMode="CompactOverlay"
                                   Grid.RowSpan="2"
                                   Grid.ColumnSpan="2"
                                   cal:Message.Attach="[Event ItemClick] = [Action HamburgerMenu_ItemClick($eventArgs)];[Event OptionsItemClick] = [Action HamburgerMenu_ItemClick($eventArgs)]"

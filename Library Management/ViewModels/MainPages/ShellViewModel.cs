@@ -74,17 +74,17 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("IsNotWorking");
             }
         }
-        private string _DisplayName;
-        public string DisplayName
+        private string _DisplayUserName;
+        public string DisplayUserName
         {
             get
             {
-                return _DisplayName;
+                return _DisplayUserName;
             }
             set
             {
-                _DisplayName = value;
-                NotifyOfPropertyChange("DisplayName");
+                _DisplayUserName = value;
+                NotifyOfPropertyChange("DisplayUserName");
             }
         }
         private string _FrameTitle;
@@ -123,6 +123,7 @@ namespace Library_Management.ViewModels.MainPages
             set
             {
                 _IsLogin = value;
+                
                 IsNotLogin = !IsLogin;
                 NotifyOfPropertyChange("IsLogin");
             }
@@ -137,6 +138,7 @@ namespace Library_Management.ViewModels.MainPages
             set
             {
                 _IsNotLogin = value;
+                
                 NotifyOfPropertyChange("IsNotLogin");
             }
         }
@@ -174,7 +176,7 @@ namespace Library_Management.ViewModels.MainPages
             this._container = container;
             eventAggregator.Subscribe(this);
             FrameTitle = "Quản Lý Thư Viện";
-            DisplayName = "Khách";
+            DisplayUserName = "Khách";
             IsLogin = false;
             
         }
@@ -201,7 +203,7 @@ namespace Library_Management.ViewModels.MainPages
                 await dataProvider.FindUser(UserName, Password);
                 if (dataProvider.User != null)
                 {
-                    DisplayName = dataProvider.User.HOTEN;
+                    DisplayUserName = dataProvider.User.HOTEN;
                     IsDialogOpen = false;
                     IsLogin = true;
                 }
@@ -222,11 +224,11 @@ namespace Library_Management.ViewModels.MainPages
         }
         public async void Logout()
         {           
-            await ShowMessage("Thông báo", string.Concat("Tạm biệt, ", DisplayName));
-            DisplayName = UserName = Password = string.Empty;
+            await ShowMessage("Thông báo", string.Concat("Tạm biệt, ", DisplayUserName));
+            DisplayUserName = UserName = Password = string.Empty;
             this.dataProvider.User = null;
             IsLogin = false;
-            DisplayName = "Khách";
+            DisplayUserName = "Khách";
         }
         public void Exit()
         {
@@ -255,18 +257,24 @@ namespace Library_Management.ViewModels.MainPages
                 case "Home":
                     break;
                 case "FindBook":
+                    navigationService.NavigateToViewModel<BookSearchViewModel>();
+                    FrameTitle = "Tim sach";
                     break;
                 case "NewClientAccount":
                     navigationService.NavigateToViewModel<NewClientAccountViewModel>();
                     FrameTitle = "Thêm Độc Giả Mới";
                     break;
                 case "ImportBook":
+                    navigationService.NavigateToViewModel<ImportBookViewModel>();
+                    FrameTitle = "Nhập Sách Mới";
                     break;
                 case "Report":
                     break;
                 case "Setting":
                     break;
                 default:
+                    navigationService.For<BookDetailViewModel>().WithParam(x => x.IsLogin, this.IsLogin).Navigate();
+                    FrameTitle = "Thông Tin Sách";
                     break;
             }
         }
@@ -304,7 +312,15 @@ namespace Library_Management.ViewModels.MainPages
         {
             if (message == "UpdatedUserAccountSuccessful")
             {
-                DisplayName = dataProvider.User.HOTEN;
+                DisplayUserName = dataProvider.User.HOTEN;
+            }
+            else if (message == "OpenBookDetailView")
+            {
+                NavigateToView(message);
+            }
+            else if (message == "GoBackSearchBook")
+            {
+                NavigateToView("FindBook");
             }
         }
         #endregion

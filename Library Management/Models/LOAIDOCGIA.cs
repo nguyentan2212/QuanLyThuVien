@@ -11,18 +11,28 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class LOAIDOCGIA
+    using Caliburn.Micro;
+    public partial class LOAIDOCGIA:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LOAIDOCGIA()
         {
             this.DOCGIA = new HashSet<DOCGIA>();
         }
-    
+        public LOAIDOCGIA(LOAIDOCGIA ldg)
+        {           
+            this.MALDG = ldg.MALDG;
+            this.LOAIDOCGIA1 = ldg.LOAIDOCGIA1;
+        }
         public int MALDG { get; set; }
-        public string LOAIDOCGIA1 { get; set; }
-    
+
+        private string _LOAIDOCGIA1;
+        public string LOAIDOCGIA1
+        {
+            get { return _LOAIDOCGIA1; }
+            set { _LOAIDOCGIA1 = value; NotifyOfPropertyChange("LOAIDOCGIA1"); }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DOCGIA> DOCGIA { get; set; }
     }

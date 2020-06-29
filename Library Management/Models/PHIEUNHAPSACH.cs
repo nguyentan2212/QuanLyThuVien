@@ -11,8 +11,8 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class PHIEUNHAPSACH
+    using Caliburn.Micro;
+    public partial class PHIEUNHAPSACH:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PHIEUNHAPSACH()
@@ -23,7 +23,21 @@ namespace Library_Management.Models
         public int MAPNS { get; set; }
         public Nullable<System.DateTime> NGAYLAP { get; set; }
         public Nullable<int> MATK { get; set; }
-    
+
+        private int _SOLUONG;
+        public int SOLUONG
+        {
+            get { return _SOLUONG; }
+            set { _SOLUONG = value; NotifyOfPropertyChange("SOLUONG"); }
+        }
+
+        private decimal _TONGTIEN;
+        public decimal TONGTIEN
+        {
+            get { return _TONGTIEN; }
+            set { _TONGTIEN = value; NotifyOfPropertyChange("TONGTIEN"); }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTSACH> CTSACH { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }

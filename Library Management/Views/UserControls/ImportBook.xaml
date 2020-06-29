@@ -1,0 +1,227 @@
+﻿<UserControl x:Class="Library_Management.Views.UserControls.ImportBook"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_Management.Views.UserControls"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"      
+             xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
+             xmlns:cal="http://www.caliburnproject.org"            
+             Background="{DynamicResource MaterialDesignBackground}"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1300">
+    <UserControl.Resources>
+        <sc:HasErrorConverter x:Key="HasErrorConverter"/>
+        <sc:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+    <md:Card Margin="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <md:PackIcon Grid.Row="1" Grid.Column="0" 
+                         Width="30" Height="30" Margin="5" 
+                         VerticalAlignment="Center"
+                         Kind="Man"/>
+            <md:PackIcon Grid.Row="2" Grid.Column="0" 
+                         Width="30" Height="30" Margin="5" 
+                         VerticalAlignment="Center"
+                         Kind="Category"/>
+            <md:PackIcon Grid.Row="3" Grid.Column="0" 
+                         Width="30" Height="30" Margin="5" 
+                         VerticalAlignment="Center"
+                         Kind="House"/>
+            <md:PackIcon Grid.Row="4" Grid.Column="0" 
+                         Width="30" Height="30" Margin="5" 
+                         VerticalAlignment="Center"
+                         Kind="DateRange"/>
+
+            <md:PackIcon Grid.Row="5" Grid.Column="0" 
+                         Width="30" Height="30" Margin="5 20" 
+                         VerticalAlignment="Top"
+                         Kind="Contain"/>
+            <Button Grid.Row="1" Grid.Column="2" Margin="5"
+                        cal:Message.Attach="OpenDialog('Author')"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}">
+                <Button.Content>
+                    <md:PackIcon Width="30" Height="30" Kind="Edit"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="2" Grid.Column="2" Margin="5"
+                        cal:Message.Attach="OpenDialog('Category')"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}">
+                <Button.Content>
+                    <md:PackIcon Width="30" Height="30" Kind="Edit"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3" Grid.Column="2" Margin="5"
+                        cal:Message.Attach="OpenDialog('Publisher')"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Background="{DynamicResource MahApps.Brushes.Accent}"
+                        Style="{StaticResource MaterialDesignIconForegroundButton}">
+                <Button.Content>
+                    <md:PackIcon Width="30" Height="30" Kind="Edit"/>
+                </Button.Content>
+            </Button>
+            <Image Grid.Row="0" Grid.Column="3" Grid.RowSpan="4" Margin="10"
+                   Source="{Binding Book.ANHBIA}"/>
+            <Button Grid.Row="4" Grid.Column="3" Margin="10"                     
+                    cal:Message.Attach="ChangeImage"   
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Content="Thay ảnh"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}">
+            </Button>
+            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <md:PackIcon Grid.Column="0" 
+                             Width="30" Height="30" Margin="5" 
+                             VerticalAlignment="Bottom" Kind="Identifier"/>
+                <md:PackIcon Grid.Column="2" 
+                             Width="30" Height="30" Margin="5" 
+                             VerticalAlignment="Bottom" Kind="Book"/>
+                <TextBox Grid.Column="1" Margin="5" FontSize="15"
+                         IsReadOnly="True"
+                         Text="{Binding Book.MASACH}"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:HintAssist.Hint="Mã sách"/>
+                <TextBox Grid.Column="3" Margin="5" FontSize="15"
+                         x:Name="txbTitle"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         md:ValidationAssist.OnlyShowOnFocus="True"                    
+                         md:HintAssist.Hint="Tựa sách">
+                    <TextBox.Text>
+                        <Binding Path="Book.TENSACH" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </Grid>
+                      
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" FontSize="15"
+                      x:Name="cbbAuthor"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding AuthorList}" IsEditable="True"
+                      DisplayMemberPath="TACGIA1"
+                      md:ValidationAssist.OnlyShowOnFocus="True"
+                      md:HintAssist.Hint="Tác giả">
+                <ComboBox.SelectedItem>
+                    <Binding Path="Author" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedItem>
+
+            </ComboBox>
+            <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" FontSize="15"
+                      x:Name="cbbCategory"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding CategoryList}" IsEditable="True"
+                      DisplayMemberPath="THELOAI1"
+                      md:ValidationAssist.OnlyShowOnFocus="True"
+                      md:HintAssist.Hint="Thể loại">
+                <ComboBox.SelectedItem>
+                    <Binding Path="Category" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedItem>
+            </ComboBox>
+            <ComboBox Grid.Row="3" Grid.Column="1" Margin="5" FontSize="15"
+                      x:Name="cbbPublisher"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding PublisherList}" IsEditable="True"
+                      DisplayMemberPath="NHAXUATBAN1"
+                      md:ValidationAssist.OnlyShowOnFocus="True"
+                      md:HintAssist.Hint="Nhà xuất bản">
+                <ComboBox.SelectedItem>
+                    <Binding Path="Publisher" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedItem>
+            </ComboBox>
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="5" FontSize="15"
+                     x:Name="txbPublishYear"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     md:ValidationAssist.OnlyShowOnFocus="True"
+                     md:HintAssist.Hint="Năm xuất bản">
+                <TextBox.Text>
+                    <Binding Path="Book.NAMXB" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <sc:NumberValidationRule ValidatesOnTargetUpdated="True" IsYearValidation="True">
+                                <sc:NumberValidationRule.Wrapper>
+                                    <sc:Wrapper PublishRange="{Binding Data.PublishRange, Source={StaticResource proxy}}"/>
+                                </sc:NumberValidationRule.Wrapper>
+                            </sc:NumberValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="5" FontSize="15"                         
+                         IsReadOnly="{Binding IsReadOnly}"
+                     Grid.ColumnSpan="3"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto"
+                     AcceptsReturn="True"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding Book.NOIDUNG}"
+                     md:HintAssist.Hint="Nội dung">
+            </TextBox>
+            <Grid Grid.Row="7" Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="10"
+                        cal:Message.Attach="Cancel"
+                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                        Content="Hủy"
+                        Style="{StaticResource MaterialDesignRaisedButton}">
+
+                </Button>
+                <Button Margin="10" Grid.Column="1"
+                        cal:Message.Attach="ImportNewBook"
+                        VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                        Content="Nhập sách"
+                        Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                    <Button.IsEnabled>
+                        <MultiBinding UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                            <Binding Path="(Validation.HasError)" ElementName="txbTitle"/>
+                            <Binding Path="(Validation.HasError)" ElementName="cbbAuthor"/>
+                            <Binding Path="(Validation.HasError)" ElementName="cbbCategory"/>
+                            <Binding Path="(Validation.HasError)" ElementName="cbbPublisher"/>
+                            <Binding Path="(Validation.HasError)" ElementName="txbPublishYear"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </Grid>
+        </Grid>
+    </md:Card>
+
+</UserControl>

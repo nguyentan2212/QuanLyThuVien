@@ -39,5 +39,40 @@ namespace Library_Management.Resources.Sercurity
             get { return (BindableCollection<LOAIDOCGIA>)GetValue(ClientAccountListProperty); }
             set { SetValue(ClientAccountListProperty, value); }
         }
+
+        public static readonly DependencyProperty PublishRangeProperty =
+             DependencyProperty.Register("PublishRange", typeof(int),
+             typeof(Wrapper), new FrameworkPropertyMetadata(0));
+        public int PublishRange
+        {
+            get { return (int)GetValue(PublishRangeProperty); }
+            set { SetValue(PublishRangeProperty, value); }
+        }
+        public static readonly DependencyProperty BookAuthorListProperty =
+           DependencyProperty.Register("BookAuthorList", typeof(BindableCollection<TACGIA>),
+           typeof(Wrapper), new FrameworkPropertyMetadata(null));
+        public BindableCollection<TACGIA> BookAuthorList
+        {
+            get { return (BindableCollection<TACGIA>)GetValue(BookAuthorListProperty); }
+            set { SetValue(BookAuthorListProperty, value); }
+        }
+
+        public static readonly DependencyProperty BookCategoryListProperty =
+           DependencyProperty.Register("BookCategoryList", typeof(BindableCollection<THELOAI>),
+           typeof(Wrapper), new FrameworkPropertyMetadata(null));
+        public BindableCollection<THELOAI> BookCategoryList
+        {
+            get { return (BindableCollection<THELOAI>)GetValue(BookCategoryListProperty); }
+            set { SetValue(BookCategoryListProperty, value); }
+        }
+
+        public static readonly DependencyProperty BookPublisherListProperty =
+           DependencyProperty.Register("BookPublisherList", typeof(BindableCollection<NHAXUATBAN>),
+           typeof(Wrapper), new FrameworkPropertyMetadata(null));
+        public BindableCollection<NHAXUATBAN> BookPublisherList
+        {
+            get { return (BindableCollection<NHAXUATBAN>)GetValue(BookPublisherListProperty); }
+            set { SetValue(BookPublisherListProperty, value); }
+        }
     }
 }

@@ -29,7 +29,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0" Source="{Binding ClientAvartar}" Margin="10"/>
+                    <Image Grid.Row="0" Source="{Binding Client.HINHANH}" Margin="10"/>
                     <Button Grid.Row="1" x:Name="ChangeAvartar" 
                         Margin="10" HorizontalAlignment="Center"
                             Style="{StaticResource MaterialDesignRaisedAccentButton}"
@@ -58,7 +58,7 @@
                     <md:PackIcon Grid.Row="1" Grid.Column="0" 
                                  Width="30" Height="30" Margin="5" 
                                  VerticalAlignment="Center"
-                                 Kind="Tag"/>
+                                 Kind="Category"/>
                     <md:PackIcon Grid.Row="2" Grid.Column="0" 
                                  Width="30" Height="30" Margin="5" 
                                  VerticalAlignment="Center"
@@ -70,13 +70,14 @@
                     <md:PackIcon Grid.Row="4" Grid.Column="0" 
                                  Width="30" Height="30" Margin="5" 
                                  VerticalAlignment="Center"
-                                 Kind="AddressMarker"/>
+                                 Kind="AccountLocation"/>
                     <TextBox Grid.Row="0" Grid.Column="1" x:Name="txbClientName"
                              VerticalAlignment="Center" FontSize="15"
                              md:HintAssist.Hint="Họ và tên"
+                             md:ValidationAssist.OnlyShowOnFocus="True"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                         <TextBox.Text>
-                            <Binding Path="ClientName" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Client.HOTEN" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
@@ -86,30 +87,28 @@
                     <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cbbClientType"
                               VerticalAlignment="Center" FontSize="15"
                               md:HintAssist.Hint="Loại tài khoản"
+                              md:ValidationAssist.OnlyShowOnFocus="True"
                               IsEditable="True"
-                              ItemsSource="{Binding ClientTypeList}"
+                              ItemsSource="{Binding ClientTypeList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="LOAIDOCGIA1"      
                               Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                         <ComboBox.SelectedItem>
-                            <Binding Path="ClientType" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="ClienType" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True" Tag="ClientAccountList">
-                                        <sc:SelectedItemValidationRule.Wrapper>
-                                            <sc:Wrapper ClientAccountList="{Binding Data.ClientTypeList, Source={StaticResource proxy}}"/>
-                                        </sc:SelectedItemValidationRule.Wrapper>
-                                    </sc:SelectedItemValidationRule>
+                                    <sc:SelectedItemValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </ComboBox.SelectedItem>
                     </ComboBox>
                     <DatePicker Grid.Row="2" Grid.Column="1" x:Name="dpkClientBirthday"
-                             VerticalAlignment="Center" FontSize="15"
-                             md:HintAssist.Hint="Ngày sinh"
-                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                                VerticalAlignment="Center" FontSize="15"
+                                md:HintAssist.Hint="Ngày sinh"
+                                md:ValidationAssist.OnlyShowOnFocus="True"
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}">
                         <DatePicker.SelectedDate>
-                            <Binding Path="ClientBirdthday" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Client.NGSINH" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
-                                    <sc:DateValidationRule ValidatesOnTargetUpdated="True">
+                                    <sc:DateValidationRule ValidatesOnTargetUpdated="True" IsAgeValidation="True">
                                         <sc:DateValidationRule.Wrapper>
                                             <sc:Wrapper MinAge="{Binding Data.ClientMinAge, Source={StaticResource proxy}}"
                                                         MaxAge="{Binding Data.ClientMaxAge, Source={StaticResource proxy}}"/>
@@ -122,9 +121,10 @@
                     <TextBox Grid.Row="3" Grid.Column="1" x:Name="txbClientEmail"
                              VerticalAlignment="Center" FontSize="15"
                              md:HintAssist.Hint="Email"
+                             md:ValidationAssist.OnlyShowOnFocus="True"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                         <TextBox.Text>
-                            <Binding Path="ClientEmail" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Client.EMAIL" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
@@ -134,20 +134,22 @@
                     <TextBox Grid.Row="4" Grid.Column="1" x:Name="txbClientAddress"
                              VerticalAlignment="Center" FontSize="15"
                              md:HintAssist.Hint="Địa chỉ"
+                             md:ValidationAssist.OnlyShowOnFocus="True"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}">
                         <TextBox.Text>
-                            <Binding Path="ClientAddress" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Client.DCHI" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
                                 </Binding.ValidationRules>
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <Button Grid.Row="1" Grid.Column="2" x:Name="EditClientType" Margin="5"
+                    <Button Grid.Row="1" Grid.Column="2" x:Name="OpenEditClientType" Margin="5"
                             VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Style="{StaticResource MaterialDesignRaisedButton}">
+                            Background="{DynamicResource MahApps.Brushes.Accent}"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}">
                         <Button.Content>
-                            <md:PackIcon Width="20" Height="20" Kind="Add"/>
+                            <md:PackIcon Width="30" Height="30" Kind="Edit"/>
                         </Button.Content>
                     </Button>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="5"

@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using Microsoft.Win32;
 using System.Windows.Forms;
 using System.IO;
+using Library_Management.Resources.Sercurity;
 
 namespace Library_Management.ViewModels.MainPages
 {
@@ -29,7 +30,8 @@ namespace Library_Management.ViewModels.MainPages
                 _User = value;
                 NotifyOfPropertyChange("User");
             }
-        }
+        }       
+
         private string _Password;
         public string Password
         {
@@ -55,91 +57,20 @@ namespace Library_Management.ViewModels.MainPages
                 _NewPassword = value;
                 NotifyOfPropertyChange("NewPassword");
             }
-        }
-        private string _Avartar;
-        public string Avartar
-        {
-            get
-            {
-                return _Avartar;
-            }
-            set
-            {
-                _Avartar = value;
-                NotifyOfPropertyChange("Avartar");
-            }
-        }
-        private string _Name;
-        public string Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                _Name = value;
-                NotifyOfPropertyChange("Name");
-            }
-        }
-        private string _UserName;
-        public string UserName
-        {
-            get
-            {
-                return _UserName;
-            }
-            set
-            {
-                _UserName = value;
-                NotifyOfPropertyChange("UserName");
-            }
-        }
-        private string _Address;
-        public string Address
-        {
-            get
-            {
-                return _Address;
-            }
-            set
-            {
-                _Address = value;
-                NotifyOfPropertyChange("Address");
-            }
-        }
-        private string _Email;
-        public string Email
-        {
-            get
-            {
-                return _Email;
-            }
-            set
-            {
-                _Email = value;
-                NotifyOfPropertyChange("Email");
-            }
         }       
         #endregion
         public AccountViewModel(DataProvider dataProvider, IEventAggregator eventAggregator) : base(dataProvider, eventAggregator)
         {
             eventAggregator.Subscribe(this);
-            User = dataProvider.User;
-            UserName = User.TAIKHOAN1;
-            Name = User.HOTEN;
-            Address = User.DCHI;
-            Email = User.EMAIL;
+            User = new TAIKHOAN(dataProvider.User);           
             if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false)               
-                Avartar = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";
-            else
-                Avartar = User.HINHANH;   
+                User.HINHANH = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";             
         }
-        public async Task SaveChange()
+        public void SaveChange()
         {
             
-            bool save = await dataProvider.UpdateUserAccount(User);
-            if (save)
+            bool IsSuccess = dataProvider.Update<TAIKHOAN>(User, g => g.MATK == User.MATK);
+            if (IsSuccess)
             {
                 this.eventAggregator.PublishOnCurrentThread("UpdatedUserAccountSuccessful");
                 this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Lưu thành công"));
@@ -149,11 +80,27 @@ namespace Library_Management.ViewModels.MainPages
                 this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Lưu thất bại"));
             }    
         }       
-        public async Task ChangePassword()
+        public void ChangePassword()
         {
-            
-            bool change = await dataProvider.ChangePassword(Password, NewPassword);
-            if (change)
+            string oldpass = Password;
+            string newpass = NewPassword;
+            bool IsSuccess = true;
+            if (string.IsNullOrWhiteSpace((oldpass ?? " ").ToString()) && string.IsNullOrWhiteSpace((newpass ?? " ").ToString()))
+            {
+                IsSuccess = false;
+            }
+            else
+            {
+                oldpass = MD5Sercurity.MD5Hash(oldpass);
+                newpass = MD5Sercurity.MD5Hash(newpass);
+                if (dataProvider.GetItem<TAIKHOAN>(g => g.MATK == User.MATK && g.MATKHAU == oldpass) != null)
+                {
+                    User.MATKHAU = newpass;
+                    IsSuccess = dataProvider.Update<TAIKHOAN>(User, g => g.MATK == User.MATK);
+                }
+                
+            }           
+            if (IsSuccess)
             {
                 this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi mật khẩu thành công"));
             }
@@ -164,12 +111,10 @@ namespace Library_Management.ViewModels.MainPages
         }
         
         public void Cancel()
-        {
-            //User = dataProvider.User;
-            UserName = User.TAIKHOAN1;
-            Name = User.HOTEN;
-            Address = User.DCHI;
-            Email = User.EMAIL;
+        {            
+            User = new TAIKHOAN(dataProvider.User);
+            if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false)
+                User.HINHANH = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";
         }
         public async Task ChangeAvartar()
         {
@@ -183,11 +128,10 @@ namespace Library_Management.ViewModels.MainPages
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {              
-                bool change = await dataProvider.ChangeAvartar(openFile.FileName);
-                if (change)
+                bool IsSuccess = await dataProvider.ChangeAvartar(openFile.FileName);
+                if (IsSuccess)
                 {
-                    this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi ảnh đại diện thành công"));
-                    Avartar = dataProvider.User.HINHANH;
+                    this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi ảnh đại diện thành công"));                   
                 }
                 else
                 {

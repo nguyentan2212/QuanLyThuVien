@@ -5,10 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library_Management.Views.UserControls"
              xmlns:cal="http://www.caliburnproject.org"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"                  
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
              BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
              Background="{StaticResource MaterialDesignPaper}"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <sc:HasErrorConverter x:Key="HasErrorConverter"/>
+    </UserControl.Resources>
     <Grid Width="500" Height="700">
         <Grid>
             <Grid.RowDefinitions>
@@ -21,31 +25,57 @@
             <md:ColorZone Mode="PrimaryMid" Grid.Row="0">
                 <StackPanel Orientation="Horizontal">
                     <md:PackIcon Width="30" Height="30" Kind="Tag" Margin="10" VerticalAlignment="Center"/>
-                    <TextBlock Margin="10" Text="Thể loại" Style="{StaticResource MaterialDesignHeadline4TextBlock}"/>
+                    <TextBlock Margin="10" Text="Loại độc giả" Style="{StaticResource MaterialDesignHeadline4TextBlock}"/>
                 </StackPanel>
             </md:ColorZone>
-            <TextBox Grid.Row="1" 
-                     Text="{Binding SelectedClienTypeString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Grid.Row="1" Name="txbType"                    
                      md:HintAssist.Hint="Tên thể loại"
+                     md:ValidationAssist.OnlyShowOnFocus="True"
                      FontSize="20"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Margin="10"/>
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"                    
+                     Margin="10">
+                <TextBox.Text>
+                    <Binding Path="TypeString" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <sc:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <StackPanel Orientation="Horizontal" Grid.Row="2" 
                     HorizontalAlignment="Right">
                 <Button cal:Message.Attach="NewClientType()" Margin="10"
-                    Style="{StaticResource MaterialDesignRaisedDarkButton}"
-                    Content="Thêm"/>
-                <Button cal:Message.Attach="DeleteClientType" Margin="10"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"                        
+                        Content="Thêm">
+                    <Button.IsEnabled>
+                        <MultiBinding Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                            <Binding Path="(Validation.HasError)" ElementName="txbType"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button cal:Message.Attach="DeleteClientType" Margin="10"                       
                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                    Content="Xóa"/>
-                <Button cal:Message.Attach="UpdateClientType()" Margin="10"
+                    Content="Xóa">
+                    <Button.IsEnabled>
+                        <MultiBinding Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                            <Binding Path="(Validation.HasError)" ElementName="txbType"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Button cal:Message.Attach="UpdateClientType()" Margin="10"                       
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Content="Sửa"/>
+                    Content="Sửa">
+                    <Button.IsEnabled>
+                        <MultiBinding Mode="OneWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                            <Binding Path="(Validation.HasError)" ElementName="txbType"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackPanel>
             <ListView Grid.Row="3" Margin="10" 
                   SelectionMode="Single"
-                  SelectedItem="{Binding SelectedClienType}"
-                  ItemsSource="{Binding ClientTypeList}">
+                  SelectedItem="{Binding SelectedClientType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ClientTypeList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Tên thể loại" DisplayMemberBinding="{Binding LOAIDOCGIA1}"/>

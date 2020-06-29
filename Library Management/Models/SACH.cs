@@ -11,24 +11,88 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class SACH
+    using Caliburn.Micro;
+    public partial class SACH:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SACH()
         {
             this.CTSACH = new HashSet<CTSACH>();
         }
-    
+        public SACH(SACH s)
+        {
+            this.MASACH = s.MASACH;
+            this.TENSACH = s.TENSACH;
+            this.NAMXB = s.NAMXB;
+            this.ANHBIA = s.ANHBIA;
+            this.NOIDUNG = s.NOIDUNG;
+            this.MANXB = s.MANXB;
+            this.MATG = s.MATG;
+            this.MATL = s.MATL;
+        }
         public int MASACH { get; set; }
-        public string TENSACH { get; set; }
-        public Nullable<int> NAMXB { get; set; }
-        public string ANHBIA { get; set; }
-        public string NOIDUNG { get; set; }
-        public Nullable<int> MANXB { get; set; }
-        public Nullable<int> MATG { get; set; }
-        public Nullable<int> MATL { get; set; }
-    
+
+        private string _TENSACH;
+        public string TENSACH
+        {
+            get { return _TENSACH; }
+            set { _TENSACH = value; NotifyOfPropertyChange("TENSACH"); }
+        }
+
+
+        private Nullable<int> _NAMXB;
+        public Nullable<int> NAMXB
+        {
+            get { return _NAMXB; }
+            set { _NAMXB = value; NotifyOfPropertyChange("NAMXB"); }
+        }
+
+        private string _ANHBIA;
+        public string ANHBIA
+        {
+            get { return _ANHBIA; }
+            set { _ANHBIA = value; NotifyOfPropertyChange("ANHBIA"); }
+        }
+
+
+        private string _NOIDUNG;
+        public string NOIDUNG
+        {
+            get { return _NOIDUNG; }
+            set { _NOIDUNG = value; NotifyOfPropertyChange("NOIDUNG"); }
+        }
+
+
+        private Nullable<int> _MANXB;
+        public Nullable<int> MANXB
+        {
+            get { return _MANXB; }
+            set { _MANXB = value; NotifyOfPropertyChange("MANXB"); }
+        }
+
+
+        private Nullable<int> _MATG;
+        public Nullable<int> MATG
+        {
+            get { return _MATG; }
+            set { _MATG = value; NotifyOfPropertyChange("MATG"); }
+        }
+
+
+        private Nullable<int> _MATL;
+        public Nullable<int> MATL
+        {
+            get { return _MATL; }
+            set { _MATL = value; NotifyOfPropertyChange("MATL"); }
+        }
+
+        private int _LUOTMUON;
+        public int LUOTMUON
+        {
+            get { return _LUOTMUON; }
+            set { _LUOTMUON = value; NotifyOfPropertyChange("LUOTMUON"); }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTSACH> CTSACH { get; set; }
         public virtual NHAXUATBAN NHAXUATBAN { get; set; }

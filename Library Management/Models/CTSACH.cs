@@ -11,8 +11,8 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class CTSACH
+    using Caliburn.Micro;
+    public partial class CTSACH: PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CTSACH()
@@ -20,13 +20,38 @@ namespace Library_Management.Models
             this.PHIEUMUONSACH = new HashSet<PHIEUMUONSACH>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-    
+        public CTSACH(CTSACH c)
+        {
+            this.MACTS = c.MACTS;
+            this.MASACH = c.MATT;
+            this.VITRI = c.VITRI;
+            this.GIABIA = c.GIABIA;
+            this.GIANHAP = c.GIANHAP;
+            this.QRCODE = c.QRCODE;
+            this.MAPNS = c.MAPNS;
+        }
         public int MACTS { get; set; }
         public Nullable<int> MASACH { get; set; }
         public Nullable<int> MATT { get; set; }
-        public string VITRI { get; set; }
-        public Nullable<decimal> GIABIA { get; set; }
-        public Nullable<decimal> GIANHAP { get; set; }
+
+        private string _VITRI;
+        public string VITRI
+        {
+            get { return _VITRI; }
+            set { _VITRI = value; NotifyOfPropertyChange("VITRI"); }
+        }
+        private Nullable<decimal> _GIABIA;
+        public Nullable<decimal> GIABIA
+        {
+            get { return _GIABIA; }
+            set { _GIABIA = value; NotifyOfPropertyChange("GIABIA"); }
+        }
+        private Nullable<decimal> _GIANHAP;
+        public Nullable<decimal> GIANHAP
+        {
+            get { return _GIANHAP; }
+            set { _GIANHAP = value; NotifyOfPropertyChange("GIANHAP"); }
+        }       
         public string QRCODE { get; set; }
         public Nullable<int> MAPNS { get; set; }
     

@@ -53,6 +53,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
@@ -72,7 +81,7 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.2.0.0\lib\net47\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.2.1.0\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.2.6.1513, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.2.6\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -110,6 +119,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="zxing, Version=0.16.5.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.5\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.5.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.5\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -127,6 +142,7 @@
     <Compile Include="Models\DOCGIA.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImportItem.cs" />
     <Compile Include="Models\LOAIDOCGIA.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
@@ -188,21 +204,49 @@
     <Compile Include="Resources\Sercurity\HasErrorConverter.cs" />
     <Compile Include="Resources\Sercurity\MD5.cs" />
     <Compile Include="Resources\Sercurity\NotEmptyValidationRule.cs" />
+    <Compile Include="Resources\Sercurity\NumberValidationRule.cs" />
     <Compile Include="Resources\Sercurity\PasswordHelper.cs" />
     <Compile Include="Resources\Sercurity\SelectedItemValidationRule.cs" />
     <Compile Include="Resources\Sercurity\Wrapper.cs" />
     <Compile Include="StartUp\AppBootstrapper.cs" />
     <Compile Include="StartUp\INavigationServiceEx.cs" />
     <Compile Include="ViewModels\MainPages\AccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\BookDetailViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\BookSearchViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ClientAccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\ImportBookViewModel.cs" />
     <Compile Include="ViewModels\MainPages\NewClientAccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewBaseModel.cs" />
+    <Compile Include="Views\UserControls\AuthorDialog.xaml.cs">
+      <DependentUpon>AuthorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\BookItem.xaml.cs">
+      <DependentUpon>BookItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CategoryDialog.xaml.cs">
+      <DependentUpon>CategoryDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\ClientTypeDialog.xaml.cs">
       <DependentUpon>ClientTypeDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\ImportBook.xaml.cs">
+      <DependentUpon>ImportBook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ImportBookBill.xaml.cs">
+      <DependentUpon>ImportBookBill.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\ImportHistory.xaml.cs">
+      <DependentUpon>ImportHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\PublisherDialog.xaml.cs">
+      <DependentUpon>PublisherDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\QRScanDialog.xaml.cs">
+      <DependentUpon>QRScanDialog.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +274,7 @@
     <None Include="Models\QLTVModel.edmx.diagram">
       <DependentUpon>QLTVModel.edmx</DependentUpon>
     </None>
+    <Resource Include="MyCodeSnippet.snippet" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -251,7 +296,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainPages\BookDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\BookSearchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPages\ClientAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\ImportBookView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -263,11 +320,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\AuthorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\BookItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\CategoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\ClientTypeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserControls\ImportBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ImportBookBill.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\ImportHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\PublisherDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\QRScanDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,17 +379,26 @@
       <DependentUpon>QLTV.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Images\LibrarianAccount\DefaultAccount.png">
+    <Resource Include="Resources\Images\Book\DefaultBook.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\LibrarianAccount\DefaultAccount.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\ClientAccount\DefaultAccount.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Images\Book\1.jpg" />
-    <Resource Include="Resources\Images\Book\2.jpg" />
+    <Resource Include="Resources\Images\Book\1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Book\2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\Book\3.jpg" />
     <Resource Include="Resources\Images\Book\4.jpg" />
-    <Resource Include="Resources\Images\Book\5.jpg" />
+    <Resource Include="Resources\Images\Book\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

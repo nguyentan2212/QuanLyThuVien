@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="Library_Management.Views.UserControls.ImportBookBill"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library_Management.Views.UserControls"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"      
+             xmlns:sc="clr-namespace:Library_Management.Resources.Sercurity"
+             xmlns:cal="http://www.caliburnproject.org"            
+             Background="{DynamicResource MaterialDesignBackground}"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1300">
+    <UserControl.Resources>
+        <sc:HasErrorConverter x:Key="HasErrorConverter"/>
+        <sc:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <md:Card Grid.Column="0" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10" TextWrapping="Wrap" x:Name="tbkTitle"
+                           Grid.Row="0" Grid.ColumnSpan="2"
+                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
+                    <TextBlock.Text>
+                        <Binding Path="SelectedBook.TENSACH" Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                        </Binding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBox Grid.Row="1" Margin="10" x:Name="txbCoverPrice"
+                         md:HintAssist.Hint="Giá bìa"
+                         md:TextFieldAssist.SuffixText="VNĐ"
+                         md:ValidationAssist.OnlyShowOnFocus="True"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="CoverPrice" Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <sc:NumberValidationRule ValidatesOnTargetUpdated="True"  
+                                                         IsGreaterThanZero="False"
+                                                         IsYearValidation="False"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="10" x:Name="txbImportPrice"
+                         md:HintAssist.Hint="Giá nhập"
+                         md:TextFieldAssist.SuffixText="VNĐ"
+                         md:ValidationAssist.OnlyShowOnFocus="True"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="ImportPrice" Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <sc:NumberValidationRule ValidatesOnTargetUpdated="True" 
+                                                         IsGreaterThanZero="False"
+                                                         IsYearValidation="False"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Row="2" Margin="10" x:Name="txbAmount"
+                         md:HintAssist.Hint="Số lượng"
+                         md:TextFieldAssist.SuffixText="Quyển"
+                         md:ValidationAssist.OnlyShowOnFocus="True"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <TextBox.Text>
+                        <Binding Path="Amount" Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <sc:NumberValidationRule ValidatesOnTargetUpdated="True" 
+                                                         IsGreaterThanZero="True"
+                                                         IsYearValidation="False"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"
+                        Content="Thêm" cal:Message.Attach="AddBookToBill()"
+                        Style="{StaticResource MaterialDesignRaisedButton}">
+                    <Button.IsEnabled>
+                        <MultiBinding UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource HasErrorConverter}">
+                            <Binding Path="(Validation.HasError)" ElementName="tbkTitle"/>
+                            <Binding Path="(Validation.HasError)" ElementName="txbAmount"/>
+                            <Binding Path="(Validation.HasError)" ElementName="txbCoverPrice"/>
+                            <Binding Path="(Validation.HasError)" ElementName="txbImportPrice"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+                <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10"/>
+                <TextBox Grid.Row="4" Grid.Column="0"  Margin="10" Grid.ColumnSpan="2"
+                         Text="{Binding SearchString, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"                          
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <md:HintAssist.Hint>
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Width="10" Height="10" Margin="5" Kind="Search"/>
+                            <TextBlock Text="Tìm sách"/>
+                        </StackPanel>
+                    </md:HintAssist.Hint>
+                </TextBox>
+                <DataGrid Grid.Row="5" Grid.ColumnSpan="2" Margin="10" IsReadOnly="True"    
+                          SelectedItem="{Binding SelectedBook}"
+                          AutoGenerateColumns="False"
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          ItemsSource="{Binding CurrentBookList}" CanUserSortColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã sách"
+                                            Binding="{Binding MASACH}"/>
+                        <DataGridTextColumn Header="Tên sách"                                    
+                                               Binding="{Binding TENSACH}"/>
+                        <DataGridTextColumn Header="Tác giả"
+                                            Binding="{Binding TACGIA.TACGIA1}"/>
+                        <DataGridTextColumn Header="Thể loại" 
+                                            Binding="{Binding THELOAI.THELOAI1}"/>
+                        <DataGridTextColumn Header="Nhà xuất bản" 
+                                            Binding="{Binding NHAXUATBAN.NHAXUATBAN1}"/>
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </Grid>
+        </md:Card>
+        <md:Card Grid.Column="1" Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <md:Card Grid.Row="0" Grid.Column="0" Margin="10" UniformCornerRadius="10">
+                    <md:ColorZone Mode="PrimaryMid" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Margin="10" HorizontalAlignment="Center" 
+                                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                       Text="Tổng số lượng sách"/>
+                            <TextBlock Margin="10" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       HorizontalAlignment="Center">
+                                <Run Text="{Binding TotalBooks}"/>
+                                <Run Text=" Quyển"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </md:ColorZone>
+                </md:Card>
+                <md:Card Grid.Row="0" Grid.Column="1" Margin="10" UniformCornerRadius="10">
+                    <md:ColorZone Mode="PrimaryDark" VerticalAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Margin="10" HorizontalAlignment="Center" 
+                                       Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                       Text="Tổng giá tiền"/>
+                            <TextBlock Margin="10" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       HorizontalAlignment="Center">
+                                <Run Text="{Binding TotalPrice}"/>
+                                <Run Text=" VNĐ"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </md:ColorZone>
+                </md:Card>
+                <DataGrid Grid.Row="1" Grid.ColumnSpan="2" Margin="10"                          
+                          AutoGenerateColumns="False" 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          md:DataGridAssist.EnableEditBoxAssist="True"
+                          cal:Message.Attach="[Event LostFocus]=[Action UpdateValue()]"
+                          ItemsSource="{Binding ImportList}" CanUserSortColumns="True">
+                    <DataGrid.Columns>
+                        
+                        <DataGridTextColumn Header="Mã sách" IsReadOnly="True"
+                                            Binding="{Binding BookId}"/>
+                        <DataGridTextColumn Header="Tên sách" IsReadOnly="True"
+                                            Binding="{Binding BookTitle}"/>
+                        <DataGridTextColumn Header="Giá bìa">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="CoverPrice" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                </Binding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Giá nhập">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="ImportPrice" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                </Binding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Số lượng">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="Amount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                </Binding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Tổng giá" IsReadOnly="True"
+                                            Binding="{Binding TotalPrice}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button cal:Message.Attach="Remove($dataContext)"
+                                            Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                                        <md:PackIcon Kind="Bin"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"
+                        cal:Message.Attach="Import()" Content="Nhập sách" Margin="10"
+                        Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            </Grid>
+        </md:Card>
+    </Grid>
+</UserControl>

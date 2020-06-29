@@ -11,8 +11,8 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class TAIKHOAN
+    using Caliburn.Micro;
+    public partial class TAIKHOAN: PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
@@ -22,15 +22,109 @@ namespace Library_Management.Models
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-    
+        public TAIKHOAN(TAIKHOAN tk)
+        {
+            this.MATK = tk.MATK;
+            this.TAIKHOAN1 = tk.TAIKHOAN1;
+            this.MATKHAU = tk.MATKHAU;
+            this.NGDK = tk.NGDK;
+            this.HOTEN = tk.HOTEN;
+            this.DCHI = tk.DCHI;
+            this.EMAIL = tk.EMAIL;
+            this.HINHANH = tk.HINHANH;          
+        }
         public int MATK { get; set; }
-        public string TAIKHOAN1 { get; set; }
-        public string MATKHAU { get; set; }
-        public Nullable<System.DateTime> NGDK { get; set; }
-        public string HOTEN { get; set; }
-        public string DCHI { get; set; }
-        public string EMAIL { get; set; }
-        public string HINHANH { get; set; }
+        private string _TAIKHOAN1;
+        public string TAIKHOAN1
+        {
+            get
+            {
+                return _TAIKHOAN1;
+            }
+            set
+            {
+                _TAIKHOAN1 = value;
+                NotifyOfPropertyChange("TAIKHOAN1");
+            }
+        }
+        private string _MATKHAU;
+        public string MATKHAU
+        {
+            get
+            {
+                return _MATKHAU;
+            }
+            set
+            {
+                _MATKHAU = value;
+                NotifyOfPropertyChange("MATKHAU");
+            }
+        }
+        private Nullable<System.DateTime> _NGDK;
+        public Nullable<System.DateTime> NGDK
+        {
+            get
+            {
+                return _NGDK;
+            }
+            set
+            {
+                _NGDK = value;
+                NotifyOfPropertyChange("NGDK");
+            }
+        }
+        private string _HOTEN;
+        public string HOTEN
+        {
+            get
+            {
+                return _HOTEN;
+            }
+            set
+            {
+                _HOTEN = value;
+                NotifyOfPropertyChange("HOTEN");
+            }
+        }
+        private string _DCHI;
+        public string DCHI
+        {
+            get
+            {
+                return _DCHI;
+            }
+            set
+            {
+                _DCHI = value;
+                NotifyOfPropertyChange("DCHI");
+            }
+        }
+        private string _EMAIL;
+        public string EMAIL
+        {
+            get
+            {
+                return _EMAIL;
+            }
+            set
+            {
+                _EMAIL = value;
+                NotifyOfPropertyChange("EMAIL");
+            }
+        }
+        private string _HINHANH;
+        public string HINHANH
+        {
+            get
+            {
+                return _HINHANH;
+            }
+            set
+            {
+                _HINHANH = value;
+                NotifyOfPropertyChange("_HINHANH");
+            }
+        }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
