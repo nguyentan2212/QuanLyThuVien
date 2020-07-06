@@ -5,37 +5,40 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6ad966ef312d42788aa399e44dbf90c6" Name="Diagram1">
-        <EntityTypeShape EntityType="QLTVModel.CTSACH" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.DOCGIA" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.LOAIDOCGIA" Width="1.5" PointX="1.5" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.NHAXUATBAN" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.PHIEUMUONSACH" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.PHIEUNHAPSACH" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.PHIEUTHUTIENPHAT" Width="1.5" PointX="6" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.PHIEUTRASACH" Width="1.5" PointX="7.5" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.QUYDINH" Width="1.5" PointX="8.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.SACH" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.TACGIA" Width="1.5" PointX="0.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.TAIKHOAN" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.TINHTRANG" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QLTVModel.THELOAI" Width="1.5" PointX="0.75" PointY="18.25" IsExpanded="true" />
-        <AssociationConnector Association="QLTVModel.FK_CTSACH_PHIEUNHAPSACH" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_CTSACH_SACH" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_CTSACH_TINHTRANG" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_DOCGIA_LOAIDOCGIA" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_DOCGIA" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_DOCGIA" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_SACH_NHAXUATBAN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUNHAPSACH_TAIKHOAN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_SACH_TACGIA" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.FK_SACH_THELOAI" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.CTPMS" ManuallyRouted="false" />
-        <AssociationConnector Association="QLTVModel.CTPTS" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QLTVModel.CTPTS" Width="1.5" PointX="8.25" PointY="9.75" />
+        <EntityTypeShape EntityType="QLTVModel.CTSACH" Width="1.5" PointX="5.25" PointY="15.75" />
+        <EntityTypeShape EntityType="QLTVModel.DOCGIA" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="QLTVModel.LOAIDOCGIA" Width="1.5" PointX="1.5" PointY="11.125" />
+        <EntityTypeShape EntityType="QLTVModel.NHAXUATBAN" Width="1.5" PointX="0.75" PointY="24.75" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUMUONSACH" Width="1.5" PointX="6" PointY="6.625" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUNHAPSACH" Width="1.5" PointX="3" PointY="16.5" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUTHUTIENPHAT" Width="1.5" PointX="3" PointY="6.75" />
+        <EntityTypeShape EntityType="QLTVModel.PHIEUTRASACH" Width="1.5" PointX="3" PointY="2.75" />
+        <EntityTypeShape EntityType="QLTVModel.QUYDINH" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QLTVModel.SACH" Width="1.5" PointX="3" PointY="24" />
+        <EntityTypeShape EntityType="QLTVModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QLTVModel.TACGIA" Width="1.5" PointX="0.75" PointY="27.125" />
+        <EntityTypeShape EntityType="QLTVModel.TAIKHOAN" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="QLTVModel.TINHTRANG" Width="1.5" PointX="3" PointY="20.125" />
+        <EntityTypeShape EntityType="QLTVModel.THELOAI" Width="1.5" PointX="0.75" PointY="22.5" />
+        <AssociationConnector Association="QLTVModel.FK_CTPTS_CTSACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTPTS_PHIEUMUONSACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTPTS_PHIEUTRASACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_PHIEUNHAPSACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_SACH" />
+        <AssociationConnector Association="QLTVModel.FK_CTSACH_TINHTRANG" />
+        <AssociationConnector Association="QLTVModel.FK_DOCGIA_LOAIDOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_DOCGIA" />
+        <AssociationConnector Association="QLTVModel.FK_SACH_NHAXUATBAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUNHAPSACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN" />
+        <AssociationConnector Association="QLTVModel.FK_SACH_TACGIA" />
+        <AssociationConnector Association="QLTVModel.FK_SACH_THELOAI" />
+        <AssociationConnector Association="QLTVModel.CTPMS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

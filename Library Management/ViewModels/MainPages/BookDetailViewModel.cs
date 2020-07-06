@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -273,6 +274,14 @@ namespace Library_Management.ViewModels.MainPages
                     IsSuccess = dataProvider.Update<NHAXUATBAN>(SelectedPublisher, g => g.MANXB == SelectedPublisher.MANXB);
                     break;
             }
+            if (IsSuccess)
+            {
+                ShowMessage(new Models.Message("Thông báo", "Cập nhật thành công"));
+            }
+            else
+            {
+                ShowMessage(new Models.Message("Thông báo", "Cập nhật không thành công"));
+            }
         }
         #endregion
         public BookDetailViewModel(DataProvider dataProvider, IEventAggregator eventAggregator) : base(dataProvider, eventAggregator)
@@ -287,6 +296,10 @@ namespace Library_Management.ViewModels.MainPages
             Category = CategoryList.FirstOrDefault(x => x.MATL == Book.MATL);
             Publisher = PublisherList.FirstOrDefault(x => x.MANXB == Book.MANXB);
             DetailList = dataProvider.GetBookDetailList(x => x.MASACH == Book.MASACH);
+            if (string.IsNullOrEmpty(Book.ANHBIA) == true || File.Exists(Book.ANHBIA) == false)
+            {
+                Book.ANHBIA = @"/Resources/Images/Book/DefaultBook.jpg";
+            }
         }
         public void ChangeImage()
         {
@@ -310,6 +323,17 @@ namespace Library_Management.ViewModels.MainPages
             Book.MATG = Author.MATG;
             dataProvider.Update<SACH>(Book, x => x.MASACH == Book.MASACH);
         }
+        public void DataSave()
+        {
+            foreach (CTSACH item in DetailList)
+            {
+                dataProvider.Update<CTSACH>(item, x => x.MACTS == item.MACTS);
+            }
+        }
+        public void DataCancel()
+        {
+            DetailList = dataProvider.GetBookDetailList(x => x.MASACH == Book.MASACH);
+        }
         public void Cancel()
         {
             Book.TENSACH = dataProvider.GetItem<SACH>(x => x.MASACH == Book.MASACH).TENSACH;
@@ -317,12 +341,16 @@ namespace Library_Management.ViewModels.MainPages
             Book.ANHBIA = dataProvider.GetItem<SACH>(x => x.MASACH == Book.MASACH).ANHBIA;
             Author = AuthorList.FirstOrDefault(x => x.MATG == Book.MATG);
             Category = CategoryList.FirstOrDefault(x => x.MATL == Book.MATL);
-            Publisher = PublisherList.FirstOrDefault(x => x.MANXB == Book.MANXB);         
+            Publisher = PublisherList.FirstOrDefault(x => x.MANXB == Book.MANXB);
+            if (string.IsNullOrEmpty(Book.ANHBIA) == true || File.Exists(Book.ANHBIA) == false)
+            {
+                Book.ANHBIA = @"/Resources/Images/Book/DefaultBook.jpg";
+            }
         }
         public void GoBack()
         {
             //dataProvider.up(Book);
-            eventAggregator.PublishOnCurrentThread("GoBackSearchBook");
+            eventAggregator.PublishOnCurrentThread("GoBack");
         }
         private void ShowMessage(Models.Message mess)
         {

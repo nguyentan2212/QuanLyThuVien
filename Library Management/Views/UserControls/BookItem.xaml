@@ -1,56 +1,73 @@
-﻿<UserControl x:Class="Library_Management.Views.UserControls.BookItem"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Library_Management.Views.UserControls"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"   
-             xmlns:cal="http://www.caliburnproject.org"
-             Background="{DynamicResource MaterialDesignBackground}"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="Library_Management.Views.UserControls.BookItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Library_Management.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Background="{DynamicResource MaterialDesignBackground}"
+    mc:Ignorable="d">
     <md:Badged Badge="{Binding LUOTMUON}" FontSize="14">
         <md:Badged.ToolTip>
             <TextBlock>
-                <Run Text="Lượt mượn: "/>
-                <Run Text="{Binding LUOTMUON}"/>
+                <Run Text="Lượt mượn: " />
+                <Run Text="{Binding LUOTMUON}" />
             </TextBlock>
         </md:Badged.ToolTip>
-    <md:Card Width="250" Height="400">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding ANHBIA}" Stretch="Fill"/>
-            <TextBlock Grid.Row="1" Text="{Binding TENSACH}" Margin="10" TextTrimming="WordEllipsis"
-                       HorizontalAlignment="Left"
-                       ToolTip="{Binding TENSACH}"
-                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
-            <TextBlock Grid.Row="2" Margin="10" TextTrimming="WordEllipsis"
-                       HorizontalAlignment="Left"
-                       ToolTip="{Binding TACGIA.TACGIA1}"
-                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
-                <Run Text="Tác giả: "/>
-                <Run Text="{Binding TACGIA.TACGIA1}"/>
-            </TextBlock>
-            <TextBlock Grid.Row="3" Margin="10" TextTrimming="WordEllipsis"
-                       HorizontalAlignment="Left"
-                       ToolTip="{Binding THELOAI.THELOAI1}"
-                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
-                <Run Text="Thể loại: "/>
-                <Run  Text="{Binding THELOAI.THELOAI1}"/>
-            </TextBlock>
-            <TextBlock Grid.Row="4" Margin="10" TextTrimming="WordEllipsis"
-                       HorizontalAlignment="Left"
-                       ToolTip="{Binding NHAXUATBAN.NHAXUATBAN1}"
-                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}">
-                <Run Text="NXB: "/>
-                <Run Text="{Binding NHAXUATBAN.NHAXUATBAN1}"/>
-            </TextBlock>
-        </Grid>
-    </md:Card>
+        <md:Card Width="250" Height="400">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Image
+                    Grid.Row="0"
+                    Source="{Binding ANHBIA}"
+                    Stretch="Fill" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                    Text="{Binding TENSACH}"
+                    TextTrimming="WordEllipsis"
+                    ToolTip="{Binding TENSACH}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                    TextTrimming="WordEllipsis"
+                    ToolTip="{Binding TACGIA.TACGIA1}">
+                    <Run Text="Tác giả: " />
+                    <Run Text="{Binding TACGIA.TACGIA1}" />
+                </TextBlock>
+                <TextBlock
+                    Grid.Row="3"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                    TextTrimming="WordEllipsis"
+                    ToolTip="{Binding THELOAI.THELOAI1}">
+                    <Run Text="Thể loại: " />
+                    <Run Text="{Binding THELOAI.THELOAI1}" />
+                </TextBlock>
+                <TextBlock
+                    Grid.Row="4"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                    TextTrimming="WordEllipsis"
+                    ToolTip="{Binding NHAXUATBAN.NHAXUATBAN1}">
+                    <Run Text="NXB: " />
+                    <Run Text="{Binding NHAXUATBAN.NHAXUATBAN1}" />
+                </TextBlock>
+            </Grid>
+        </md:Card>
     </md:Badged>
 </UserControl>

@@ -72,7 +72,7 @@
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.4.3.0\lib\net462\ControlzEx.dll</HintPath>
+      <HintPath>..\packages\ControlzEx.4.3.1\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -80,8 +80,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.2.1.0\lib\net47\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.2.1.1\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignColors, Version=1.2.6.1513, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.2.6\lib\net45\MaterialDesignColors.dll</HintPath>
@@ -91,6 +94,10 @@
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=3.1.3.1513, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.3.1.3\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
@@ -134,6 +141,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\CTPTS.cs">
+      <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CTSACH.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
@@ -180,7 +190,15 @@
     <Compile Include="Models\QUYDINH.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportItem1.cs" />
+    <Compile Include="Models\ReportItem2.cs" />
     <Compile Include="Models\SACH.cs">
+      <DependentUpon>QLTVModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>QLTVModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>QLTVModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
@@ -210,14 +228,21 @@
     <Compile Include="Resources\Sercurity\Wrapper.cs" />
     <Compile Include="StartUp\AppBootstrapper.cs" />
     <Compile Include="StartUp\INavigationServiceEx.cs" />
+    <Compile Include="ViewModels\MainPages\AboutUsViewModel.cs" />
     <Compile Include="ViewModels\MainPages\AccountViewModel.cs" />
     <Compile Include="ViewModels\MainPages\BookDetailViewModel.cs" />
     <Compile Include="ViewModels\MainPages\BookSearchViewModel.cs" />
-    <Compile Include="ViewModels\MainPages\ClientAccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\ClientDetailViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ImportBookViewModel.cs" />
     <Compile Include="ViewModels\MainPages\NewClientAccountViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\RecommentBookViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\ReportViewModel.cs" />
+    <Compile Include="ViewModels\MainPages\SettingViewModel.cs" />
     <Compile Include="ViewModels\MainPages\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewBaseModel.cs" />
+    <Compile Include="Views\MainPages\AboutUsView.xaml.cs">
+      <DependentUpon>AboutUsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\AuthorDialog.xaml.cs">
       <DependentUpon>AuthorDialog.xaml</DependentUpon>
     </Compile>
@@ -229,6 +254,9 @@
     </Compile>
     <Compile Include="Views\UserControls\ClientTypeDialog.xaml.cs">
       <DependentUpon>ClientTypeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\CollectMoneyDialog.xaml.cs">
+      <DependentUpon>CollectMoneyDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ImportBook.xaml.cs">
       <DependentUpon>ImportBook.xaml</DependentUpon>
@@ -292,6 +320,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MainPages\AboutUsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPages\AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -304,7 +336,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPages\ClientAccountView.xaml">
+    <Page Include="Views\MainPages\ClientDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -313,6 +345,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPages\NewClientAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\RecommentBookView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPages\SettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -333,6 +377,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\ClientTypeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\CollectMoneyDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -379,6 +427,7 @@
       <DependentUpon>QLTV.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\logo-uit.png" />
     <Resource Include="Resources\Images\Book\DefaultBook.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

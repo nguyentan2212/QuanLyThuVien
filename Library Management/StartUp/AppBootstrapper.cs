@@ -40,16 +40,20 @@ namespace Library_Management.StartUp
             }
             container = new SimpleContainer();
             container.Instance(container);
-            container.Singleton<IWindowManager, WindowManager>();
-            container.Singleton<IEventAggregator, EventAggregator>();
             container.Singleton<DataProvider>();
-            container.PerRequest<ShellViewModel>();
-            container.PerRequest<AccountViewModel>();
-            container.PerRequest<ClientAccountViewModel>();
-            container.PerRequest<NewClientAccountViewModel>();
-            container.PerRequest<ImportBookViewModel>();
-            container.PerRequest<BookSearchViewModel>();
+            container.Singleton<IEventAggregator, EventAggregator>();
+            container.Singleton<IWindowManager, WindowManager>();
+            container.PerRequest<AccountViewModel>();            
             container.PerRequest<BookDetailViewModel>();
+            container.PerRequest<BookSearchViewModel>();
+            container.PerRequest<ClientDetailViewModel>();
+            container.PerRequest<ImportBookViewModel>();
+            container.PerRequest<NewClientAccountViewModel>();
+            container.PerRequest<RecommentBookViewModel>();
+            container.PerRequest<ReportViewModel>();
+            container.PerRequest<SettingViewModel>();
+            container.PerRequest<ShellViewModel>();
+            container.PerRequest<AboutUsViewModel>();
         }
         protected override object GetInstance(Type service, string key)
         {

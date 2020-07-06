@@ -19,19 +19,8 @@ namespace Library_Management.Models
         {
             this.CTSACH = new HashSet<CTSACH>();
         }
-        public SACH(SACH s)
-        {
-            this.MASACH = s.MASACH;
-            this.TENSACH = s.TENSACH;
-            this.NAMXB = s.NAMXB;
-            this.ANHBIA = s.ANHBIA;
-            this.NOIDUNG = s.NOIDUNG;
-            this.MANXB = s.MANXB;
-            this.MATG = s.MATG;
-            this.MATL = s.MATL;
-        }
+    
         public int MASACH { get; set; }
-
         private string _TENSACH;
         public string TENSACH
         {

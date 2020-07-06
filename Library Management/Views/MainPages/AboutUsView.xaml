@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="Library_Management.Views.MainPages.AboutUsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Library_Management.Views.MainPages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AboutUsView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{StaticResource MaterialDesignBackground}"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Image
+            MaxHeight="200"
+            Margin="10"
+            Source="/Resources/Images/logo-uit.png" />
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="25"
+            FontWeight="Bold">
+            PHẦN MỀM QUẢN LÝ THƯ VIỆN
+        </TextBlock>
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="15">
+            Nguyễn Minh Tân - 18520150
+        </TextBlock>
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="15">
+            Trần Quốc Thịnh - 18521451
+        </TextBlock>
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="15">
+            Phạm Xuân Vinh - 18521657
+        </TextBlock>
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="15">
+            Dương Thành Vương - 18521677
+        </TextBlock>
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="15">
+            Đỗ Trung Thuận - 18521468
+        </TextBlock>
+    </StackPanel>
+</Page>

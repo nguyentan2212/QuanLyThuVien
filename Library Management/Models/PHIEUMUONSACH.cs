@@ -17,6 +17,7 @@ namespace Library_Management.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PHIEUMUONSACH()
         {
+            this.CTPTS = new HashSet<CTPTS>();
             this.CTSACH = new HashSet<CTSACH>();
         }
     
@@ -25,6 +26,8 @@ namespace Library_Management.Models
         public Nullable<System.DateTime> NGMUON { get; set; }
         public Nullable<int> NGUOILAP { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CTPTS> CTPTS { get; set; }
         public virtual DOCGIA DOCGIA { get; set; }
         public virtual TAIKHOAN TAIKHOAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

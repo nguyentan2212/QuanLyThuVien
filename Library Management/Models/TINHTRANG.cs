@@ -11,8 +11,8 @@ namespace Library_Management.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class TINHTRANG
+    using Caliburn.Micro;
+    public partial class TINHTRANG:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TINHTRANG()
@@ -21,8 +21,15 @@ namespace Library_Management.Models
         }
     
         public int MATT { get; set; }
-        public string TINHTRANG1 { get; set; }
-    
+
+        private string _TINHTRANG1;
+        public string TINHTRANG1
+        {
+            get { return _TINHTRANG1; }
+            set { _TINHTRANG1 = value; NotifyOfPropertyChange("TINHTRANG1"); }
+        }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTSACH> CTSACH { get; set; }
     }

@@ -21,27 +21,14 @@ namespace Library_Management.Models
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-        public DOCGIA(DOCGIA dg)
-        {
-            this.MADG = dg.MADG;
-            this.HOTEN = dg.HOTEN;
-            this.MALDG = dg.MALDG;
-            this.NGSINH = dg.NGSINH;
-            this.DCHI = dg.DCHI;
-            this.EMAIL = dg.EMAIL;
-            this.NGLAPTHE = dg.NGLAPTHE;
-            this.TIENNO = dg.TIENNO;
-            this.NGUOILAP = dg.NGUOILAP;
-            this.HINHANH = dg.HINHANH;
-            this.QRCODE = dg.QRCODE;            
-        }
+    
         public int MADG { get; set; }
         private string _HOTEN;
         public string HOTEN
         {
             get { return _HOTEN; }
             set { _HOTEN = value; NotifyOfPropertyChange("HOTEN"); }
-        }       
+        }
         public Nullable<int> MALDG { get; set; }
 
         private Nullable<System.DateTime> _NGSINH;
@@ -64,8 +51,19 @@ namespace Library_Management.Models
             get { return _EMAIL; }
             set { _EMAIL = value; NotifyOfPropertyChange("EMAIL"); }
         }
-        public Nullable<System.DateTime> NGLAPTHE { get; set; }
-        public Nullable<decimal> TIENNO { get; set; }
+        private Nullable<DateTime> _NGLAPTHE;
+        public Nullable<DateTime> NGLAPTHE
+        {
+            get { return _NGLAPTHE; }
+            set { _NGLAPTHE = value; NotifyOfPropertyChange("NGLAPTHE"); }
+        }      
+        private Nullable<Decimal> _TIENNO;
+        public Nullable<Decimal> TIENNO
+        {
+            get { return _TIENNO; }
+            set { _TIENNO = value; NotifyOfPropertyChange("TIENNO"); }
+        }
+       
         public Nullable<int> NGUOILAP { get; set; }
 
         private string _HINHANH;
@@ -73,9 +71,8 @@ namespace Library_Management.Models
         {
             get { return _HINHANH; }
             set { _HINHANH = value; NotifyOfPropertyChange("HINHANH"); }
-        }     
-        public string QRCODE { get; set; }
-    
+        }
+
         public virtual LOAIDOCGIA LOAIDOCGIA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }

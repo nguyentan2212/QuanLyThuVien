@@ -19,13 +19,8 @@ namespace Library_Management.Models
         {
             this.DOCGIA = new HashSet<DOCGIA>();
         }
-        public LOAIDOCGIA(LOAIDOCGIA ldg)
-        {           
-            this.MALDG = ldg.MALDG;
-            this.LOAIDOCGIA1 = ldg.LOAIDOCGIA1;
-        }
+    
         public int MALDG { get; set; }
-
         private string _LOAIDOCGIA1;
         public string LOAIDOCGIA1
         {

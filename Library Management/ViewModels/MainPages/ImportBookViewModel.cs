@@ -2,15 +2,11 @@
 using AForge.Video.DirectShow;
 using Caliburn.Micro;
 using Library_Management.Models;
-using Library_Management.Views.MainPages;
 using Library_Management.Views.UserControls;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -22,188 +18,223 @@ namespace Library_Management.ViewModels.MainPages
     public class ImportBookViewModel : ViewBaseModel
     {
         #region New Book Properties
-        
-        private SACH _Book;
-        public SACH Book
-        {
-            get { return _Book; }
-            set { _Book = value; NotifyOfPropertyChange("Book"); }
-        }
-        private CTSACH _BookDetail;
-        public CTSACH BookDetail
-        {
-            get { return _BookDetail; }
-            set { _BookDetail = value; NotifyOfPropertyChange("BookDetail"); }
-        }
+
         private TACGIA _Author;
+        private BindableCollection<TACGIA> _AuthorList;
+        private SACH _Book;
+
+        private CTSACH _BookDetail;
+
+        private THELOAI _Category;
+
+        private BindableCollection<THELOAI> _CategoryList;
+
+        private UserControl _DialogContent;
+
+        private bool _IsDialogOpen;
+
+        private NHAXUATBAN _Publisher;
+
+        private BindableCollection<NHAXUATBAN> _PublisherList;
+
         public TACGIA Author
         {
             get { return _Author; }
             set { _Author = value; NotifyOfPropertyChange("Author"); }
         }
-        private THELOAI _Category;
-        public THELOAI Category
-        {
-            get { return _Category; }
-            set { _Category = value; NotifyOfPropertyChange("Category"); }
-        }
-        private NHAXUATBAN _Publisher;
-        public NHAXUATBAN Publisher
-        {
-            get { return _Publisher; }
-            set { _Publisher = value; NotifyOfPropertyChange("Publisher"); }
-        }
-        private BindableCollection<THELOAI> _CategoryList;
-        public BindableCollection<THELOAI> CategoryList
-        {
-            get { return _CategoryList; }
-            set { _CategoryList = value; NotifyOfPropertyChange("CategoryList"); }
-        }
-        private BindableCollection<TACGIA> _AuthorList;
+
         public BindableCollection<TACGIA> AuthorList
         {
             get { return _AuthorList; }
             set { _AuthorList = value; NotifyOfPropertyChange("AuthorList"); }
         }
-        private BindableCollection<NHAXUATBAN> _PublisherList;
-        public BindableCollection<NHAXUATBAN> PublisherList
+
+        public SACH Book
         {
-            get { return _PublisherList; }
-            set { _PublisherList = value; NotifyOfPropertyChange("PublisherList"); }
+            get { return _Book; }
+            set { _Book = value; NotifyOfPropertyChange("Book"); }
         }
-        private UserControl _DialogContent;
+        public CTSACH BookDetail
+        {
+            get { return _BookDetail; }
+            set { _BookDetail = value; NotifyOfPropertyChange("BookDetail"); }
+        }
+        public THELOAI Category
+        {
+            get { return _Category; }
+            set { _Category = value; NotifyOfPropertyChange("Category"); }
+        }
+        public BindableCollection<THELOAI> CategoryList
+        {
+            get { return _CategoryList; }
+            set { _CategoryList = value; NotifyOfPropertyChange("CategoryList"); }
+        }
+
         public UserControl DialogContent
         {
             get { return _DialogContent; }
             set { _DialogContent = value; NotifyOfPropertyChange("DialogContent"); }
         }
-        private bool _IsDialogOpen;
+
         public bool IsDialogOpen
         {
             get { return _IsDialogOpen; }
             set { _IsDialogOpen = value; NotifyOfPropertyChange("IsDialogOpen"); }
         }
-        #endregion
+
+        public NHAXUATBAN Publisher
+        {
+            get { return _Publisher; }
+            set { _Publisher = value; NotifyOfPropertyChange("Publisher"); }
+        }
+        public BindableCollection<NHAXUATBAN> PublisherList
+        {
+            get { return _PublisherList; }
+            set { _PublisherList = value; NotifyOfPropertyChange("PublisherList"); }
+        }
+        #endregion New Book Properties
+
         #region ImportBill Properties
 
-        private BindableCollection<ImportItem> _ImportList;
-        public BindableCollection<ImportItem> ImportList
-        {
-            get { return _ImportList; }
-            set { _ImportList = value; NotifyOfPropertyChange("ImportList"); }
-        }
-
+        private int _Amount;
+        private decimal _CoverPrice;
         private BindableCollection<SACH> _CurrentBookList;
-        public BindableCollection<SACH> CurrentBookList
-        {
-            get { return _CurrentBookList; }
-            set { _CurrentBookList = value; NotifyOfPropertyChange("CurrentBookList"); }
-        }
+        private BindableCollection<ImportItem> _ImportList;
+
+        private decimal _ImportPrice;
+
+        private string _SearchString;
 
         private SACH _SelectedBook;
-        public SACH SelectedBook
-        {
-            get { return _SelectedBook; }
-            set 
-            { 
-                if (_SelectedBook != value)
-                {
-                    Amount = 0;
-                    CoverPrice = 0;
-                    ImportPrice = 0;
-                }
-                _SelectedBook = value; 
-                NotifyOfPropertyChange("SelectedBook"); }
-        }
 
-        private int _Amount;
+        private int _TotalBooks;
+
+        private decimal _TotalPrice;
+
         public int Amount
         {
             get { return _Amount; }
             set { _Amount = value; NotifyOfPropertyChange("Amount"); }
         }
 
-        private decimal _CoverPrice;
         public decimal CoverPrice
         {
             get { return _CoverPrice; }
             set { _CoverPrice = value; NotifyOfPropertyChange("CoverPrice"); }
         }
 
-        private decimal _ImportPrice;
+        public BindableCollection<SACH> CurrentBookList
+        {
+            get { return _CurrentBookList; }
+            set { _CurrentBookList = value; NotifyOfPropertyChange("CurrentBookList"); }
+        }
+
+        public BindableCollection<ImportItem> ImportList
+        {
+            get { return _ImportList; }
+            set { _ImportList = value; NotifyOfPropertyChange("ImportList"); }
+        }
         public decimal ImportPrice
         {
             get { return _ImportPrice; }
             set { _ImportPrice = value; NotifyOfPropertyChange("ImportPrice"); }
         }
 
-        private int _TotalBooks;
+        public string SearchString
+        {
+            get { return _SearchString; }
+            set
+            {
+                _SearchString = value;
+                CurrentBookList = dataProvider.GetBookList(x => x.MASACH.ToString().Contains(SearchString) || x.TENSACH.ToUpper().Contains(SearchString) || x.TACGIA.TACGIA1.ToUpper().Contains(SearchString) ||
+                                                             x.THELOAI.THELOAI1.ToUpper().Contains(SearchString) || x.NHAXUATBAN.NHAXUATBAN1.ToUpper().Contains(SearchString));
+                NotifyOfPropertyChange("SearchString");
+            }
+        }
+
+        public SACH SelectedBook
+        {
+            get { return _SelectedBook; }
+            set
+            {
+                if (_SelectedBook != value)
+                {
+                    Amount = 0;
+                    CoverPrice = 0;
+                    ImportPrice = 0;
+                }
+                _SelectedBook = value;
+                NotifyOfPropertyChange("SelectedBook");
+            }
+        }
         public int TotalBooks
         {
             get { return _TotalBooks; }
             set { _TotalBooks = value; NotifyOfPropertyChange("TotalBooks"); }
         }
-
-        private decimal _TotalPrice;
         public decimal TotalPrice
         {
             get { return _TotalPrice; }
             set { _TotalPrice = value; NotifyOfPropertyChange("TotalPrice"); }
         }
+        #endregion ImportBill Properties
 
-        private string _SearchString;
-        public string SearchString
-        {
-            get { return _SearchString; }
-            set 
-            { 
-                _SearchString = value; 
-                CurrentBookList = dataProvider.GetBookList(x => x.MASACH.ToString().Contains(SearchString) || x.TENSACH.ToUpper().Contains(SearchString) || x.TACGIA.TACGIA1.ToUpper().Contains(SearchString) ||
-                                                             x.THELOAI.THELOAI1.ToUpper().Contains(SearchString) || x.NHAXUATBAN.NHAXUATBAN1.ToUpper().Contains(SearchString));
-                NotifyOfPropertyChange("SearchString"); }
-        }
-
-        #endregion
         #region History Properties
 
-        private string _HistorySearchString;
-        public string HistorySearchString
-        {
-            get { return _HistorySearchString; }
-            set 
-            {               
-                _HistorySearchString = value; 
-                NotifyOfPropertyChange("HistorySearchString"); }
-        }
-
         private DateTime _BeginDate;
+        private DateTime _EndDate;
+        private BindableCollection<ImportItem> _HistoryDetailList;
+        private BindableCollection<PHIEUNHAPSACH> _HistoryList;
+        private string _HistorySearchString;
+
+        private PHIEUNHAPSACH _SelectedImportBill;
+
         public DateTime BeginDate
         {
             get { return _BeginDate; }
-            set 
-            {                
+            set
+            {
                 _BeginDate = value;
-                NotifyOfPropertyChange("BeginDate"); 
+                NotifyOfPropertyChange("BeginDate");
             }
         }
 
-        private DateTime _EndDate;
         public DateTime EndDate
         {
             get { return _EndDate; }
-            set 
-            {                
-                _EndDate = value; 
-                NotifyOfPropertyChange("EndDate"); 
+            set
+            {
+                _EndDate = value;
+                NotifyOfPropertyChange("EndDate");
             }
         }
 
-        private PHIEUNHAPSACH _SelectedImportBill;
+        public BindableCollection<ImportItem> HistoryDetailList
+        {
+            get { return _HistoryDetailList; }
+            set { _HistoryDetailList = value; NotifyOfPropertyChange("HistoryDetailList"); }
+        }
+
+        public BindableCollection<PHIEUNHAPSACH> HistoryList
+        {
+            get { return _HistoryList; }
+            set { _HistoryList = value; NotifyOfPropertyChange("HistoryList"); }
+        }
+
+        public string HistorySearchString
+        {
+            get { return _HistorySearchString; }
+            set
+            {
+                _HistorySearchString = value;
+                NotifyOfPropertyChange("HistorySearchString");
+            }
+        }
         public PHIEUNHAPSACH SelectedImportBill
         {
             get { return _SelectedImportBill; }
-            set 
-            { 
+            set
+            {
                 if (_SelectedImportBill != value && value != null)
                 {
                     HistoryDetailList = new BindableCollection<ImportItem>(value.CTSACH.GroupBy(x => new { x.MASACH, x.GIANHAP, x.GIABIA }).Select(p => new ImportItem()
@@ -216,26 +247,12 @@ namespace Library_Management.ViewModels.MainPages
                         TotalPrice = p.Sum(i => i.GIANHAP) ?? 0
                     }));
                 }
-                _SelectedImportBill = value; 
-                NotifyOfPropertyChange("SelectedImportBill"); 
+                _SelectedImportBill = value;
+                NotifyOfPropertyChange("SelectedImportBill");
             }
         }
+        #endregion History Properties
 
-        private BindableCollection<PHIEUNHAPSACH> _HistoryList;
-        public BindableCollection<PHIEUNHAPSACH> HistoryList
-        {
-            get { return _HistoryList; }
-            set { _HistoryList = value; NotifyOfPropertyChange("HistoryList"); }
-        }
-
-        private BindableCollection<ImportItem> _HistoryDetailList;
-        public BindableCollection<ImportItem> HistoryDetailList
-        {
-            get { return _HistoryDetailList; }
-            set { _HistoryDetailList = value; NotifyOfPropertyChange("HistoryDetailList"); }
-        }
-        #endregion
-        public int PublishRange { get; set; }
         public ImportBookViewModel(DataProvider dataProvider, IEventAggregator eventAggregator) : base(dataProvider, eventAggregator)
         {
             eventAggregator.Subscribe(this);
@@ -250,16 +267,40 @@ namespace Library_Management.ViewModels.MainPages
             BeginDate = DateTime.Today;
             EndDate = DateTime.Today;
         }
+
+        public int PublishRange { get; set; }
         #region Dialog properties
 
         private string _AuthorString;
+
+        private string _CategoryString;
+
+        private string _PublisherString;
+
+        private TACGIA _SelectedAuthor;
+
+        private THELOAI _SelectedCategory;
+
+        private NHAXUATBAN _SelectedPublisher;
+
         public string AuthorString
         {
             get { return _AuthorString; }
             set { _AuthorString = value; NotifyOfPropertyChange("AuthorString"); }
         }
+        public string CategoryString
+        {
+            get { return _CategoryString; }
+            set
+            { _CategoryString = value; NotifyOfPropertyChange("CategoryString"); }
+        }
 
-        private TACGIA _SelectedAuthor;
+        public string PublisherString
+        {
+            get { return _PublisherString; }
+            set { _PublisherString = value; NotifyOfPropertyChange("PublisherString"); }
+        }
+
         public TACGIA SelectedAuthor
         {
             get { return _SelectedAuthor; }
@@ -270,16 +311,6 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("SelectedAuthor");
             }
         }
-
-        private string _CategoryString;
-        public string CategoryString
-        {
-            get { return _CategoryString; }
-            set 
-            { _CategoryString = value; NotifyOfPropertyChange("CategoryString"); }
-        }
-
-        private THELOAI _SelectedCategory;
         public THELOAI SelectedCategory
         {
             get { return _SelectedCategory; }
@@ -290,15 +321,6 @@ namespace Library_Management.ViewModels.MainPages
                 NotifyOfPropertyChange("SelectedCategory");
             }
         }
-
-        private string _PublisherString;
-        public string PublisherString
-        {
-            get { return _PublisherString; }
-            set { _PublisherString = value; NotifyOfPropertyChange("PublisherString"); }
-        }
-
-        private NHAXUATBAN _SelectedPublisher;
         public NHAXUATBAN SelectedPublisher
         {
             get { return _SelectedPublisher; }
@@ -310,47 +332,25 @@ namespace Library_Management.ViewModels.MainPages
             }
         }
 
-        #endregion
+        #endregion Dialog properties
+
         #region Dialog methods
-        public void Exit()
-        {
-            IsDialogOpen = false;
-        }
-        public void OpenDialog(string s)
-        {
-            switch (s)
-            {
-                case "Author":
-                    AuthorDialog ad = new AuthorDialog();
-                    ad.DataContext = this;
-                    DialogContent = ad;                    
-                    break;
-                case "Category":
-                    CategoryDialog cd = new CategoryDialog();
-                    cd.DataContext = this;
-                    DialogContent = cd;
-                    break;
-                default:
-                    PublisherDialog pd = new PublisherDialog();
-                    pd.DataContext = this;
-                    DialogContent = pd;
-                    break;
-            }
-            IsDialogOpen = true;
-        }
+
         public void Create(string s)
         {
             bool IsSuccess = false;
             switch (s)
             {
-                case "Author":                    
+                case "Author":
                     IsSuccess = dataProvider.Create<TACGIA>(new TACGIA() { TACGIA1 = AuthorString });
                     AuthorList = dataProvider.GetList<TACGIA>();
                     break;
+
                 case "Category":
                     IsSuccess = dataProvider.Create<THELOAI>(new THELOAI() { THELOAI1 = CategoryString });
                     CategoryList = dataProvider.GetList<THELOAI>();
                     break;
+
                 default:
                     IsSuccess = dataProvider.Create<NHAXUATBAN>(new NHAXUATBAN() { NHAXUATBAN1 = PublisherString });
                     PublisherList = dataProvider.GetList<NHAXUATBAN>();
@@ -358,13 +358,14 @@ namespace Library_Management.ViewModels.MainPages
             }
             if (IsSuccess)
             {
-                ShowMessage(new Models.Message("Thông báo", "Tạo mới thành công"));                
+                ShowMessage(new Models.Message("Thông báo", "Tạo mới thành công"));
             }
             else
             {
                 ShowMessage(new Models.Message("Thông báo", "Tạo mới không thành công"));
             }
         }
+
         public void Delete(string s)
         {
             bool IsSuccess = false;
@@ -377,6 +378,7 @@ namespace Library_Management.ViewModels.MainPages
                         AuthorList = dataProvider.GetList<TACGIA>();
                     }
                     break;
+
                 case "Category":
                     if (dataProvider.GetItem<SACH>(g => g.MATL == SelectedCategory.MATL) is null)
                     {
@@ -384,6 +386,7 @@ namespace Library_Management.ViewModels.MainPages
                         CategoryList = dataProvider.GetList<THELOAI>();
                     }
                     break;
+
                 default:
                     if (dataProvider.GetItem<SACH>(g => g.MANXB == SelectedPublisher.MANXB) is null)
                     {
@@ -394,190 +397,95 @@ namespace Library_Management.ViewModels.MainPages
             }
             if (IsSuccess)
             {
-                ShowMessage(new Models.Message("Thông báo", "Xóa thành công"));               
+                ShowMessage(new Models.Message("Thông báo", "Xóa thành công"));
             }
             else
             {
                 ShowMessage(new Models.Message("Thông báo", "Xóa không thành công"));
             }
         }
+
+        public void Exit()
+        {
+            IsDialogOpen = false;
+        }
+
+        public void OpenDialog(string s)
+        {
+            switch (s)
+            {
+                case "Author":
+                    AuthorDialog ad = new AuthorDialog();
+                    ad.DataContext = this;
+                    DialogContent = ad;
+                    break;
+
+                case "Category":
+                    CategoryDialog cd = new CategoryDialog();
+                    cd.DataContext = this;
+                    DialogContent = cd;
+                    break;
+
+                default:
+                    PublisherDialog pd = new PublisherDialog();
+                    pd.DataContext = this;
+                    DialogContent = pd;
+                    break;
+            }
+            IsDialogOpen = true;
+        }
         public void Update(string s)
-        {            
+        {
             bool IsSuccess = false;
             switch (s)
             {
                 case "Author":
                     SelectedAuthor.TACGIA1 = AuthorString;
-                    IsSuccess = dataProvider.Update<TACGIA>(SelectedAuthor,g => g.MATG == SelectedAuthor.MATG);                    
+                    IsSuccess = dataProvider.Update<TACGIA>(SelectedAuthor, g => g.MATG == SelectedAuthor.MATG);
                     break;
+
                 case "Category":
                     SelectedCategory.THELOAI1 = CategoryString;
-                    IsSuccess = dataProvider.Update<THELOAI>(SelectedCategory, g => g.MATL == SelectedCategory.MATL);                    
+                    IsSuccess = dataProvider.Update<THELOAI>(SelectedCategory, g => g.MATL == SelectedCategory.MATL);
                     break;
+
                 default:
                     SelectedPublisher.NHAXUATBAN1 = PublisherString;
-                    IsSuccess = dataProvider.Update<NHAXUATBAN>(SelectedPublisher, g => g.MANXB == SelectedPublisher.MANXB);                    
+                    IsSuccess = dataProvider.Update<NHAXUATBAN>(SelectedPublisher, g => g.MANXB == SelectedPublisher.MANXB);
                     break;
             }
         }
-        #endregion
-        #region QRCode properties and methods 
-        private Bitmap _bitmap;
-        private IVideoSource _videoSource;
-        private FilterInfo _currentDevice;       
-        private BindableCollection<FilterInfo> _videoDevices;
-        
-        private BitmapImage _BitImage;
-        public BitmapImage BitImage
-        {
-            get { return _BitImage; }
-            set { _BitImage = value; NotifyOfPropertyChange("BitImage"); }
-        }
-        private DispatcherTimer timer;
-        private void GetVideoDevice()
-        {
-            _videoDevices = new BindableCollection<FilterInfo>();
-            var devices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo device in devices)
-            {
-                _videoDevices.Add(device);
-            }
-            if (_videoDevices.Any())
-            {
-                _currentDevice = _videoDevices[0];
-            }
-            else
-            {
-                this.eventAggregator.PublishOnCurrentThread(new Models.Message("Lỗi", "No webcam found"));
-            }
-        }
-        public void StartCamera()
-        {
-            if (_currentDevice != null)
-            {
-                _videoSource = new VideoCaptureDevice(_currentDevice.MonikerString);
-                _videoSource.NewFrame += video_NewFrame;
-                _videoSource.Start();
-            }
-            else
-            {
-                this.eventAggregator.PublishOnCurrentThread(new Models.Message("Lỗi", "Current device can't be null"));
-            }
-        }
-        private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            try
-            {
-                var bitmap = (Bitmap)eventArgs.Frame.Clone();
-                var bi = BitmapToImageSource(bitmap);
-                bi.Freeze();
-                BitImage = bi;
-            }
-            catch (Exception e)
-            {
-                this.eventAggregator.PublishOnCurrentThread(new Models.Message("Lỗi", "Error on _videoSource_NewFrame:\n" + e.Message));
-                StopCamera();
-                IsDialogOpen = false;
-            }
-        }
-        public void StopCamera()
-        {
-            if (_videoSource != null && _videoSource.IsRunning)
-            {
-                _videoSource.SignalToStop();
-                _videoSource.NewFrame -= video_NewFrame;
-            }
-            BitImage = null;
-            _bitmap = null;
-        }
-        private BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.RotateFlip(RotateFlipType.Rotate180FlipY);
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;                
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-                return bitmapimage;
-            }
-        }    
-        private Bitmap BitmapImageToBitmap(BitmapImage bitmapImage)
-        {
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                enc.Save(outStream);
-                Bitmap bitmap = new Bitmap(outStream);
 
-                return new Bitmap(bitmap);
-            }
-        }
-        private string _QRString;
-        public string QRString
-        {
-            get { return _QRString; }
-            set { _QRString = value; NotifyOfPropertyChange("QRString"); }
-        }
-       
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            string qrdecode = "";
-            if (BitImage is null)
-                return;
-            Bitmap bit = BitmapImageToBitmap(BitImage);          
-            BarcodeReader Reader = new BarcodeReader();
-            Result qrResult = Reader.Decode(bit);
-            try
-            {
-                qrdecode = qrResult?.Text.Trim();
-            }
-            catch (Exception ex)
-            {
-                qrdecode = "error";
-            }
-            QRString = qrdecode;
-            if (!string.IsNullOrEmpty(qrdecode))
-            {
-                StopCamera();
-                IsDialogOpen = false;
-                int id = int.Parse(qrdecode);
-                Book = dataProvider.GetItem<SACH>(g => g.MASACH == id);
-                BookDetail = dataProvider.GetItem<CTSACH>(g => g.MASACH == id);
-                Author = AuthorList.FirstOrDefault(g => g.MATG == Book.MATG);
-                Category = CategoryList.FirstOrDefault(g => g.MATL == Book.MATL);
-                Publisher = PublisherList.FirstOrDefault(g => g.MANXB == Book.MANXB);
-                if (int.TryParse(Book.ANHBIA.Substring(0, 1),out int result) && result < 6)
-                {
-                    Book.ANHBIA = @"/Resources/Images/Book/" + Book.ANHBIA;
-                }
-            }
-        }
-        public void CloseQRDialog()
-        {
-            StopCamera();
-            timer.Stop();
-            IsDialogOpen = false;
-        }
-        #endregion
+        #endregion Dialog methods     
+
         #region NewBook Methods
+
         public void Cancel()
         {
             Book = new SACH() { ANHBIA = @"/Resources/Images/Book/DefaultBook.jpg" };
-            BookDetail = new CTSACH();           
+            BookDetail = new CTSACH();
             Author = null;
             Category = null;
             Publisher = null;
-            /*bool c = dataProvider.Delete<SACH>(g => g.MASACH == 18);
-            if (c)
-            {
-                MessageBox.Show("Thanh cong");
-            }*/
+
         }
+
+        public void ChangeImage()
+        {
+            System.Windows.Forms.OpenFileDialog openFile = new System.Windows.Forms.OpenFileDialog();
+            openFile.InitialDirectory = @"C:\";
+            openFile.RestoreDirectory = true;
+            openFile.Title = "Đổi ảnh bìa";
+            openFile.Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
+            openFile.CheckFileExists = true;
+            openFile.CheckPathExists = true;
+            openFile.Multiselect = false;
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Book.ANHBIA = openFile.FileName;
+            }
+        }
+
         public void ImportNewBook()
         {
             bool IsSuccess;
@@ -596,44 +504,32 @@ namespace Library_Management.ViewModels.MainPages
             CurrentBookList = dataProvider.GetBookList(x => true);
             SearchString = "";
         }
-        public void ChangeImage()
-        {
-            System.Windows.Forms.OpenFileDialog openFile = new System.Windows.Forms.OpenFileDialog();
-            openFile.InitialDirectory = @"C:\";
-            openFile.RestoreDirectory = true;
-            openFile.Title = "Đổi ảnh bìa";
-            openFile.Filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
-            openFile.CheckFileExists = true;
-            openFile.CheckPathExists = true;
-            openFile.Multiselect = false;
-            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                Book.ANHBIA = openFile.FileName;
-            }
-        }
-        #endregion
+        #endregion NewBook Methods
+
         #region ImportBill Methods
+
         public void AddBookToBill()
         {
             if (SelectedBook is null)
             {
-                MessageBox.Show("Chưa chọn sách");
+                ShowMessage(new Models.Message("Thông báo", "Chưa chọn sách"));              
                 return;
             }
             ImportItem item = new ImportItem(SelectedBook, Amount, CoverPrice, ImportPrice);
             ImportItem check = ImportList.FirstOrDefault(x => x.BookId == item.BookId && x.CoverPrice == item.CoverPrice && x.ImportPrice == item.ImportPrice);
-            if (check is null)            
-                ImportList.Add(item);                          
+            if (check is null)
+                ImportList.Add(item);
             else
                 check.Amount += item.Amount;
             TotalBooks += item.Amount;
             TotalPrice += item.TotalPrice;
         }
+
         public void Import()
         {
-            if(ImportList.Any() == false)
+            if (ImportList.Any() == false)
             {
-                MessageBox.Show("Không có sách trong Phiếu nhập sách");
+                ShowMessage(new Models.Message("Thông báo", "Không có sách trong Phiếu nhập sách"));
                 return;
             }
             PHIEUNHAPSACH p = new PHIEUNHAPSACH() { MATK = dataProvider.User.MATK, NGAYLAP = DateTime.Today };
@@ -642,14 +538,25 @@ namespace Library_Management.ViewModels.MainPages
             {
                 for (int i = 0; i < item.Amount; i++)
                 {
-                    CTSACH c = new CTSACH() { MASACH = item.BookId, MAPNS = p.MAPNS, GIABIA = item.CoverPrice, GIANHAP = item.ImportPrice };
+                    CTSACH c = new CTSACH() { MASACH = item.BookId, MAPNS = p.MAPNS, GIABIA = item.CoverPrice, GIANHAP = item.ImportPrice, MATT = 1 };
                     dataProvider.Create<CTSACH>(c);
                 }
             }
             HistoryList = dataProvider.GetImportBillList(x => true);
             ImportList = new BindableCollection<ImportItem>();
-            MessageBox.Show("Đã nhập thành công");
+            ShowMessage(new Models.Message("Thông báo", "Đã nhập thành công"));          
         }
+
+        public void Remove(ImportItem item)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Bạn có muốn xóa phần tử này hay không?", "Cảnh báo", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (messageBoxResult == MessageBoxResult.OK)
+            {
+                ImportList.Remove(item);
+                UpdateValue();
+            }
+        }
+
         public void UpdateValue()
         {
             TotalBooks = 0;
@@ -660,37 +567,27 @@ namespace Library_Management.ViewModels.MainPages
                 TotalPrice += item.TotalPrice;
             }
         }
-        public void Remove(ImportItem item)
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Bạn có muốn xóa phần tử này hay không?","Cảnh báo",MessageBoxButton.OKCancel,MessageBoxImage.Warning);
-            if (messageBoxResult == MessageBoxResult.OK)
-            {
-                ImportList.Remove(item);
-                UpdateValue();
-            }
-        }
-        #endregion
+        #endregion ImportBill Methods
+
         #region History Methods
+
+        public void GetDetailList()
+        {
+        }
+
         public void HistorySearch()
         {
-            /*foreach (CTSACH c in SelectedImportBill.CTSACH)
-            {
-                dataProvider.Delete<CTSACH>(x => x.MAPNS == SelectedImportBill.MAPNS);
-            }
-            dataProvider.Delete<PHIEUNHAPSACH>(x => x.MAPNS == SelectedImportBill.MAPNS);*/
+            
             if (string.IsNullOrEmpty(HistorySearchString))
             {
                 HistoryList = dataProvider.GetImportBillList(x => x.NGAYLAP >= BeginDate && x.NGAYLAP <= EndDate);
                 return;
             }
-            HistoryList = dataProvider.GetImportBillList(x => (x.TAIKHOAN.TAIKHOAN1.ToUpper().Contains(HistorySearchString.ToUpper()) || x.TAIKHOAN.HOTEN.ToUpper().Contains(HistorySearchString)) && 
+            HistoryList = dataProvider.GetImportBillList(x => (x.TAIKHOAN.TAIKHOAN1.ToUpper().Contains(HistorySearchString.ToUpper()) || x.TAIKHOAN.HOTEN.ToUpper().Contains(HistorySearchString)) &&
                                                                x.NGAYLAP >= BeginDate && x.NGAYLAP <= EndDate);
         }
-        public void GetDetailList()
-        {
-            
-        }
-        #endregion
+        #endregion History Methods
+
         private void ShowMessage(Models.Message mess)
         {
             MessageBox.Show(mess.Note, mess.Title);

@@ -12,7 +12,7 @@ namespace Library_Management.Models
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;
-    public partial class TAIKHOAN: PropertyChangedBase
+    public partial class TAIKHOAN:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TAIKHOAN()
@@ -22,17 +22,7 @@ namespace Library_Management.Models
             this.PHIEUTHUTIENPHAT = new HashSet<PHIEUTHUTIENPHAT>();
             this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-        public TAIKHOAN(TAIKHOAN tk)
-        {
-            this.MATK = tk.MATK;
-            this.TAIKHOAN1 = tk.TAIKHOAN1;
-            this.MATKHAU = tk.MATKHAU;
-            this.NGDK = tk.NGDK;
-            this.HOTEN = tk.HOTEN;
-            this.DCHI = tk.DCHI;
-            this.EMAIL = tk.EMAIL;
-            this.HINHANH = tk.HINHANH;          
-        }
+    
         public int MATK { get; set; }
         private string _TAIKHOAN1;
         public string TAIKHOAN1
@@ -125,7 +115,7 @@ namespace Library_Management.Models
                 NotifyOfPropertyChange("_HINHANH");
             }
         }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

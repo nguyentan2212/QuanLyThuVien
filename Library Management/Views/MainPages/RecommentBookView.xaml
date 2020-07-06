@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="Library_Management.Views.MainPages.RecommentBookView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Library_Management.Views.MainPages"
+    xmlns:mahapp="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:uc="clr-namespace:Library_Management.Views.UserControls"
+    Title="RecommentBookView"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="{DynamicResource MaterialDesignBackground}"
+    mc:Ignorable="d">
+    <mahapp:MetroAnimatedTabControl>
+        <mahapp:MetroTabItem Header="Sách mới">
+            <ScrollViewer Margin="10" Style="{StaticResource MahApps.Styles.ScrollViewer}">
+                <ListBox
+                    Margin="5"
+                    Background="Transparent"
+                    ItemsSource="{Binding NewBookList}"
+                    SelectedItem="{Binding SelectedBook, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionMode="Single"
+                    VirtualizingPanel.IsVirtualizing="True">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="8" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <uc:BookItem HorizontalContentAlignment="Stretch" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </mahapp:MetroTabItem>
+        <mahapp:MetroTabItem Header="Sách nhiều lượt mượn">
+            <ScrollViewer Margin="10" Style="{StaticResource MahApps.Styles.ScrollViewer}">
+                <ListBox
+                    Margin="5"
+                    Background="Transparent"
+                    ItemsSource="{Binding MostViewBookList}"
+                    SelectedItem="{Binding SelectedBook, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionMode="Single"
+                    VirtualizingPanel.IsVirtualizing="True">
+                    <ListBox.Style>
+                        <Style TargetType="ListBox">
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="Margin" Value="8" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="5" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <uc:BookItem HorizontalContentAlignment="Stretch" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </mahapp:MetroTabItem>
+    </mahapp:MetroAnimatedTabControl>
+</Page>

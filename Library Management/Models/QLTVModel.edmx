@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QLTVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLTVModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CTPMS">
           <Key>
             <PropertyRef Name="MAPMS" />
@@ -17,9 +17,12 @@
           <Key>
             <PropertyRef Name="MAPTS" />
             <PropertyRef Name="MACTS" />
+            <PropertyRef Name="MAPMS" />
           </Key>
           <Property Name="MAPTS" Type="int" Nullable="false" />
           <Property Name="MACTS" Type="int" Nullable="false" />
+          <Property Name="MAPMS" Type="int" Nullable="false" />
+          <Property Name="TIENPHAT" Type="money" />
         </EntityType>
         <EntityType Name="CTSACH">
           <Key>
@@ -31,7 +34,6 @@
           <Property Name="VITRI" Type="char" MaxLength="30" />
           <Property Name="GIABIA" Type="money" />
           <Property Name="GIANHAP" Type="money" />
-          <Property Name="QRCODE" Type="nvarchar" MaxLength="30" />
           <Property Name="MAPNS" Type="int" />
         </EntityType>
         <EntityType Name="DOCGIA">
@@ -48,7 +50,6 @@
           <Property Name="TIENNO" Type="money" />
           <Property Name="NGUOILAP" Type="int" />
           <Property Name="HINHANH" Type="varchar(max)" />
-          <Property Name="QRCODE" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="LOAIDOCGIA">
           <Key>
@@ -206,6 +207,18 @@
             </Principal>
             <Dependent Role="CTPTS">
               <PropertyRef Name="MACTS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTPTS_PHIEUMUONSACH">
+          <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="1" />
+          <End Role="CTPTS" Type="Self.CTPTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEUMUONSACH">
+              <PropertyRef Name="MAPMS" />
+            </Principal>
+            <Dependent Role="CTPTS">
+              <PropertyRef Name="MAPMS" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -389,6 +402,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="QLTVModelStoreContainer">
           <EntitySet Name="CTPMS" EntityType="Self.CTPMS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTPTS" EntityType="Self.CTPTS" Schema="dbo" store:Type="Tables" />
@@ -417,6 +461,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_CTPTS_CTSACH" Association="Self.FK_CTPTS_CTSACH">
             <End Role="CTSACH" EntitySet="CTSACH" />
+            <End Role="CTPTS" EntitySet="CTPTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTPTS_PHIEUMUONSACH" Association="Self.FK_CTPTS_PHIEUMUONSACH">
+            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
             <End Role="CTPTS" EntitySet="CTPTS" />
           </AssociationSet>
           <AssociationSet Name="FK_CTPTS_PHIEUTRASACH" Association="Self.FK_CTPTS_PHIEUTRASACH">
@@ -480,11 +528,155 @@
             <End Role="SACH" EntitySet="SACH" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLTVModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QLTVEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(QLTVModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(QLTVModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="CTPTS" EntityType="QLTVModel.CTPTS" />
+          <EntitySet Name="CTSACH" EntityType="QLTVModel.CTSACH" />
+          <EntitySet Name="DOCGIA" EntityType="QLTVModel.DOCGIA" />
+          <EntitySet Name="LOAIDOCGIA" EntityType="QLTVModel.LOAIDOCGIA" />
+          <EntitySet Name="NHAXUATBAN" EntityType="QLTVModel.NHAXUATBAN" />
+          <EntitySet Name="PHIEUMUONSACH" EntityType="QLTVModel.PHIEUMUONSACH" />
+          <EntitySet Name="PHIEUNHAPSACH" EntityType="QLTVModel.PHIEUNHAPSACH" />
+          <EntitySet Name="PHIEUTHUTIENPHAT" EntityType="QLTVModel.PHIEUTHUTIENPHAT" />
+          <EntitySet Name="PHIEUTRASACH" EntityType="QLTVModel.PHIEUTRASACH" />
+          <EntitySet Name="QUYDINH" EntityType="QLTVModel.QUYDINH" />
+          <EntitySet Name="SACH" EntityType="QLTVModel.SACH" />
+          <EntitySet Name="sysdiagrams" EntityType="QLTVModel.sysdiagrams" />
+          <EntitySet Name="TACGIA" EntityType="QLTVModel.TACGIA" />
+          <EntitySet Name="TAIKHOAN" EntityType="QLTVModel.TAIKHOAN" />
+          <EntitySet Name="TINHTRANG" EntityType="QLTVModel.TINHTRANG" />
+          <EntitySet Name="THELOAI" EntityType="QLTVModel.THELOAI" />
+          <AssociationSet Name="FK_CTPTS_CTSACH" Association="QLTVModel.FK_CTPTS_CTSACH">
+            <End Role="CTSACH" EntitySet="CTSACH" />
+            <End Role="CTPTS" EntitySet="CTPTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTPTS_PHIEUMUONSACH" Association="QLTVModel.FK_CTPTS_PHIEUMUONSACH">
+            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
+            <End Role="CTPTS" EntitySet="CTPTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTPTS_PHIEUTRASACH" Association="QLTVModel.FK_CTPTS_PHIEUTRASACH">
+            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
+            <End Role="CTPTS" EntitySet="CTPTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTSACH_PHIEUNHAPSACH" Association="QLTVModel.FK_CTSACH_PHIEUNHAPSACH">
+            <End Role="PHIEUNHAPSACH" EntitySet="PHIEUNHAPSACH" />
+            <End Role="CTSACH" EntitySet="CTSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTSACH_SACH" Association="QLTVModel.FK_CTSACH_SACH">
+            <End Role="SACH" EntitySet="SACH" />
+            <End Role="CTSACH" EntitySet="CTSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CTSACH_TINHTRANG" Association="QLTVModel.FK_CTSACH_TINHTRANG">
+            <End Role="TINHTRANG" EntitySet="TINHTRANG" />
+            <End Role="CTSACH" EntitySet="CTSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DOCGIA_LOAIDOCGIA" Association="QLTVModel.FK_DOCGIA_LOAIDOCGIA">
+            <End Role="LOAIDOCGIA" EntitySet="LOAIDOCGIA" />
+            <End Role="DOCGIA" EntitySet="DOCGIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUMUONSACH_DOCGIA" Association="QLTVModel.FK_PHIEUMUONSACH_DOCGIA">
+            <End Role="DOCGIA" EntitySet="DOCGIA" />
+            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUTHUTIENPHAT_DOCGIA" Association="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA">
+            <End Role="DOCGIA" EntitySet="DOCGIA" />
+            <End Role="PHIEUTHUTIENPHAT" EntitySet="PHIEUTHUTIENPHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUTRASACH_DOCGIA" Association="QLTVModel.FK_PHIEUTRASACH_DOCGIA">
+            <End Role="DOCGIA" EntitySet="DOCGIA" />
+            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SACH_NHAXUATBAN" Association="QLTVModel.FK_SACH_NHAXUATBAN">
+            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUMUONSACH_TAIKHOAN" Association="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN">
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUNHAPSACH_TAIKHOAN" Association="QLTVModel.FK_PHIEUNHAPSACH_TAIKHOAN">
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+            <End Role="PHIEUNHAPSACH" EntitySet="PHIEUNHAPSACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUTHUTIENPHAT_TAIKHOAN" Association="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN">
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+            <End Role="PHIEUTHUTIENPHAT" EntitySet="PHIEUTHUTIENPHAT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUTRASACH_TAIKHOAN" Association="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN">
+            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
+            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SACH_TACGIA" Association="QLTVModel.FK_SACH_TACGIA">
+            <End Role="TACGIA" EntitySet="TACGIA" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SACH_THELOAI" Association="QLTVModel.FK_SACH_THELOAI">
+            <End Role="THELOAI" EntitySet="THELOAI" />
+            <End Role="SACH" EntitySet="SACH" />
+          </AssociationSet>
+          <AssociationSet Name="CTPMS" Association="QLTVModel.CTPMS">
+            <End Role="CTSACH" EntitySet="CTSACH" />
+            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="CTPTS">
+          <Key>
+            <PropertyRef Name="MAPTS" />
+            <PropertyRef Name="MACTS" />
+            <PropertyRef Name="MAPMS" />
+          </Key>
+          <Property Name="MAPTS" Type="Int32" Nullable="false" />
+          <Property Name="MACTS" Type="Int32" Nullable="false" />
+          <Property Name="MAPMS" Type="Int32" Nullable="false" />
+          <Property Name="TIENPHAT" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="CTSACH" Relationship="QLTVModel.FK_CTPTS_CTSACH" FromRole="CTPTS" ToRole="CTSACH" />
+          <NavigationProperty Name="PHIEUMUONSACH" Relationship="QLTVModel.FK_CTPTS_PHIEUMUONSACH" FromRole="CTPTS" ToRole="PHIEUMUONSACH" />
+          <NavigationProperty Name="PHIEUTRASACH" Relationship="QLTVModel.FK_CTPTS_PHIEUTRASACH" FromRole="CTPTS" ToRole="PHIEUTRASACH" />
+        </EntityType>
         <EntityType Name="CTSACH">
           <Key>
             <PropertyRef Name="MACTS" />
@@ -495,13 +687,12 @@
           <Property Name="VITRI" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
           <Property Name="GIABIA" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="GIANHAP" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="QRCODE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="MAPNS" Type="Int32" />
-          <NavigationProperty Name="PHIEUNHAPSACH" Relationship="Self.FK_CTSACH_PHIEUNHAPSACH" FromRole="CTSACH" ToRole="PHIEUNHAPSACH" />
-          <NavigationProperty Name="SACH" Relationship="Self.FK_CTSACH_SACH" FromRole="CTSACH" ToRole="SACH" />
-          <NavigationProperty Name="TINHTRANG" Relationship="Self.FK_CTSACH_TINHTRANG" FromRole="CTSACH" ToRole="TINHTRANG" />
-          <NavigationProperty Name="PHIEUMUONSACH" Relationship="Self.CTPMS" FromRole="CTSACH" ToRole="PHIEUMUONSACH" />
-          <NavigationProperty Name="PHIEUTRASACH" Relationship="Self.CTPTS" FromRole="CTSACH" ToRole="PHIEUTRASACH" />
+          <NavigationProperty Name="CTPTS" Relationship="QLTVModel.FK_CTPTS_CTSACH" FromRole="CTSACH" ToRole="CTPTS" />
+          <NavigationProperty Name="PHIEUNHAPSACH" Relationship="QLTVModel.FK_CTSACH_PHIEUNHAPSACH" FromRole="CTSACH" ToRole="PHIEUNHAPSACH" />
+          <NavigationProperty Name="SACH" Relationship="QLTVModel.FK_CTSACH_SACH" FromRole="CTSACH" ToRole="SACH" />
+          <NavigationProperty Name="TINHTRANG" Relationship="QLTVModel.FK_CTSACH_TINHTRANG" FromRole="CTSACH" ToRole="TINHTRANG" />
+          <NavigationProperty Name="PHIEUMUONSACH" Relationship="QLTVModel.CTPMS" FromRole="CTSACH" ToRole="PHIEUMUONSACH" />
         </EntityType>
         <EntityType Name="DOCGIA">
           <Key>
@@ -517,11 +708,10 @@
           <Property Name="TIENNO" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="NGUOILAP" Type="Int32" />
           <Property Name="HINHANH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="QRCODE" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LOAIDOCGIA" Relationship="Self.FK_DOCGIA_LOAIDOCGIA" FromRole="DOCGIA" ToRole="LOAIDOCGIA" />
-          <NavigationProperty Name="PHIEUMUONSACH" Relationship="Self.FK_PHIEUMUONSACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUMUONSACH" />
-          <NavigationProperty Name="PHIEUTHUTIENPHAT" Relationship="Self.FK_PHIEUTHUTIENPHAT_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUTHUTIENPHAT" />
-          <NavigationProperty Name="PHIEUTRASACH" Relationship="Self.FK_PHIEUTRASACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUTRASACH" />
+          <NavigationProperty Name="LOAIDOCGIA" Relationship="QLTVModel.FK_DOCGIA_LOAIDOCGIA" FromRole="DOCGIA" ToRole="LOAIDOCGIA" />
+          <NavigationProperty Name="PHIEUMUONSACH" Relationship="QLTVModel.FK_PHIEUMUONSACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUMUONSACH" />
+          <NavigationProperty Name="PHIEUTHUTIENPHAT" Relationship="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUTHUTIENPHAT" />
+          <NavigationProperty Name="PHIEUTRASACH" Relationship="QLTVModel.FK_PHIEUTRASACH_DOCGIA" FromRole="DOCGIA" ToRole="PHIEUTRASACH" />
         </EntityType>
         <EntityType Name="LOAIDOCGIA">
           <Key>
@@ -529,7 +719,7 @@
           </Key>
           <Property Name="MALDG" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LOAIDOCGIA1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DOCGIA" Relationship="Self.FK_DOCGIA_LOAIDOCGIA" FromRole="LOAIDOCGIA" ToRole="DOCGIA" />
+          <NavigationProperty Name="DOCGIA" Relationship="QLTVModel.FK_DOCGIA_LOAIDOCGIA" FromRole="LOAIDOCGIA" ToRole="DOCGIA" />
         </EntityType>
         <EntityType Name="NHAXUATBAN">
           <Key>
@@ -537,7 +727,7 @@
           </Key>
           <Property Name="MANXB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NHAXUATBAN1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_NHAXUATBAN" FromRole="NHAXUATBAN" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="QLTVModel.FK_SACH_NHAXUATBAN" FromRole="NHAXUATBAN" ToRole="SACH" />
         </EntityType>
         <EntityType Name="PHIEUMUONSACH">
           <Key>
@@ -547,9 +737,10 @@
           <Property Name="MADG" Type="Int32" />
           <Property Name="NGMUON" Type="DateTime" Precision="0" />
           <Property Name="NGUOILAP" Type="Int32" />
-          <NavigationProperty Name="DOCGIA" Relationship="Self.FK_PHIEUMUONSACH_DOCGIA" FromRole="PHIEUMUONSACH" ToRole="DOCGIA" />
-          <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_PHIEUMUONSACH_TAIKHOAN" FromRole="PHIEUMUONSACH" ToRole="TAIKHOAN" />
-          <NavigationProperty Name="CTSACH" Relationship="Self.CTPMS" FromRole="PHIEUMUONSACH" ToRole="CTSACH" />
+          <NavigationProperty Name="CTPTS" Relationship="QLTVModel.FK_CTPTS_PHIEUMUONSACH" FromRole="PHIEUMUONSACH" ToRole="CTPTS" />
+          <NavigationProperty Name="DOCGIA" Relationship="QLTVModel.FK_PHIEUMUONSACH_DOCGIA" FromRole="PHIEUMUONSACH" ToRole="DOCGIA" />
+          <NavigationProperty Name="TAIKHOAN" Relationship="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN" FromRole="PHIEUMUONSACH" ToRole="TAIKHOAN" />
+          <NavigationProperty Name="CTSACH" Relationship="QLTVModel.CTPMS" FromRole="PHIEUMUONSACH" ToRole="CTSACH" />
         </EntityType>
         <EntityType Name="PHIEUNHAPSACH">
           <Key>
@@ -558,8 +749,8 @@
           <Property Name="MAPNS" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NGAYLAP" Type="DateTime" Precision="0" />
           <Property Name="MATK" Type="Int32" />
-          <NavigationProperty Name="CTSACH" Relationship="Self.FK_CTSACH_PHIEUNHAPSACH" FromRole="PHIEUNHAPSACH" ToRole="CTSACH" />
-          <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_PHIEUNHAPSACH_TAIKHOAN" FromRole="PHIEUNHAPSACH" ToRole="TAIKHOAN" />
+          <NavigationProperty Name="CTSACH" Relationship="QLTVModel.FK_CTSACH_PHIEUNHAPSACH" FromRole="PHIEUNHAPSACH" ToRole="CTSACH" />
+          <NavigationProperty Name="TAIKHOAN" Relationship="QLTVModel.FK_PHIEUNHAPSACH_TAIKHOAN" FromRole="PHIEUNHAPSACH" ToRole="TAIKHOAN" />
         </EntityType>
         <EntityType Name="PHIEUTHUTIENPHAT">
           <Key>
@@ -570,8 +761,8 @@
           <Property Name="SOTIENTHU" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="NGTHU" Type="DateTime" Precision="0" />
           <Property Name="NGUOILAP" Type="Int32" />
-          <NavigationProperty Name="DOCGIA" Relationship="Self.FK_PHIEUTHUTIENPHAT_DOCGIA" FromRole="PHIEUTHUTIENPHAT" ToRole="DOCGIA" />
-          <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_PHIEUTHUTIENPHAT_TAIKHOAN" FromRole="PHIEUTHUTIENPHAT" ToRole="TAIKHOAN" />
+          <NavigationProperty Name="DOCGIA" Relationship="QLTVModel.FK_PHIEUTHUTIENPHAT_DOCGIA" FromRole="PHIEUTHUTIENPHAT" ToRole="DOCGIA" />
+          <NavigationProperty Name="TAIKHOAN" Relationship="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN" FromRole="PHIEUTHUTIENPHAT" ToRole="TAIKHOAN" />
         </EntityType>
         <EntityType Name="PHIEUTRASACH">
           <Key>
@@ -581,9 +772,9 @@
           <Property Name="MADG" Type="Int32" />
           <Property Name="NGTRASACH" Type="DateTime" Precision="0" />
           <Property Name="NGUOILAP" Type="Int32" />
-          <NavigationProperty Name="DOCGIA" Relationship="Self.FK_PHIEUTRASACH_DOCGIA" FromRole="PHIEUTRASACH" ToRole="DOCGIA" />
-          <NavigationProperty Name="TAIKHOAN" Relationship="Self.FK_PHIEUTRASACH_TAIKHOAN" FromRole="PHIEUTRASACH" ToRole="TAIKHOAN" />
-          <NavigationProperty Name="CTSACH" Relationship="Self.CTPTS" FromRole="PHIEUTRASACH" ToRole="CTSACH" />
+          <NavigationProperty Name="CTPTS" Relationship="QLTVModel.FK_CTPTS_PHIEUTRASACH" FromRole="PHIEUTRASACH" ToRole="CTPTS" />
+          <NavigationProperty Name="DOCGIA" Relationship="QLTVModel.FK_PHIEUTRASACH_DOCGIA" FromRole="PHIEUTRASACH" ToRole="DOCGIA" />
+          <NavigationProperty Name="TAIKHOAN" Relationship="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN" FromRole="PHIEUTRASACH" ToRole="TAIKHOAN" />
         </EntityType>
         <EntityType Name="QUYDINH">
           <Key>
@@ -613,16 +804,16 @@
           <Property Name="MANXB" Type="Int32" />
           <Property Name="MATG" Type="Int32" />
           <Property Name="MATL" Type="Int32" />
-          <NavigationProperty Name="CTSACH" Relationship="Self.FK_CTSACH_SACH" FromRole="SACH" ToRole="CTSACH" />
-          <NavigationProperty Name="NHAXUATBAN" Relationship="Self.FK_SACH_NHAXUATBAN" FromRole="SACH" ToRole="NHAXUATBAN" />
-          <NavigationProperty Name="TACGIA" Relationship="Self.FK_SACH_TACGIA" FromRole="SACH" ToRole="TACGIA" />
-          <NavigationProperty Name="THELOAI" Relationship="Self.FK_SACH_THELOAI" FromRole="SACH" ToRole="THELOAI" />
+          <NavigationProperty Name="CTSACH" Relationship="QLTVModel.FK_CTSACH_SACH" FromRole="SACH" ToRole="CTSACH" />
+          <NavigationProperty Name="NHAXUATBAN" Relationship="QLTVModel.FK_SACH_NHAXUATBAN" FromRole="SACH" ToRole="NHAXUATBAN" />
+          <NavigationProperty Name="TACGIA" Relationship="QLTVModel.FK_SACH_TACGIA" FromRole="SACH" ToRole="TACGIA" />
+          <NavigationProperty Name="THELOAI" Relationship="QLTVModel.FK_SACH_THELOAI" FromRole="SACH" ToRole="THELOAI" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -634,7 +825,7 @@
           </Key>
           <Property Name="MATG" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TACGIA1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_TACGIA" FromRole="TACGIA" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="QLTVModel.FK_SACH_TACGIA" FromRole="TACGIA" ToRole="SACH" />
         </EntityType>
         <EntityType Name="TAIKHOAN">
           <Key>
@@ -648,10 +839,10 @@
           <Property Name="DCHI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EMAIL" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
           <Property Name="HINHANH" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PHIEUMUONSACH" Relationship="Self.FK_PHIEUMUONSACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUMUONSACH" />
-          <NavigationProperty Name="PHIEUNHAPSACH" Relationship="Self.FK_PHIEUNHAPSACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUNHAPSACH" />
-          <NavigationProperty Name="PHIEUTHUTIENPHAT" Relationship="Self.FK_PHIEUTHUTIENPHAT_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUTHUTIENPHAT" />
-          <NavigationProperty Name="PHIEUTRASACH" Relationship="Self.FK_PHIEUTRASACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUTRASACH" />
+          <NavigationProperty Name="PHIEUMUONSACH" Relationship="QLTVModel.FK_PHIEUMUONSACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUMUONSACH" />
+          <NavigationProperty Name="PHIEUNHAPSACH" Relationship="QLTVModel.FK_PHIEUNHAPSACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUNHAPSACH" />
+          <NavigationProperty Name="PHIEUTHUTIENPHAT" Relationship="QLTVModel.FK_PHIEUTHUTIENPHAT_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUTHUTIENPHAT" />
+          <NavigationProperty Name="PHIEUTRASACH" Relationship="QLTVModel.FK_PHIEUTRASACH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUTRASACH" />
         </EntityType>
         <EntityType Name="TINHTRANG">
           <Key>
@@ -659,7 +850,7 @@
           </Key>
           <Property Name="MATT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TINHTRANG1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CTSACH" Relationship="Self.FK_CTSACH_TINHTRANG" FromRole="TINHTRANG" ToRole="CTSACH" />
+          <NavigationProperty Name="CTSACH" Relationship="QLTVModel.FK_CTSACH_TINHTRANG" FromRole="TINHTRANG" ToRole="CTSACH" />
         </EntityType>
         <EntityType Name="THELOAI">
           <Key>
@@ -667,11 +858,47 @@
           </Key>
           <Property Name="MATL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="THELOAI1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="SACH" Relationship="Self.FK_SACH_THELOAI" FromRole="THELOAI" ToRole="SACH" />
+          <NavigationProperty Name="SACH" Relationship="QLTVModel.FK_SACH_THELOAI" FromRole="THELOAI" ToRole="SACH" />
         </EntityType>
+        <Association Name="FK_CTPTS_CTSACH">
+          <End Type="QLTVModel.CTSACH" Role="CTSACH" Multiplicity="1" />
+          <End Type="QLTVModel.CTPTS" Role="CTPTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CTSACH">
+              <PropertyRef Name="MACTS" />
+            </Principal>
+            <Dependent Role="CTPTS">
+              <PropertyRef Name="MACTS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTPTS_PHIEUMUONSACH">
+          <End Type="QLTVModel.PHIEUMUONSACH" Role="PHIEUMUONSACH" Multiplicity="1" />
+          <End Type="QLTVModel.CTPTS" Role="CTPTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEUMUONSACH">
+              <PropertyRef Name="MAPMS" />
+            </Principal>
+            <Dependent Role="CTPTS">
+              <PropertyRef Name="MAPMS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CTPTS_PHIEUTRASACH">
+          <End Type="QLTVModel.PHIEUTRASACH" Role="PHIEUTRASACH" Multiplicity="1" />
+          <End Type="QLTVModel.CTPTS" Role="CTPTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEUTRASACH">
+              <PropertyRef Name="MAPTS" />
+            </Principal>
+            <Dependent Role="CTPTS">
+              <PropertyRef Name="MAPTS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CTSACH_PHIEUNHAPSACH">
-          <End Role="PHIEUNHAPSACH" Type="Self.PHIEUNHAPSACH" Multiplicity="0..1" />
-          <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
+          <End Type="QLTVModel.PHIEUNHAPSACH" Role="PHIEUNHAPSACH" Multiplicity="0..1" />
+          <End Type="QLTVModel.CTSACH" Role="CTSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PHIEUNHAPSACH">
               <PropertyRef Name="MAPNS" />
@@ -682,8 +909,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTSACH_SACH">
-          <End Role="SACH" Type="Self.SACH" Multiplicity="0..1" />
-          <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
+          <End Type="QLTVModel.SACH" Role="SACH" Multiplicity="0..1" />
+          <End Type="QLTVModel.CTSACH" Role="CTSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SACH">
               <PropertyRef Name="MASACH" />
@@ -694,8 +921,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTSACH_TINHTRANG">
-          <End Role="TINHTRANG" Type="Self.TINHTRANG" Multiplicity="0..1" />
-          <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
+          <End Type="QLTVModel.TINHTRANG" Role="TINHTRANG" Multiplicity="0..1" />
+          <End Type="QLTVModel.CTSACH" Role="CTSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TINHTRANG">
               <PropertyRef Name="MATT" />
@@ -706,8 +933,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DOCGIA_LOAIDOCGIA">
-          <End Role="LOAIDOCGIA" Type="Self.LOAIDOCGIA" Multiplicity="0..1" />
-          <End Role="DOCGIA" Type="Self.DOCGIA" Multiplicity="*" />
+          <End Type="QLTVModel.LOAIDOCGIA" Role="LOAIDOCGIA" Multiplicity="0..1" />
+          <End Type="QLTVModel.DOCGIA" Role="DOCGIA" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LOAIDOCGIA">
               <PropertyRef Name="MALDG" />
@@ -718,8 +945,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUMUONSACH_DOCGIA">
-          <End Role="DOCGIA" Type="Self.DOCGIA" Multiplicity="0..1" />
-          <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
+          <End Type="QLTVModel.DOCGIA" Role="DOCGIA" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUMUONSACH" Role="PHIEUMUONSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DOCGIA">
               <PropertyRef Name="MADG" />
@@ -730,8 +957,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUTHUTIENPHAT_DOCGIA">
-          <End Role="DOCGIA" Type="Self.DOCGIA" Multiplicity="0..1" />
-          <End Role="PHIEUTHUTIENPHAT" Type="Self.PHIEUTHUTIENPHAT" Multiplicity="*" />
+          <End Type="QLTVModel.DOCGIA" Role="DOCGIA" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUTHUTIENPHAT" Role="PHIEUTHUTIENPHAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DOCGIA">
               <PropertyRef Name="MADG" />
@@ -742,8 +969,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUTRASACH_DOCGIA">
-          <End Role="DOCGIA" Type="Self.DOCGIA" Multiplicity="0..1" />
-          <End Role="PHIEUTRASACH" Type="Self.PHIEUTRASACH" Multiplicity="*" />
+          <End Type="QLTVModel.DOCGIA" Role="DOCGIA" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUTRASACH" Role="PHIEUTRASACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DOCGIA">
               <PropertyRef Name="MADG" />
@@ -754,8 +981,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SACH_NHAXUATBAN">
-          <End Role="NHAXUATBAN" Type="Self.NHAXUATBAN" Multiplicity="0..1" />
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <End Type="QLTVModel.NHAXUATBAN" Role="NHAXUATBAN" Multiplicity="0..1" />
+          <End Type="QLTVModel.SACH" Role="SACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NHAXUATBAN">
               <PropertyRef Name="MANXB" />
@@ -766,8 +993,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUMUONSACH_TAIKHOAN">
-          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="0..1" />
-          <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
+          <End Type="QLTVModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUMUONSACH" Role="PHIEUMUONSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TAIKHOAN">
               <PropertyRef Name="MATK" />
@@ -778,8 +1005,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUNHAPSACH_TAIKHOAN">
-          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="0..1" />
-          <End Role="PHIEUNHAPSACH" Type="Self.PHIEUNHAPSACH" Multiplicity="*" />
+          <End Type="QLTVModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUNHAPSACH" Role="PHIEUNHAPSACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TAIKHOAN">
               <PropertyRef Name="MATK" />
@@ -790,8 +1017,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUTHUTIENPHAT_TAIKHOAN">
-          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="0..1" />
-          <End Role="PHIEUTHUTIENPHAT" Type="Self.PHIEUTHUTIENPHAT" Multiplicity="*" />
+          <End Type="QLTVModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUTHUTIENPHAT" Role="PHIEUTHUTIENPHAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TAIKHOAN">
               <PropertyRef Name="MATK" />
@@ -802,8 +1029,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PHIEUTRASACH_TAIKHOAN">
-          <End Role="TAIKHOAN" Type="Self.TAIKHOAN" Multiplicity="0..1" />
-          <End Role="PHIEUTRASACH" Type="Self.PHIEUTRASACH" Multiplicity="*" />
+          <End Type="QLTVModel.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
+          <End Type="QLTVModel.PHIEUTRASACH" Role="PHIEUTRASACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TAIKHOAN">
               <PropertyRef Name="MATK" />
@@ -814,8 +1041,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SACH_TACGIA">
-          <End Role="TACGIA" Type="Self.TACGIA" Multiplicity="0..1" />
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <End Type="QLTVModel.TACGIA" Role="TACGIA" Multiplicity="0..1" />
+          <End Type="QLTVModel.SACH" Role="SACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TACGIA">
               <PropertyRef Name="MATG" />
@@ -826,8 +1053,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SACH_THELOAI">
-          <End Role="THELOAI" Type="Self.THELOAI" Multiplicity="0..1" />
-          <End Role="SACH" Type="Self.SACH" Multiplicity="*" />
+          <End Type="QLTVModel.THELOAI" Role="THELOAI" Multiplicity="0..1" />
+          <End Type="QLTVModel.SACH" Role="SACH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="THELOAI">
               <PropertyRef Name="MATL" />
@@ -838,284 +1065,223 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="CTPMS">
-          <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
-          <End Role="PHIEUMUONSACH" Type="Self.PHIEUMUONSACH" Multiplicity="*" />
+          <End Type="QLTVModel.CTSACH" Role="CTSACH" Multiplicity="*" />
+          <End Type="QLTVModel.PHIEUMUONSACH" Role="PHIEUMUONSACH" Multiplicity="*" />
         </Association>
-        <Association Name="CTPTS">
-          <End Role="CTSACH" Type="Self.CTSACH" Multiplicity="*" />
-          <End Role="PHIEUTRASACH" Type="Self.PHIEUTRASACH" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="QLTVEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CTSACH" EntityType="Self.CTSACH" />
-          <EntitySet Name="DOCGIA" EntityType="Self.DOCGIA" />
-          <EntitySet Name="LOAIDOCGIA" EntityType="Self.LOAIDOCGIA" />
-          <EntitySet Name="NHAXUATBAN" EntityType="Self.NHAXUATBAN" />
-          <EntitySet Name="PHIEUMUONSACH" EntityType="Self.PHIEUMUONSACH" />
-          <EntitySet Name="PHIEUNHAPSACH" EntityType="Self.PHIEUNHAPSACH" />
-          <EntitySet Name="PHIEUTHUTIENPHAT" EntityType="Self.PHIEUTHUTIENPHAT" />
-          <EntitySet Name="PHIEUTRASACH" EntityType="Self.PHIEUTRASACH" />
-          <EntitySet Name="QUYDINH" EntityType="Self.QUYDINH" />
-          <EntitySet Name="SACH" EntityType="Self.SACH" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TACGIA" EntityType="Self.TACGIA" />
-          <EntitySet Name="TAIKHOAN" EntityType="Self.TAIKHOAN" />
-          <EntitySet Name="TINHTRANG" EntityType="Self.TINHTRANG" />
-          <EntitySet Name="THELOAI" EntityType="Self.THELOAI" />
-          <AssociationSet Name="FK_CTSACH_PHIEUNHAPSACH" Association="Self.FK_CTSACH_PHIEUNHAPSACH">
-            <End Role="PHIEUNHAPSACH" EntitySet="PHIEUNHAPSACH" />
-            <End Role="CTSACH" EntitySet="CTSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTSACH_SACH" Association="Self.FK_CTSACH_SACH">
-            <End Role="SACH" EntitySet="SACH" />
-            <End Role="CTSACH" EntitySet="CTSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CTSACH_TINHTRANG" Association="Self.FK_CTSACH_TINHTRANG">
-            <End Role="TINHTRANG" EntitySet="TINHTRANG" />
-            <End Role="CTSACH" EntitySet="CTSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DOCGIA_LOAIDOCGIA" Association="Self.FK_DOCGIA_LOAIDOCGIA">
-            <End Role="LOAIDOCGIA" EntitySet="LOAIDOCGIA" />
-            <End Role="DOCGIA" EntitySet="DOCGIA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUMUONSACH_DOCGIA" Association="Self.FK_PHIEUMUONSACH_DOCGIA">
-            <End Role="DOCGIA" EntitySet="DOCGIA" />
-            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUTHUTIENPHAT_DOCGIA" Association="Self.FK_PHIEUTHUTIENPHAT_DOCGIA">
-            <End Role="DOCGIA" EntitySet="DOCGIA" />
-            <End Role="PHIEUTHUTIENPHAT" EntitySet="PHIEUTHUTIENPHAT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUTRASACH_DOCGIA" Association="Self.FK_PHIEUTRASACH_DOCGIA">
-            <End Role="DOCGIA" EntitySet="DOCGIA" />
-            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SACH_NHAXUATBAN" Association="Self.FK_SACH_NHAXUATBAN">
-            <End Role="NHAXUATBAN" EntitySet="NHAXUATBAN" />
-            <End Role="SACH" EntitySet="SACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUMUONSACH_TAIKHOAN" Association="Self.FK_PHIEUMUONSACH_TAIKHOAN">
-            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
-            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUNHAPSACH_TAIKHOAN" Association="Self.FK_PHIEUNHAPSACH_TAIKHOAN">
-            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
-            <End Role="PHIEUNHAPSACH" EntitySet="PHIEUNHAPSACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUTHUTIENPHAT_TAIKHOAN" Association="Self.FK_PHIEUTHUTIENPHAT_TAIKHOAN">
-            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
-            <End Role="PHIEUTHUTIENPHAT" EntitySet="PHIEUTHUTIENPHAT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PHIEUTRASACH_TAIKHOAN" Association="Self.FK_PHIEUTRASACH_TAIKHOAN">
-            <End Role="TAIKHOAN" EntitySet="TAIKHOAN" />
-            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SACH_TACGIA" Association="Self.FK_SACH_TACGIA">
-            <End Role="TACGIA" EntitySet="TACGIA" />
-            <End Role="SACH" EntitySet="SACH" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SACH_THELOAI" Association="Self.FK_SACH_THELOAI">
-            <End Role="THELOAI" EntitySet="THELOAI" />
-            <End Role="SACH" EntitySet="SACH" />
-          </AssociationSet>
-          <AssociationSet Name="CTPMS" Association="Self.CTPMS">
-            <End Role="CTSACH" EntitySet="CTSACH" />
-            <End Role="PHIEUMUONSACH" EntitySet="PHIEUMUONSACH" />
-          </AssociationSet>
-          <AssociationSet Name="CTPTS" Association="Self.CTPTS">
-            <End Role="CTSACH" EntitySet="CTSACH" />
-            <End Role="PHIEUTRASACH" EntitySet="PHIEUTRASACH" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="QLTVModelStoreContainer" CdmEntityContainer="QLTVEntities">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="QLTVModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="QLTVModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="QLTVModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="QLTVModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QLTVModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="QLTVModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QLTVModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="QLTVModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="QLTVModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="CTPTS">
+            <EntityTypeMapping TypeName="QLTVModel.CTPTS">
+              <MappingFragment StoreEntitySet="CTPTS">
+                <ScalarProperty Name="TIENPHAT" ColumnName="TIENPHAT" />
+                <ScalarProperty Name="MAPMS" ColumnName="MAPMS" />
+                <ScalarProperty Name="MACTS" ColumnName="MACTS" />
+                <ScalarProperty Name="MAPTS" ColumnName="MAPTS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CTSACH">
             <EntityTypeMapping TypeName="QLTVModel.CTSACH">
               <MappingFragment StoreEntitySet="CTSACH">
-                <ScalarProperty Name="MACTS" ColumnName="MACTS" />
-                <ScalarProperty Name="MASACH" ColumnName="MASACH" />
-                <ScalarProperty Name="MATT" ColumnName="MATT" />
-                <ScalarProperty Name="VITRI" ColumnName="VITRI" />
-                <ScalarProperty Name="GIABIA" ColumnName="GIABIA" />
-                <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
-                <ScalarProperty Name="QRCODE" ColumnName="QRCODE" />
                 <ScalarProperty Name="MAPNS" ColumnName="MAPNS" />
+                <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
+                <ScalarProperty Name="GIABIA" ColumnName="GIABIA" />
+                <ScalarProperty Name="VITRI" ColumnName="VITRI" />
+                <ScalarProperty Name="MATT" ColumnName="MATT" />
+                <ScalarProperty Name="MASACH" ColumnName="MASACH" />
+                <ScalarProperty Name="MACTS" ColumnName="MACTS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DOCGIA">
             <EntityTypeMapping TypeName="QLTVModel.DOCGIA">
               <MappingFragment StoreEntitySet="DOCGIA">
-                <ScalarProperty Name="MADG" ColumnName="MADG" />
-                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
-                <ScalarProperty Name="MALDG" ColumnName="MALDG" />
-                <ScalarProperty Name="NGSINH" ColumnName="NGSINH" />
-                <ScalarProperty Name="DCHI" ColumnName="DCHI" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="NGLAPTHE" ColumnName="NGLAPTHE" />
-                <ScalarProperty Name="TIENNO" ColumnName="TIENNO" />
-                <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
                 <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
-                <ScalarProperty Name="QRCODE" ColumnName="QRCODE" />
+                <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
+                <ScalarProperty Name="TIENNO" ColumnName="TIENNO" />
+                <ScalarProperty Name="NGLAPTHE" ColumnName="NGLAPTHE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="DCHI" ColumnName="DCHI" />
+                <ScalarProperty Name="NGSINH" ColumnName="NGSINH" />
+                <ScalarProperty Name="MALDG" ColumnName="MALDG" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="MADG" ColumnName="MADG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LOAIDOCGIA">
             <EntityTypeMapping TypeName="QLTVModel.LOAIDOCGIA">
               <MappingFragment StoreEntitySet="LOAIDOCGIA">
-                <ScalarProperty Name="MALDG" ColumnName="MALDG" />
                 <ScalarProperty Name="LOAIDOCGIA1" ColumnName="LOAIDOCGIA" />
+                <ScalarProperty Name="MALDG" ColumnName="MALDG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NHAXUATBAN">
             <EntityTypeMapping TypeName="QLTVModel.NHAXUATBAN">
               <MappingFragment StoreEntitySet="NHAXUATBAN">
-                <ScalarProperty Name="MANXB" ColumnName="MANXB" />
                 <ScalarProperty Name="NHAXUATBAN1" ColumnName="NHAXUATBAN" />
+                <ScalarProperty Name="MANXB" ColumnName="MANXB" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PHIEUMUONSACH">
             <EntityTypeMapping TypeName="QLTVModel.PHIEUMUONSACH">
               <MappingFragment StoreEntitySet="PHIEUMUONSACH">
-                <ScalarProperty Name="MAPMS" ColumnName="MAPMS" />
-                <ScalarProperty Name="MADG" ColumnName="MADG" />
-                <ScalarProperty Name="NGMUON" ColumnName="NGMUON" />
                 <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
+                <ScalarProperty Name="NGMUON" ColumnName="NGMUON" />
+                <ScalarProperty Name="MADG" ColumnName="MADG" />
+                <ScalarProperty Name="MAPMS" ColumnName="MAPMS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PHIEUNHAPSACH">
             <EntityTypeMapping TypeName="QLTVModel.PHIEUNHAPSACH">
               <MappingFragment StoreEntitySet="PHIEUNHAPSACH">
-                <ScalarProperty Name="MAPNS" ColumnName="MAPNS" />
-                <ScalarProperty Name="NGAYLAP" ColumnName="NGAYLAP" />
                 <ScalarProperty Name="MATK" ColumnName="MATK" />
+                <ScalarProperty Name="NGAYLAP" ColumnName="NGAYLAP" />
+                <ScalarProperty Name="MAPNS" ColumnName="MAPNS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PHIEUTHUTIENPHAT">
             <EntityTypeMapping TypeName="QLTVModel.PHIEUTHUTIENPHAT">
               <MappingFragment StoreEntitySet="PHIEUTHUTIENPHAT">
-                <ScalarProperty Name="MAPTTP" ColumnName="MAPTTP" />
-                <ScalarProperty Name="MADG" ColumnName="MADG" />
-                <ScalarProperty Name="SOTIENTHU" ColumnName="SOTIENTHU" />
-                <ScalarProperty Name="NGTHU" ColumnName="NGTHU" />
                 <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
+                <ScalarProperty Name="NGTHU" ColumnName="NGTHU" />
+                <ScalarProperty Name="SOTIENTHU" ColumnName="SOTIENTHU" />
+                <ScalarProperty Name="MADG" ColumnName="MADG" />
+                <ScalarProperty Name="MAPTTP" ColumnName="MAPTTP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PHIEUTRASACH">
             <EntityTypeMapping TypeName="QLTVModel.PHIEUTRASACH">
               <MappingFragment StoreEntitySet="PHIEUTRASACH">
-                <ScalarProperty Name="MAPTS" ColumnName="MAPTS" />
-                <ScalarProperty Name="MADG" ColumnName="MADG" />
-                <ScalarProperty Name="NGTRASACH" ColumnName="NGTRASACH" />
                 <ScalarProperty Name="NGUOILAP" ColumnName="NGUOILAP" />
+                <ScalarProperty Name="NGTRASACH" ColumnName="NGTRASACH" />
+                <ScalarProperty Name="MADG" ColumnName="MADG" />
+                <ScalarProperty Name="MAPTS" ColumnName="MAPTS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="QUYDINH">
             <EntityTypeMapping TypeName="QLTVModel.QUYDINH">
               <MappingFragment StoreEntitySet="QUYDINH">
-                <ScalarProperty Name="SACHMUONTOIDA" ColumnName="SACHMUONTOIDA" />
-                <ScalarProperty Name="NGAYMUON" ColumnName="NGAYMUON" />
-                <ScalarProperty Name="TIENPHAT" ColumnName="TIENPHAT" />
-                <ScalarProperty Name="KHOANGCACHXB" ColumnName="KHOANGCACHXB" />
-                <ScalarProperty Name="TUOITOIDA" ColumnName="TUOITOIDA" />
-                <ScalarProperty Name="TUOITOITHIEU" ColumnName="TUOITOITHIEU" />
-                <ScalarProperty Name="TIENPHATTOIDA" ColumnName="TIENPHATTOIDA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NGAYSUA" ColumnName="NGAYSUA" />
-                <ScalarProperty Name="NGUOISUA" ColumnName="NGUOISUA" />
                 <ScalarProperty Name="THOIHANTHE" ColumnName="THOIHANTHE" />
+                <ScalarProperty Name="NGUOISUA" ColumnName="NGUOISUA" />
+                <ScalarProperty Name="NGAYSUA" ColumnName="NGAYSUA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIENPHATTOIDA" ColumnName="TIENPHATTOIDA" />
+                <ScalarProperty Name="TUOITOITHIEU" ColumnName="TUOITOITHIEU" />
+                <ScalarProperty Name="TUOITOIDA" ColumnName="TUOITOIDA" />
+                <ScalarProperty Name="KHOANGCACHXB" ColumnName="KHOANGCACHXB" />
+                <ScalarProperty Name="TIENPHAT" ColumnName="TIENPHAT" />
+                <ScalarProperty Name="NGAYMUON" ColumnName="NGAYMUON" />
+                <ScalarProperty Name="SACHMUONTOIDA" ColumnName="SACHMUONTOIDA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SACH">
             <EntityTypeMapping TypeName="QLTVModel.SACH">
               <MappingFragment StoreEntitySet="SACH">
-                <ScalarProperty Name="MASACH" ColumnName="MASACH" />
-                <ScalarProperty Name="TENSACH" ColumnName="TENSACH" />
-                <ScalarProperty Name="NAMXB" ColumnName="NAMXB" />
-                <ScalarProperty Name="ANHBIA" ColumnName="ANHBIA" />
-                <ScalarProperty Name="NOIDUNG" ColumnName="NOIDUNG" />
-                <ScalarProperty Name="MANXB" ColumnName="MANXB" />
-                <ScalarProperty Name="MATG" ColumnName="MATG" />
                 <ScalarProperty Name="MATL" ColumnName="MATL" />
+                <ScalarProperty Name="MATG" ColumnName="MATG" />
+                <ScalarProperty Name="MANXB" ColumnName="MANXB" />
+                <ScalarProperty Name="NOIDUNG" ColumnName="NOIDUNG" />
+                <ScalarProperty Name="ANHBIA" ColumnName="ANHBIA" />
+                <ScalarProperty Name="NAMXB" ColumnName="NAMXB" />
+                <ScalarProperty Name="TENSACH" ColumnName="TENSACH" />
+                <ScalarProperty Name="MASACH" ColumnName="MASACH" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="QLTVModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TACGIA">
             <EntityTypeMapping TypeName="QLTVModel.TACGIA">
               <MappingFragment StoreEntitySet="TACGIA">
-                <ScalarProperty Name="MATG" ColumnName="MATG" />
                 <ScalarProperty Name="TACGIA1" ColumnName="TACGIA" />
+                <ScalarProperty Name="MATG" ColumnName="MATG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TAIKHOAN">
             <EntityTypeMapping TypeName="QLTVModel.TAIKHOAN">
               <MappingFragment StoreEntitySet="TAIKHOAN">
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
-                <ScalarProperty Name="TAIKHOAN1" ColumnName="TAIKHOAN" />
-                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
-                <ScalarProperty Name="NGDK" ColumnName="NGDK" />
-                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
-                <ScalarProperty Name="DCHI" ColumnName="DCHI" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
                 <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="DCHI" ColumnName="DCHI" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="NGDK" ColumnName="NGDK" />
+                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+                <ScalarProperty Name="TAIKHOAN1" ColumnName="TAIKHOAN" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TINHTRANG">
             <EntityTypeMapping TypeName="QLTVModel.TINHTRANG">
               <MappingFragment StoreEntitySet="TINHTRANG">
-                <ScalarProperty Name="MATT" ColumnName="MATT" />
                 <ScalarProperty Name="TINHTRANG1" ColumnName="TINHTRANG" />
+                <ScalarProperty Name="MATT" ColumnName="MATT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="THELOAI">
             <EntityTypeMapping TypeName="QLTVModel.THELOAI">
               <MappingFragment StoreEntitySet="THELOAI">
-                <ScalarProperty Name="MATL" ColumnName="MATL" />
                 <ScalarProperty Name="THELOAI1" ColumnName="THELOAI" />
+                <ScalarProperty Name="MATL" ColumnName="MATL" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="CTPMS" TypeName="QLTVModel.CTPMS" StoreEntitySet="CTPMS">
-            <EndProperty Name="CTSACH">
-              <ScalarProperty Name="MACTS" ColumnName="MACTS" />
-            </EndProperty>
             <EndProperty Name="PHIEUMUONSACH">
               <ScalarProperty Name="MAPMS" ColumnName="MAPMS" />
             </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="CTPTS" TypeName="QLTVModel.CTPTS" StoreEntitySet="CTPTS">
             <EndProperty Name="CTSACH">
               <ScalarProperty Name="MACTS" ColumnName="MACTS" />
             </EndProperty>
-            <EndProperty Name="PHIEUTRASACH">
-              <ScalarProperty Name="MAPTS" ColumnName="MAPTS" />
-            </EndProperty>
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

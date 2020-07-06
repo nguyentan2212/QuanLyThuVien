@@ -62,7 +62,7 @@ namespace Library_Management.ViewModels.MainPages
         public AccountViewModel(DataProvider dataProvider, IEventAggregator eventAggregator) : base(dataProvider, eventAggregator)
         {
             eventAggregator.Subscribe(this);
-            User = new TAIKHOAN(dataProvider.User);           
+            User = dataProvider.User;           
             if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false)               
                 User.HINHANH = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";             
         }
@@ -111,9 +111,9 @@ namespace Library_Management.ViewModels.MainPages
         }
         
         public void Cancel()
-        {            
-            User = new TAIKHOAN(dataProvider.User);
-            if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false)
+        {
+            User = dataProvider.GetItem<TAIKHOAN>(x => x.MATK == User.MATK);
+            if (string.IsNullOrEmpty(User.HINHANH) == true || File.Exists(User.HINHANH) == false || User.HINHANH == @"/Resources/Images/LibrarianAccount/DefaultAccount.png")
                 User.HINHANH = @"/Resources/Images/LibrarianAccount/DefaultAccount.png";
         }
         public async Task ChangeAvartar()
@@ -128,7 +128,7 @@ namespace Library_Management.ViewModels.MainPages
             openFile.Multiselect = false;
             if (openFile.ShowDialog() == DialogResult.OK)
             {              
-                bool IsSuccess = await dataProvider.ChangeAvartar(openFile.FileName);
+                bool IsSuccess = dataProvider.ChangeAvartar(openFile.FileName);
                 if (IsSuccess)
                 {
                     this.eventAggregator.PublishOnCurrentThread(new Models.Message("Thông báo", "Đổi ảnh đại diện thành công"));                   

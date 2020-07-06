@@ -23,7 +23,6 @@ namespace Library_Management.Models
         public int MAPNS { get; set; }
         public Nullable<System.DateTime> NGAYLAP { get; set; }
         public Nullable<int> MATK { get; set; }
-
         private int _SOLUONG;
         public int SOLUONG
         {

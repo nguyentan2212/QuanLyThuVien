@@ -12,28 +12,18 @@ namespace Library_Management.Models
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;
-    public partial class CTSACH: PropertyChangedBase
+    public partial class CTSACH:PropertyChangedBase
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CTSACH()
         {
+            this.CTPTS = new HashSet<CTPTS>();
             this.PHIEUMUONSACH = new HashSet<PHIEUMUONSACH>();
-            this.PHIEUTRASACH = new HashSet<PHIEUTRASACH>();
         }
-        public CTSACH(CTSACH c)
-        {
-            this.MACTS = c.MACTS;
-            this.MASACH = c.MATT;
-            this.VITRI = c.VITRI;
-            this.GIABIA = c.GIABIA;
-            this.GIANHAP = c.GIANHAP;
-            this.QRCODE = c.QRCODE;
-            this.MAPNS = c.MAPNS;
-        }
+    
         public int MACTS { get; set; }
         public Nullable<int> MASACH { get; set; }
         public Nullable<int> MATT { get; set; }
-
         private string _VITRI;
         public string VITRI
         {
@@ -51,16 +41,15 @@ namespace Library_Management.Models
         {
             get { return _GIANHAP; }
             set { _GIANHAP = value; NotifyOfPropertyChange("GIANHAP"); }
-        }       
-        public string QRCODE { get; set; }
+        }
         public Nullable<int> MAPNS { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CTPTS> CTPTS { get; set; }
         public virtual PHIEUNHAPSACH PHIEUNHAPSACH { get; set; }
         public virtual SACH SACH { get; set; }
         public virtual TINHTRANG TINHTRANG { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUMUONSACH> PHIEUMUONSACH { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PHIEUTRASACH> PHIEUTRASACH { get; set; }
     }
 }
